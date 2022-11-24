@@ -11,6 +11,10 @@ LIB_PATH= Libft
 
 
 SRC_NAME=main.c\
+	checks.c\
+	tools.c\
+	builtins.c\
+	init.c\
 
 HDR_NAME=minishell.h\
 
@@ -21,7 +25,7 @@ SRC= $(addprefix $(SRC_PATH)/,$(SRC_NAME))
 HDR= $(addprefix $(HDR_PATH)/,$(HDR_NAME))
 
 LIB= libft.a
-FLAGS= -Wall -Wextra -Werror
+# FLAGS= -Wall -Wextra -Werror
 LLIB_FLAG= -L$(LIB_PATH) Libft/libft.a
 
 H_FLAG= -I $(HDR_PATH)
