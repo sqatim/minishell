@@ -15,6 +15,8 @@ SRC_NAME=main.c\
 	tools.c\
 	builtins.c\
 	init.c\
+	export.c\
+	free.c\
 
 HDR_NAME=minishell.h\
 

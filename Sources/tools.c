@@ -6,7 +6,7 @@
 /*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:58:46 by kernel            #+#    #+#             */
-/*   Updated: 2022/11/24 22:37:19 by kernel           ###   ########.fr       */
+/*   Updated: 2022/11/25 10:57:17 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,19 @@ char **parseCommand(char *cmdLine)
     return parsedCmd;
 }
 
-char **setupEnv(char **envp)
+t_env *setupEnv(char **envp)
 {
     int index;
-    char **envVariables;
+    t_env *env;
 
-    index = 0;
-    while (envp[index])
-        index++;
-    envVariables = (char **)malloc(sizeof(char *) * (index + 1));
-    // to handle ------;
-    if (!envVariables)
-        exit(1);
+    env = NULL;
     index = 0;
     while (envp[index])
     {
-        envVariables[index] = ft_strdup(envp[index]);
+        env = addEnvNode(env, envp[index]);
         index++;
     }
-    return envVariables;
+    return env;
 }
 
 void minishellLoop(t_execution *execStruct)
@@ -50,7 +44,7 @@ void minishellLoop(t_execution *execStruct)
     buffer = ft_calloc(BUFFER_SIZE, sizeof(char));
     while (1)
     {
-        ft_putstr_fd("minishell:> ", 1);
+        ft_putstr_fd("\033[0;32mminishell:>\033[m ", 1);
         size = read(0, buffer, BUFFER_SIZE);
         if (size == -1)
         {
