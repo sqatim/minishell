@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 14:25:08 by kernel            #+#    #+#             */
-/*   Updated: 2022/11/25 23:58:51 by kernel           ###   ########.fr       */
+/*   Updated: 2022/11/26 18:08:56 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_env *envClone(t_env *env)
     newEnv = NULL;
     while (tmp)
     {
-        newEnv = addEnvNode(newEnv, tmp->content);
+        newEnv = addEnvNode(newEnv, tmp->content, tmp->display);
         tmp = tmp->next;
     }
     return (newEnv);
@@ -130,6 +130,7 @@ char **parseExportArgument(char *argument)
 
 int checkExportArgument(char *argument)
 {
+    return (0);
 }
 
 char *joinExportKeyValue(char **keyValue)
@@ -160,8 +161,9 @@ t_env *handleExport(t_env *env, char **argument)
         }
         else if (keyValue && !keyValue[2])
         {
+            env = executeUnset(env, keyValue[0]);
             keyValueJoined = joinExportKeyValue(keyValue);
-            env = addEnvNode(env, keyValueJoined);
+            env = addEnvNode(env, keyValueJoined, 1);
             freeString(keyValueJoined);
             freeArrayTwoDimension(keyValue);
         }

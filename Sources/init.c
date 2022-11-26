@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 22:16:29 by kernel            #+#    #+#             */
-/*   Updated: 2022/11/25 12:37:36 by kernel           ###   ########.fr       */
+/*   Updated: 2022/11/26 18:07:19 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_execution *executionInitialization(char **envp)
     return execStruct;
 }
 
-t_env *addEnvNode(t_env *head, char *content)
+t_env *addEnvNode(t_env *head, char *content, int display)
 {
     t_env *tmp;
     t_env *new;
@@ -33,6 +33,7 @@ t_env *addEnvNode(t_env *head, char *content)
     if (!new)
         exit(1);
     new->content = ft_strdup(content);
+    new->display = display;
     new->next = NULL;
     new->prev = NULL;
     // ft_putstr_fd(new->content, 1);

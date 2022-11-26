@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:47:37 by kernel            #+#    #+#             */
-/*   Updated: 2022/11/26 00:41:26 by kernel           ###   ########.fr       */
+/*   Updated: 2022/11/26 20:23:19 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void executeEnv(t_env *env)
     tmp = env;
     while (tmp)
     {
-        ft_putendl_fd(tmp->content, 1);
+        if (tmp->display)
+            ft_putendl_fd(tmp->content, 1);
         tmp = tmp->next;
     }
 }
@@ -43,6 +44,7 @@ t_env *executeUnset(t_env *env, char *argument)
                     tmp->prev->next = tmp->next;
                 if (tmp->next)
                     tmp->next->prev = tmp->prev;
+                free(tmp->content);
                 free(tmp);
                 tmp = NULL;
                 tmp = next;
@@ -77,4 +79,50 @@ void executePwd()
     else
         ft_putendl_fd("error: in pwd", 2);
     // to handle --------------
+}
+
+void executeCd(t_env *env, char **argument)
+{
+    char *path;
+
+    if (!argument[1])
+        changeDirectory(env, NULL);
+    else
+        changeDirectory(env, argument[1]);
+}
+
+void executeEcho(char **argument)
+{
+    int indexOne;
+    int check;
+
+    indexOne = 1;
+    check = handleNewLineInEcho(argument, &indexOne);
+    while (argument[indexOne])
+    {
+        ft_putstr_fd(argument[indexOne], 1);
+        if (argument[indexOne + 1])
+            ft_putchar_fd(' ', 1);
+        indexOne++;
+    }
+    if (check == 0)
+        ft_putchar_fd('\n', 1);
+}
+
+void executeExit(char **argument)
+{
+    if (!argument[1])
+    {
+        // to handle ---- Will exit with status of last command
+    }
+    else
+    {
+        if (!argument[2])
+        {
+            char *number = ft_lltoa(9223372036854775807);
+            printf("%d\n", ft_strcmp(argument[1], number));
+            // exit(argument[2]);
+            // printf("%s\n", strerror(errno));
+        }
+    }
 }

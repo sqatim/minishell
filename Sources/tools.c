@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:58:46 by kernel            #+#    #+#             */
-/*   Updated: 2022/11/25 10:57:17 by kernel           ###   ########.fr       */
+/*   Updated: 2022/11/26 18:08:28 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_env *setupEnv(char **envp)
     index = 0;
     while (envp[index])
     {
-        env = addEnvNode(env, envp[index]);
+        env = addEnvNode(env, envp[index], 1);
         index++;
     }
     return env;
@@ -55,4 +55,26 @@ void minishellLoop(t_execution *execStruct)
         parsedCmd = parseCommand(buffer);
         checkCommand(parsedCmd, execStruct);
     }
+}
+
+char *ft_getEnv(t_env *env, char *key)
+{
+    t_env *tmp;
+    int index;
+    char *tmpKey;
+
+    tmp = env;
+    tmpKey = ft_strjoin(key, "=");
+    index = 0;
+    while (tmp)
+    {
+        if(ft_strnstr(tmp->content, tmpKey, ft_strlen(tmpKey)))
+        {
+            while (tmp->content[index] != '=')
+                index++;
+            return (&tmp->content[++index]);
+        }
+        tmp = tmp->next;
+    }
+    return NULL;
 }
