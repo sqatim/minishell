@@ -19,8 +19,9 @@ SRC_NAME=main.c\
 	free.c\
 	cd.c\
 	builtins_tools.c\
-	lltoa.c\
-
+	atoul.c\
+	print.c\
+	
 HDR_NAME=minishell.h\
 
 OBJ_NAME= $(SRC_NAME:.c=.o)

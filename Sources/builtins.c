@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:47:37 by kernel            #+#    #+#             */
-/*   Updated: 2022/11/26 20:23:19 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/11/27 23:48:14 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,18 +111,19 @@ void executeEcho(char **argument)
 
 void executeExit(char **argument)
 {
+    int type;
+    unsigned long long number;
+
     if (!argument[1])
     {
         // to handle ---- Will exit with status of last command
     }
     else
     {
-        if (!argument[2])
-        {
-            char *number = ft_lltoa(9223372036854775807);
-            printf("%d\n", ft_strcmp(argument[1], number));
-            // exit(argument[2]);
-            // printf("%s\n", strerror(errno));
-        }
+        type = checkExitArgumentType(argument[1]);
+        if (type == 0)
+            printExitError(2, argument[1]);
+        else
+            handleExitCases(type, argument);
     }
 }

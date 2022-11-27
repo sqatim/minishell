@@ -1,0 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/27 23:10:39 by kernel            #+#    #+#             */
+/*   Updated: 2022/11/27 23:47:08 by kernel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void printExitError(int type, char *argument)
+{
+    ft_putendl_fd("exit", 1);
+    ft_putstr_fd("minishell:> exit: ", 2);
+    if (type == 1)
+        ft_putendl_fd("too many arguments", 2);
+    else
+    {
+        ft_putstr_fd(argument,2);
+        ft_putendl_fd(": numeric argument required", 2);
+        exit(2);
+    }
+}

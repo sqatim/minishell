@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:58:46 by kernel            #+#    #+#             */
-/*   Updated: 2022/11/26 18:08:28 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/11/27 23:08:25 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char *ft_getEnv(t_env *env, char *key)
     index = 0;
     while (tmp)
     {
-        if(ft_strnstr(tmp->content, tmpKey, ft_strlen(tmpKey)))
+        if (ft_strnstr(tmp->content, tmpKey, ft_strlen(tmpKey)))
         {
             while (tmp->content[index] != '=')
                 index++;
@@ -77,4 +77,33 @@ char *ft_getEnv(t_env *env, char *key)
         tmp = tmp->next;
     }
     return NULL;
+}
+
+int checkExitArgumentType(char *argument)
+{
+    int index;
+    int type;
+    int len;
+
+    len = 0;
+    index = 0;
+    type = 1;
+    if (argument[index] == '-' || argument[index] == '+')
+    {
+        if (argument[index == '-'])
+            type = -1;
+        index++;
+        if (!argument[index])
+            return (0);
+    }
+    while (argument[index])
+    {
+        if (!ft_isdigit(argument[index]))
+            return 0;
+        index++;
+        len++;
+    }
+    if (len > 19)
+        return (0);
+    return type;
 }

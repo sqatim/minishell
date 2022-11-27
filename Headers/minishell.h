@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 01:58:35 by kernel            #+#    #+#             */
-/*   Updated: 2022/11/26 20:32:06 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/11/27 23:40:15 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void executeExit(char **argument);
 
 // builtins__tools
 int handleNewLineInEcho(char **argument, int *indexOne);
-void exitFromMinishell(int number);
+void handleExitCases(int type, char **argument);
 
 // Export
 void printEnvWithExport(t_env *env);
@@ -74,10 +74,17 @@ void freeEnv(t_env *env);
 
 // tools
 char *ft_getEnv(t_env *env, char *key);
+int checkExitArgumentType(char *argument);
 
 // other
-char	*ft_lltoa(long long n);
+// char	*ft_lltoa(long long n);
+unsigned long long	ft_atoull(const char *str);
 int ft_strcmp(const char *s1, const char *s2);
+
+
+// print
+void printExitError(int type, char *argument);
+
 
 // To delete;
 char **parseCommand(char *cmdLine);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checks.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:50:47 by kernel            #+#    #+#             */
-/*   Updated: 2022/11/26 20:37:50 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/11/27 22:24:19 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ int checkExitNumber(char *str)
     }
     if (index == 0)
     {
-        number = ft_lltoa(LLONG_MAX);
-        if(ft_strcmp(str, number) > 0)
-            return GREATER_THAN_MAXLONG;
+        // number = ft_lltoa(LLONG_MAX);
+        // if(ft_strcmp(str, number) > 0)
+        //     return GREATER_THAN_MAXLONG;
     }
     else
     {
-        number = ft_lltoa(LLONG_MIN);
+        // number = ft_lltoa(LLONG_MIN);
         // if(ft_strcmp(str, number) > 0)
     }
     return 1;

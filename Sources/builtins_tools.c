@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_tools.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 17:23:49 by sqatim            #+#    #+#             */
-/*   Updated: 2022/11/26 19:13:32 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/11/28 00:00:35 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,28 @@ int handleNewLineInEcho(char **argument, int *indexOne)
     return check;
 }
 
-void exitFromMinishell(int number)
+void handleExitCases(int type, char **argument)
 {
-    
+    unsigned long long number;
+    int status;
+
+    if (type == -1)
+        number = ft_atoull(&argument[1][1]);
+    else
+        number = ft_atoull(argument[1]);
+    if ((type == -1 && number > 9223372036854775808U) ||
+        (type == 1 && number > 9223372036854775807))
+        printExitError(2, argument[1]);
+    else if (argument[1] && argument[2])
+        printExitError(1, NULL);
+    else
+    {
+        if (number > 256)
+            status = number % 256;
+        else
+            status = number;
+        if (type == -1)
+            status = 256 - status;
+        exit(status);
+    }
 }
