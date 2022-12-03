@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 01:58:35 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/03 13:17:21 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/03 20:39:29 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,13 @@ int ft_strcmp(const char *s1, const char *s2);
 
 // print
 void printExitError(int type, char *argument);
+void printError(char *cmd);
 
 // noBuiltins;
 void handleNoBuiltins(t_execution *execStruct, char **cmdLine);
+
+// noBuiltins_tools;
+char *joinPathWithCommand(char *path, char *command);
 
 // To delete;
 char **parseCommand(char *cmdLine);

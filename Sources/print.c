@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 23:10:39 by kernel            #+#    #+#             */
-/*   Updated: 2022/11/27 23:47:08 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/03 20:15:03 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,11 @@ void printExitError(int type, char *argument)
         ft_putendl_fd(": numeric argument required", 2);
         exit(2);
     }
+}
+
+void printError(char *cmd)
+{
+    ft_putstr_fd(cmd, 2);
+    ft_putstr_fd(": ", 2);
+    ft_putendl_fd(strerror(errno), 2);
 }

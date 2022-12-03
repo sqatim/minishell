@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:58:46 by kernel            #+#    #+#             */
-/*   Updated: 2022/11/29 10:00:06 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/03 20:28:54 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char *ft_getEnv(t_env *env, char *key)
         {
             while (tmp->content[index] != '=')
                 index++;
+            freeString(tmpKey);
             return (&tmp->content[++index]);
         }
         tmp = tmp->next;
