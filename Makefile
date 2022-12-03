@@ -21,6 +21,7 @@ SRC_NAME=main.c\
 	builtins_tools.c\
 	atoul.c\
 	print.c\
+	noBuiltins.c\
 	
 HDR_NAME=minishell.h\
 

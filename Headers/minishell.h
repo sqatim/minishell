@@ -6,7 +6,7 @@
 /*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 01:58:35 by kernel            #+#    #+#             */
-/*   Updated: 2022/11/27 23:40:15 by kernel           ###   ########.fr       */
+/*   Updated: 2022/11/28 14:23:30 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_env
 typedef struct s_execution
 {
     t_env *env;
+    int status;
 } t_execution;
 
 void checkCommand(char **cmdLine, t_execution *execStruct);

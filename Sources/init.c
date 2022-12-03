@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 22:16:29 by kernel            #+#    #+#             */
-/*   Updated: 2022/11/26 18:07:19 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/11/28 14:23:52 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_execution *executionInitialization(char **envp)
     if (!execStruct)
         exit(1);
     execStruct->env = setupEnv(envp);
+    execStruct->status = 0;
     return execStruct;
 }
 
