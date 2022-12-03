@@ -6,7 +6,7 @@
 /*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 01:58:35 by kernel            #+#    #+#             */
-/*   Updated: 2022/11/28 14:23:30 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/03 13:17:21 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 #include <string.h>
 #include <errno.h>
 #include <limits.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 #define BUFFER_SIZE 2000
 #define GREATER_THAN_MAXLONG 1
@@ -72,20 +74,20 @@ void freeArrayTwoDimension(char **array);
 void freeString(char *str);
 void freeEnv(t_env *env);
 
-
 // tools
 char *ft_getEnv(t_env *env, char *key);
 int checkExitArgumentType(char *argument);
 
 // other
 // char	*ft_lltoa(long long n);
-unsigned long long	ft_atoull(const char *str);
+unsigned long long ft_atoull(const char *str);
 int ft_strcmp(const char *s1, const char *s2);
-
 
 // print
 void printExitError(int type, char *argument);
 
+// noBuiltins;
+void handleNoBuiltins(t_execution *execStruct, char **cmdLine);
 
 // To delete;
 char **parseCommand(char *cmdLine);

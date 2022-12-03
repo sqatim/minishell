@@ -6,7 +6,7 @@
 /*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:50:47 by kernel            #+#    #+#             */
-/*   Updated: 2022/11/28 11:27:33 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/03 13:15:04 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,5 @@ void checkCommand(char **cmdLine, t_execution *execStruct)
     else if (ft_strnstr("exit", cmdLine[0], 4))
         executeExit(cmdLine);
     else
-        printf("no Builtins command\n");
+        handleNoBuiltins(execStruct, cmdLine);
 }
