@@ -6,11 +6,11 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 20:37:25 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/03 20:42:12 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/04 17:00:13 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "execution.h"
 
 char *joinPathWithCommand(char *path, char *command)
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   atoul.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 20:49:07 by sqatim            #+#    #+#             */
-/*   Updated: 2022/11/27 23:09:14 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/04 17:00:13 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "execution.h"
 
 // static int	check(int counter, int sign, int result)
 // {

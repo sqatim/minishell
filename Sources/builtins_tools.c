@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_tools.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 17:23:49 by sqatim            #+#    #+#             */
-/*   Updated: 2022/11/28 00:00:35 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/04 17:00:13 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "execution.h"
 
 int handleNewLineInEcho(char **argument, int *indexOne)
 {

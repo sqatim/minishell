@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 01:58:35 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/03 20:39:29 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/04 17:00:53 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-#define MINISHELL_H
+#ifndef EXECUTION_H
+#define EXECUTION_H
 
 #include "../Libft/libft.h"
+#include "../Sources/Parse/minishell.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
