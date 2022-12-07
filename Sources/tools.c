@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:58:46 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/07 15:43:59 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/07 22:09:56 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,32 +39,73 @@ void sighandler(int signum)
 {
     printf("%d\n", signum);
 }
+
+int manageEndOfFile(char *buffer, char **bufferJoined, int size)
+{
+    char *ptrToBeFreed;
+
+    ptrToBeFreed = *bufferJoined;
+    buffer[size] = '\0';
+    if (size == 0)
+        exit(0);
+    if (!(*bufferJoined))
+        *bufferJoined = ft_strjoin("", buffer);
+    else
+    {
+        *bufferJoined = ft_strjoin(*bufferJoined, buffer);
+        freeString(ptrToBeFreed);
+    }
+    // ft_putchar_fd(8, 1);
+    return 0;
+}
+
+int manageCommand(t_execution *execStruct, char *buffer, char **bufferJoined, int size)
+{
+    char **parsedCmd;
+
+    buffer[size - 1] = '\0';
+    if (*bufferJoined)
+    {
+        buffer = ft_strjoin(*bufferJoined, buffer);
+        freeString(*bufferJoined);
+        *bufferJoined = NULL;
+    }
+    parsedCmd = parseCommand(buffer);
+    checkCommand(parsedCmd, execStruct);
+    return (1);
+}
+
 void minishellLoop(t_execution *execStruct)
 {
     char *buffer;
+    char *bufferJoined;
     int size;
-    char **parsedCmd;
+    int check;
     t_command *command;
 
     // command = ft_calloc(1, sizeof(t_command));
-    buffer = ft_calloc(BUFFER_SIZE, sizeof(char));
+    bufferJoined = NULL;
+    check = 1;
     // signal(SIGINT, sighandler);
     while (1)
     {
-        // ft_putstr_fd("\033[0;32mminishell:>\033[m ", 1);
-        ft_putstr_fd("minishell:> ", 1);
+        if (check)
+            ft_putstr_fd("minishell:> ", 1);
+        buffer = ft_calloc(BUFFER_SIZE, sizeof(char));
         size = read(0, buffer, BUFFER_SIZE);
         if (size == -1)
         {
             printf("error: read\n");
             exit(1);
         }
-        if (size == 0)
-            // printf("noo way");
-            printf("size=> %d\n", size);
-            buffer[size - 1] = '\0';
-            parsedCmd = parseCommand(buffer);
-            checkCommand(parsedCmd, execStruct);
+        if (buffer[size - 1] == '\n')
+        {
+            check = manageCommand(execStruct, buffer, &bufferJoined, size);
+        }
+        else
+            check = manageEndOfFile(buffer, &bufferJoined, size);
+        freeString(buffer);
+        buffer = NULL;
     }
 }
 
