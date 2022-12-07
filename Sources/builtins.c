@@ -6,7 +6,7 @@
 /*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:47:37 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/07 13:54:31 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/07 14:39:59 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_env *executeUnset(t_env *env, char *argument)
         {
             if (ft_strnstr(tmp->content, tmpArgument, ft_strlen(tmpArgument)))
             {
+                // printf("------------%s\n", tmp->content);
                 next = tmp->next;
                 if (tmp->prev)
                     tmp->prev->next = tmp->next;
@@ -53,8 +54,13 @@ t_env *executeUnset(t_env *env, char *argument)
             else
                 tmp = tmp->next;
         }
+        // printf("NUUUUUUUUUL PREV=> %s\n", tmp->prev->content);
+        // printf("NUUUUUUUUUUUUUUL=> %s\n", tmp->content);
         if (tmp && !tmp->prev)
+        {
+            printf("diana\n");
             env = tmp;
+        }
         free(tmpArgument);
         tmpArgument = NULL;
     }

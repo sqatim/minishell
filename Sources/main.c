@@ -4,8 +4,8 @@ int main(int ac, char **av, char **envp)
 {
     t_execution *execStruct;
     execStruct = executionInitialization(envp);
-    // startParse(execStruct->env);
     minishellLoop(execStruct);
+    // startParse(execStruct->env);
     // while (1)
     // {
 

@@ -6,7 +6,7 @@
 /*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/07 13:27:00 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/07 14:46:18 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ char	*ft_strjoin_prs(char *s1, char *s2);
 
 /****************ft_split****************/
 
-char	**ft_split(char const *s, char c);
+char	**ft_split_prs(char const *s, char c);
 size_t	ft_strlen(const char *s);
 
 /****************env****************/

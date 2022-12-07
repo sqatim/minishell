@@ -6,7 +6,7 @@
 /*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 13:07:21 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/07 11:23:28 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/07 14:46:07 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static char	*word_dup(const char *str, int start, int finish)
 	return (word);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split_prs(char const *s, char c)
 {
 	size_t	i;
 	size_t	j;
