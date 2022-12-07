@@ -6,7 +6,7 @@
 /*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:58:46 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/07 11:31:26 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/07 13:26:49 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,16 @@ char *ft_getEnv(t_env *env, char *key)
     char *tmpKey;
 
     tmp = env;
-    // tmpKey = ft_strjoin(key, "=");
+    tmpKey = ft_strjoin(key, "=");
     index = 0;
     while (tmp)
     {
-        if (ft_strnstr(tmp->name, key, ft_strlen(key)))
+        if (ft_strnstr(tmp->content, tmpKey, ft_strlen(tmpKey)))
         {
-            // while (tmp->content[index] != '=')
-            // index++;
-            // freeString(tmpKey);
-            return (tmp->value);
+            while (tmp->content[index] != '=')
+                index++;
+            freeString(tmpKey);
+            return (&tmp->content[++index]);
         }
         tmp = tmp->next;
     }

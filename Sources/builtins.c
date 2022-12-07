@@ -6,7 +6,7 @@
 /*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:47:37 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/07 11:33:10 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/07 13:54:31 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,12 @@
 void executeEnv(t_env *env)
 {
     t_env *tmp;
-    char *keyValue;
-    
+
     tmp = env;
     while (tmp)
     {
         if (tmp->display)
-        {
-            keyValue = ft_strjoin(tmp->name, tmp->value);
-            ft_putendl_fd(keyValue, 1);
-            freeString(keyValue);
-        }
+            ft_putendl_fd(tmp->content, 1);
         tmp = tmp->next;
     }
 }

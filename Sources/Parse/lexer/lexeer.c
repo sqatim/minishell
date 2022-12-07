@@ -6,7 +6,7 @@
 /*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 08:58:45 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/07 11:23:28 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/07 13:13:47 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ void test()
 	system("leaks a.out");
 }
 
-int startParse(char **env)
+int startParse(t_env *env)
 {
 	// t_token *head;
 	// t_command *cmd;
@@ -144,7 +144,7 @@ int startParse(char **env)
 	// head = NULL;
 	// m_main->cmd = NULL;
 	m_main = ft_malloc(sizeof(t_main), 1);
-	m_main->h_env = get_env(env);
+	m_main->h_env = env;
 	m_main->list = creat_first_node(m_main->list);
 	m_main->list = ft_lexer(m_main->list, m_main, " oussama ibra | cat -e | ls -la ");
 	ft_check_syntax(m_main->list);

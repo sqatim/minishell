@@ -6,7 +6,7 @@
 /*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/07 11:26:08 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/07 13:27:00 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,10 @@ typedef struct s_env
 {
 	char			*name;
 	char			*value;
+	char 			*content;
 	int 			display;
 	struct s_env	*next;
+	struct s_env	*prev;
 }	t_env;
 
 typedef struct s_main{
@@ -167,7 +169,7 @@ void    *ft_malloc(size_t type, size_t size);
 void	add_to_trash(void *ptr, t_trash **stack_trash);
 
 
-int		startParse(char **env);
+int startParse(t_env *env);
 
 
 /***********************Execution ***********************/

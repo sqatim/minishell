@@ -1,10 +1,14 @@
 NAME = minishell
 
-HEADER = minishell.h
+HEADER = Headers/minishell.h
+
+LIB_PATH= Libft
+LLIB_FLAG= -L$(LIB_PATH) Libft/libft.a
+LIB= libft.a
 
 CC = gcc
 
-FLAGS = -Wall -Wextra -Werror 
+# FLAGS = -Wall -Wextra -Werror 
 SRC =Sources/Parse/lexer/lexeer.c\
 	Sources/Parse/lexer/lexeer2.c\
 	Sources/Parse/env.c \
@@ -35,10 +39,17 @@ SRC =Sources/Parse/lexer/lexeer.c\
 	
 OBJ = $(SRC:%.c=%.o)
 
-all: $(NAME)
+all: lib $(NAME)
 
-$(NAME) : $(OBJ) $(HEADER)
-	$(CC) $(FLAGS) $(OBJ)  -o $(NAME)
+$(NAME) : $(LIB_PATH)/$(LIB) $(OBJ) $(HEADER)
+	$(CC) $(FLAGS) $(OBJ) $(LLIB_FLAG) -o $(NAME)
+
+lib:
+	@make -sC $(LIB_PATH)
+
+
+%.o: %.c
+	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
 	@rm -f $(OBJ) 

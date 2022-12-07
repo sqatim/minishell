@@ -6,19 +6,19 @@
 /*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:30:41 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/07 11:23:28 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/07 13:16:23 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Headers/minishell.h"
 
-char	*join_token_after_dollar(char **token, char *d_value)
+char *join_token_after_dollar(char **token, char *d_value)
 {
-	char	*str;
-	char	*ptr;
-	char	*result;
-	int		len;
-	int		i;
+	char *str;
+	char *ptr;
+	char *result;
+	int len;
+	int i;
 
 	i = 0;
 	ptr = ft_strdup("");
@@ -36,7 +36,7 @@ char	*join_token_after_dollar(char **token, char *d_value)
 	return (result);
 }
 
-void	take_token(t_main *m_main, char **token, char *value, char *name)
+void take_token(t_main *m_main, char **token, char *value, char *name)
 {
 	if (m_main->flag_dollar == 1)
 		*token = join_token_after_dollar(token, value);
@@ -44,10 +44,10 @@ void	take_token(t_main *m_main, char **token, char *value, char *name)
 		*token = join_token_after_dollar(token, name);
 }
 
-void	after_dollar(t_main *m_main, char **token, char *name)
+void after_dollar(t_main *m_main, char **token, char *name)
 {
-	t_env	*temp;
-	int		i;
+	t_env *temp;
+	int i;
 
 	i = 0;
 	temp = m_main->h_env;
@@ -56,7 +56,7 @@ void	after_dollar(t_main *m_main, char **token, char *name)
 		if (!ft_strcmp(name, temp->name))
 		{
 			take_token(m_main, token, temp->value, name);
-			break ;
+			break;
 		}
 		else if (temp->next == NULL && (ft_strcmp(name, temp->name)) != 0)
 			take_token(m_main, token, NULL, name);
@@ -64,12 +64,12 @@ void	after_dollar(t_main *m_main, char **token, char *name)
 	}
 }
 
-int	expand_after_dollar(char **token, t_main *m_main)
+int expand_after_dollar(char **token, t_main *m_main)
 {
-	char	*str;
-	int		len;
-	int		i;
-	int		flag;
+	char *str;
+	int len;
+	int i;
+	int flag;
 
 	i = 0;
 	flag = 0;
@@ -82,7 +82,7 @@ int	expand_after_dollar(char **token, t_main *m_main)
 			ft_check_dollar(token, &i, m_main);
 			take_after_dollar(token, &i, &str);
 			flag = 1;
-			break ;
+			break;
 		}
 		i++;
 	}
@@ -92,9 +92,9 @@ int	expand_after_dollar(char **token, t_main *m_main)
 	return (0);
 }
 
-int	search_dollar(char *str)
+int search_dollar(char *str)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (str[i] != '\0')
