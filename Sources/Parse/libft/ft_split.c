@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 13:07:21 by oqatim            #+#    #+#             */
-/*   Updated: 2022/11/22 10:33:50 by oqatim           ###   ########.fr       */
+/*   Updated: 2022/12/07 11:23:28 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../../Headers/minishell.h"
 
 size_t	ft_strlen(const char *s)
 {

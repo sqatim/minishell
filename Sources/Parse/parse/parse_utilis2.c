@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utilis2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 04:45:41 by oqatim            #+#    #+#             */
-/*   Updated: 2022/11/22 05:14:00 by oqatim           ###   ########.fr       */
+/*   Updated: 2022/12/07 11:23:28 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../../Headers/minishell.h"
 
 int	ft_norm_redi(char *value)
 {

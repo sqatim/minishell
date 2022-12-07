@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   checks.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:50:47 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/04 17:00:13 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/07 11:24:19 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "../Headers/minishell.h"
 
 void checkCommand(char **cmdLine, t_execution *execStruct)
 {

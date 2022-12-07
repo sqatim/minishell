@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utilis.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 06:27:06 by oqatim            #+#    #+#             */
-/*   Updated: 2022/11/22 10:38:36 by oqatim           ###   ########.fr       */
+/*   Updated: 2022/12/07 11:23:28 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../../Headers/minishell.h"
 
 int	len_word_cmd(t_command *cmd)
 {

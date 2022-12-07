@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utilis3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 23:59:28 by oqatim            #+#    #+#             */
-/*   Updated: 2022/11/22 10:31:42 by oqatim           ###   ########.fr       */
+/*   Updated: 2022/12/07 11:23:28 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../../Headers/minishell.h"
 
 char	*last_part(char **token, int *index)
 {

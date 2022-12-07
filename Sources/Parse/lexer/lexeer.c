@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexeer.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 08:58:45 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/04 17:05:46 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/07 11:23:28 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../../Headers/minishell.h"
 
 t_token *creat_first_node(t_token *head)
 {
@@ -133,7 +133,7 @@ void test()
 	system("leaks a.out");
 }
 
-int _main(char **env)
+int startParse(char **env)
 {
 	// t_token *head;
 	// t_command *cmd;

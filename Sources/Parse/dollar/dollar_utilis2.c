@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utilis2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 00:03:35 by oqatim            #+#    #+#             */
-/*   Updated: 2022/11/22 05:10:05 by oqatim           ###   ########.fr       */
+/*   Updated: 2022/12/07 11:23:28 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../../Headers/minishell.h"
 
 void	take_after_dollar(char **token, int *index, char **name)
 {

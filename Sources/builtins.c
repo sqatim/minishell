@@ -3,24 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:47:37 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/04 17:00:13 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/07 11:33:10 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "../Headers/minishell.h"
 
 void executeEnv(t_env *env)
 {
     t_env *tmp;
-
+    char *keyValue;
+    
     tmp = env;
     while (tmp)
     {
         if (tmp->display)
-            ft_putendl_fd(tmp->content, 1);
+        {
+            keyValue = ft_strjoin(tmp->name, tmp->value);
+            ft_putendl_fd(keyValue, 1);
+            freeString(keyValue);
+        }
         tmp = tmp->next;
     }
 }

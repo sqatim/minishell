@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   libft_utilis.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:11:17 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/04 17:05:46 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/07 11:26:22 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../../Headers/minishell.h"
 
 
 int	get_lenght(char *ln, char c)
@@ -53,12 +53,12 @@ char	*ft_strjoin_prs(char *s1, char *s2)
 	return (str);
 }
 
-int	ft_strcmp(char *str, char *ptr)
-{
-	int	i;
+// int	ft_strcmp(char *str, char *ptr)
+// {
+// 	int	i;
 
-	i = 0;
-	while (str[i] && ptr[i] && str[i] == ptr[i])
-		i++;
-	return (str[i] - ptr[i]);
-}
+// 	i = 0;
+// 	while (str[i] && ptr[i] && str[i] == ptr[i])
+// 		i++;
+// 	return (str[i] - ptr[i]);
+// }

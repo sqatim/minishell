@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 01:58:35 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/04 17:00:53 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/07 11:23:28 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #define EXECUTION_H
 
 #include "../Libft/libft.h"
-#include "../Sources/Parse/minishell.h"
+#include "../Sources/Parse/../../Headers/minishell.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -28,13 +28,13 @@
 #define GREATER_THAN_MAXLONG 1
 #define LESS_THAN_MINLONG 2
 
-typedef struct s_env
-{
-    char *content;
-    int display;
-    struct s_env *next;
-    struct s_env *prev;
-} t_env;
+// typedef struct s_env
+// {
+//     char *content;
+//     int display;
+//     struct s_env *next;
+//     struct s_env *prev;
+// } t_env;
 
 typedef struct s_execution
 {

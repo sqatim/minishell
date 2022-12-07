@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   quots.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 08:59:56 by oqatim            #+#    #+#             */
-/*   Updated: 2022/11/22 10:41:03 by oqatim           ###   ########.fr       */
+/*   Updated: 2022/12/07 11:23:28 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../Headers/minishell.h"
 
 char	*quotes_after_quotes(char *line, int *indice, char type)
 {

@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:11 by oqatim            #+#    #+#             */
-/*   Updated: 2022/11/22 11:54:38 by oqatim           ###   ########.fr       */
+/*   Updated: 2022/12/07 11:23:28 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../Headers/minishell.h"
 
-t_env	*add_to_end_env(t_env *ptr, char *name, char *value)
+t_env *add_to_end_env(t_env *ptr, char *name, char *value)
 {
-	t_env	*tmp;
+	t_env *tmp;
 
 	tmp = ft_malloc(sizeof(t_env), 1);
 	if (!tmp)
@@ -26,7 +26,7 @@ t_env	*add_to_end_env(t_env *ptr, char *name, char *value)
 	return (tmp);
 }
 
-t_env	*creat_first_node_env(t_env *head, char *name, char *value)
+t_env *creat_first_node_env(t_env *head, char *name, char *value)
 {
 	head = ft_malloc(sizeof(t_env), 1);
 	if (!head)
@@ -37,12 +37,12 @@ t_env	*creat_first_node_env(t_env *head, char *name, char *value)
 	return (head);
 }
 
-t_env	*get_env(char **env)
+t_env *get_env(char **env)
 {
-	t_env	*ptr;
-	t_env	*head;
-	char	**str;
-	int		i;
+	t_env *ptr;
+	t_env *head;
+	char **str;
+	int i;
 
 	head = NULL;
 	i = 1;
