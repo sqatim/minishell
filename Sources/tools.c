@@ -6,7 +6,7 @@
 /*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:58:46 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/07 14:48:33 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/07 15:43:59 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,20 @@ t_env *setupEnv(char **envp)
     return env;
 }
 
+void sighandler(int signum)
+{
+    printf("%d\n", signum);
+}
 void minishellLoop(t_execution *execStruct)
 {
     char *buffer;
     int size;
     char **parsedCmd;
+    t_command *command;
 
+    // command = ft_calloc(1, sizeof(t_command));
     buffer = ft_calloc(BUFFER_SIZE, sizeof(char));
+    // signal(SIGINT, sighandler);
     while (1)
     {
         // ft_putstr_fd("\033[0;32mminishell:>\033[m ", 1);
@@ -52,9 +59,12 @@ void minishellLoop(t_execution *execStruct)
             printf("error: read\n");
             exit(1);
         }
-        buffer[size - 1] = '\0';
-        parsedCmd = parseCommand(buffer);
-        checkCommand(parsedCmd, execStruct);
+        if (size == 0)
+            // printf("noo way");
+            printf("size=> %d\n", size);
+            buffer[size - 1] = '\0';
+            parsedCmd = parseCommand(buffer);
+            checkCommand(parsedCmd, execStruct);
     }
 }
 
