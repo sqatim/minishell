@@ -3,7 +3,16 @@ NAME = minishell
 HEADER = Headers/minishell.h
 
 LIB_PATH= Libft
+
+INCLUDE_READLINE = $(addprefix $(READLINE_PATH),/include)
+
+LIB_READLINE = $(addprefix $(READLINE_PATH),/lib)
+
+READLINE_PATH = $(shell brew --prefix readline)
+
 LLIB_FLAG= -L$(LIB_PATH) Libft/libft.a
+
+
 LIB= libft.a
 
 CC = gcc
@@ -42,7 +51,7 @@ OBJ = $(SRC:%.c=%.o)
 all: lib $(NAME)
 
 $(NAME) : $(LIB_PATH)/$(LIB) $(OBJ) $(HEADER)
-	$(CC) $(FLAGS) $(OBJ) $(LLIB_FLAG) -o $(NAME)
+	$(CC) $(FLAGS) $(OBJ) $(LLIB_FLAG) -I $(INCLUDE_READLINE) -L$(LIB_READLINE) -o $(NAME) -lreadline
 
 lib:
 	@make -sC $(LIB_PATH)

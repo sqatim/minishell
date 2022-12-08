@@ -15,7 +15,7 @@ void disableValueEndOfFile()
 int main(int ac, char **av, char **envp)
 {
     t_execution *execStruct;
-    disableValueEndOfFile();
+    // disableValueEndOfFile();
     execStruct = executionInitialization(envp);
     minishellLoop(execStruct);
     // startParse(execStruct->env);

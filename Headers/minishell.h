@@ -24,6 +24,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <termios.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 # define PIPE		"|" 
 # define NWLN		"\n"

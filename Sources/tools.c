@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:58:46 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/07 22:09:56 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/08 20:41:46 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,19 @@ t_env *setupEnv(char **envp)
     return env;
 }
 
-void sighandler(int signum)
+void handleCtrlC(int signum)
 {
-    printf("%d\n", signum);
+    write(1,"\n",1);
+    rl_on_new_line();
+    rl_replace_line("",0);
+    rl_redisplay();
+}
+void handleCtrlBackSlash(int signum)
+{
+    ft_putstr_fd("\b\b  \b\b", 1);
+    ft_putstr_fd("Quit: ",1);
+    ft_putnbr_fd(signum,1);
+    ft_putendl_fd("",1);
 }
 
 int manageEndOfFile(char *buffer, char **bufferJoined, int size)
@@ -59,20 +69,13 @@ int manageEndOfFile(char *buffer, char **bufferJoined, int size)
     return 0;
 }
 
-int manageCommand(t_execution *execStruct, char *buffer, char **bufferJoined, int size)
+void manageCommand(t_execution *execStruct, char *buffer, int size)
 {
     char **parsedCmd;
 
-    buffer[size - 1] = '\0';
-    if (*bufferJoined)
-    {
-        buffer = ft_strjoin(*bufferJoined, buffer);
-        freeString(*bufferJoined);
-        *bufferJoined = NULL;
-    }
     parsedCmd = parseCommand(buffer);
     checkCommand(parsedCmd, execStruct);
-    return (1);
+    return;
 }
 
 void minishellLoop(t_execution *execStruct)
@@ -80,32 +83,25 @@ void minishellLoop(t_execution *execStruct)
     char *buffer;
     char *bufferJoined;
     int size;
-    int check;
     t_command *command;
 
     // command = ft_calloc(1, sizeof(t_command));
     bufferJoined = NULL;
-    check = 1;
-    // signal(SIGINT, sighandler);
+    signal(SIGINT, handleCtrlC);
+    signal(SIGQUIT, handleCtrlBackSlash);
+    // signal(SIGQUIT, handleCtrlC);
     while (1)
     {
-        if (check)
-            ft_putstr_fd("minishell:> ", 1);
-        buffer = ft_calloc(BUFFER_SIZE, sizeof(char));
-        size = read(0, buffer, BUFFER_SIZE);
-        if (size == -1)
-        {
-            printf("error: read\n");
+        buffer = readline("minishell:> ");
+        if (!buffer)
             exit(1);
-        }
-        if (buffer[size - 1] == '\n')
+        if (buffer[0] != '\0')
         {
-            check = manageCommand(execStruct, buffer, &bufferJoined, size);
+            add_history(buffer);
+            manageCommand(execStruct, buffer, size);
+            freeString(buffer);
+            buffer = NULL;
         }
-        else
-            check = manageEndOfFile(buffer, &bufferJoined, size);
-        freeString(buffer);
-        buffer = NULL;
     }
 }
 
