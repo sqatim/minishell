@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   noBuiltins.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 00:21:27 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/07 11:24:19 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/09 11:22:18 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void handleNoBuiltins(t_execution *execStruct, char **cmdLine)
         printError(cmdLine[0]);
     else
     {
+        g_global.forkFlag = 1;
         pid = fork();
         if (pid == 0)
         {
@@ -51,6 +52,7 @@ void handleNoBuiltins(t_execution *execStruct, char **cmdLine)
         else
         {
             wait(NULL);
+            g_global.forkFlag = 0;
         }
     }
     // int id = fork();

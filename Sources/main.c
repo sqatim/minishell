@@ -1,29 +1,26 @@
 #include "../Headers/minishell.h"
 
-void disableValueEndOfFile()
+void disableCtrlChars()
 {
     struct termios term;
     int result;
 
     result = tcgetattr(STDIN_FILENO, &term);
-    term.c_cc[VEOF] = _POSIX_VDISABLE;
+    term.c_lflag &= ~ ECHOCTL;
     tcsetattr(STDIN_FILENO, TCSANOW, &term);
-    // printf("%lu\n",term.c_cc[VEOF]);
-    // printf("%d\n", term.c_cc[VEOF]);
+}
+
+void initGlobalVariable()
+{
+    g_global.forkFlag = 0;
 }
 
 int main(int ac, char **av, char **envp)
 {
     t_execution *execStruct;
-    // disableValueEndOfFile();
+    disableCtrlChars();
+    initGlobalVariable();
     execStruct = executionInitialization(envp);
     minishellLoop(execStruct);
-    // startParse(execStruct->env);
-    // while (1)
-    // {
-
-    //     parsedCmd = parseCommand(av);
-    //     checkCommand(parsedCmd);
-    // }
     return (0);
 }

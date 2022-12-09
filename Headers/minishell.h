@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/07 22:37:15 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/09 11:12:42 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,15 @@
 #define LESS_THAN_MINLONG 2
 
 
+/******************* GLOBAL *******************/
+
+typedef struct s_global
+{
+	int forkFlag;
+	
+}	t_global;
+
+t_global g_global;
 /***************** PARSE *****************/
 
 typedef struct s_trash

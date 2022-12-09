@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:58:46 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/08 20:41:46 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/09 11:52:51 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,26 @@ t_env *setupEnv(char **envp)
 
 void handleCtrlC(int signum)
 {
-    write(1,"\n",1);
-    rl_on_new_line();
-    rl_replace_line("",0);
-    rl_redisplay();
+    if (g_global.forkFlag == 0)
+    {
+        write(1, "\n", 1);
+        rl_on_new_line();
+        rl_replace_line("", 0);
+        rl_redisplay();
+    }
+    g_global.forkFlag = 0;
 }
+
 void handleCtrlBackSlash(int signum)
 {
-    ft_putstr_fd("\b\b  \b\b", 1);
-    ft_putstr_fd("Quit: ",1);
-    ft_putnbr_fd(signum,1);
-    ft_putendl_fd("",1);
+    if (g_global.forkFlag == 0)
+        rl_redisplay();
+    else
+    {
+        ft_putstr_fd("Quit: 3\n",1);
+        rl_redisplay();
+    }
+    g_global.forkFlag = 0;
 }
 
 int manageEndOfFile(char *buffer, char **bufferJoined, int size)

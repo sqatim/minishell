@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:47:37 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/07 14:39:59 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/09 12:12:51 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,8 @@ t_env *executeUnset(t_env *env, char *argument)
             else
                 tmp = tmp->next;
         }
-        // printf("NUUUUUUUUUL PREV=> %s\n", tmp->prev->content);
-        // printf("NUUUUUUUUUUUUUUL=> %s\n", tmp->content);
         if (tmp && !tmp->prev)
-        {
-            printf("diana\n");
             env = tmp;
-        }
         free(tmpArgument);
         tmpArgument = NULL;
     }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 14:25:08 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/07 13:26:43 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/09 12:28:45 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ t_env *envClone(t_env *env)
     }
     return (newEnv);
 }
+
 t_env *sortEnv(t_env *env)
 {
     t_env *firstTmp;
@@ -52,22 +53,25 @@ t_env *sortEnv(t_env *env)
     char *tmp;
 
     envExport = envClone(env);
-    firstTmp = envExport;
-    secondTmp = envExport;
-    while (firstTmp->next)
+    if (envExport)
     {
-        secondTmp = firstTmp->next;
-        while (secondTmp)
+        firstTmp = envExport;
+        secondTmp = envExport;
+        while (firstTmp->next)
         {
-            if (ft_strcmp(secondTmp->content, firstTmp->content) < 0)
+            secondTmp = firstTmp->next;
+            while (secondTmp)
             {
-                tmp = firstTmp->content;
-                firstTmp->content = secondTmp->content;
-                secondTmp->content = tmp;
+                if (ft_strcmp(secondTmp->content, firstTmp->content) < 0)
+                {
+                    tmp = firstTmp->content;
+                    firstTmp->content = secondTmp->content;
+                    secondTmp->content = tmp;
+                }
+                secondTmp = secondTmp->next;
             }
-            secondTmp = secondTmp->next;
+            firstTmp = firstTmp->next;
         }
-        firstTmp = firstTmp->next;
     }
     return envExport;
 }
