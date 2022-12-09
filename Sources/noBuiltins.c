@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 00:21:27 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/09 11:22:18 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/09 20:36:45 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,4 @@ void handleNoBuiltins(t_execution *execStruct, char **cmdLine)
             g_global.forkFlag = 0;
         }
     }
-    // int id = fork();
-    // char cmd[] = "ls";
-    // char *argVec[] = {"ls", NULL};
-    // char *envVec[] = {"PATH=/bin"};
-    // if (id == 0)
-    // {
-    //     // printf("wa fen a ba\n");
-    //     if(execve(cmd, argVec, envVec) == -1)
-    //         printError(cmd);
-    // }
-    // else
-    // {
-    //     wait(NULL);
-    // }
 }

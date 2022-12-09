@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 14:25:08 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/09 12:28:45 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/09 19:26:37 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_env *sortEnv(t_env *env)
     return envExport;
 }
 
-void printEnvWithExport(t_env *env)
+void printEnvWithExport(t_execution *execStruct,t_env *env)
 {
     t_env *sortedEnv;
     int index;
@@ -146,7 +146,7 @@ char *joinExportKeyValue(char **keyValue)
     return joined;
 }
 
-t_env *handleExport(t_env *env, char **argument)
+t_env *handleExport(t_execution *execStruct, t_env *env, char **argument)
 {
     t_env *tempEnv;
     char **keyValue;
@@ -165,7 +165,7 @@ t_env *handleExport(t_env *env, char **argument)
         }
         else if (keyValue && !keyValue[2])
         {
-            env = executeUnset(env, keyValue[0]);
+            env = executeUnset(execStruct, env, keyValue[0]);
             keyValueJoined = joinExportKeyValue(keyValue);
             env = addEnvNode(env, keyValueJoined, 1);
             freeString(keyValueJoined);

@@ -45,6 +45,11 @@ SRC =Sources/Parse/lexer/lexeer.c\
 	Sources/print.c\
 	Sources/noBuiltins.c\
 	Sources/noBuiltins_tools.c\
+	Sources/signalHandler.c\
+	Sources/parseCustomized.c\
+	Sources/redirections.c\
+	Sources/outputRedirections.c\
+	Sources/inputRedirections.c\
 	
 OBJ = $(SRC:%.c=%.o)
 
@@ -61,9 +66,11 @@ lib:
 	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
+	@make clean -sC $(LIB_PATH)
 	@rm -f $(OBJ) 
 
 fclean: clean
+	@rm -rf $(LIB_PATH)/libft.a
 	@rm -f minishell
 
 re: fclean all

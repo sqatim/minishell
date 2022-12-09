@@ -6,13 +6,13 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:47:37 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/09 12:12:51 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/09 19:25:56 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
 
-void executeEnv(t_env *env)
+void executeEnv(t_execution *execStruct, t_env *env)
 {
     t_env *tmp;
 
@@ -25,7 +25,7 @@ void executeEnv(t_env *env)
     }
 }
 
-t_env *executeUnset(t_env *env, char *argument)
+t_env *executeUnset(t_execution *execStruct, t_env *env, char *argument)
 {
     t_env *tmp;
     t_env *next;
@@ -62,16 +62,16 @@ t_env *executeUnset(t_env *env, char *argument)
     return env;
 }
 
-t_env *executeExport(t_env *env, char **argument)
+t_env *executeExport(t_execution *execStruct, t_env *env, char **argument)
 {
     if (!argument[1])
-        printEnvWithExport(env);
+        printEnvWithExport(execStruct, env);
     else
-        env = handleExport(env, argument);
+        env = handleExport(execStruct, env, argument);
     return env;
 }
 
-void executePwd()
+void executePwd(t_execution *execStruct)
 {
     char buffer[1024];
 
@@ -82,7 +82,7 @@ void executePwd()
     // to handle --------------
 }
 
-void executeCd(t_env *env, char **argument)
+void executeCd(t_execution *execStruct, t_env *env, char **argument)
 {
     char *path;
 
@@ -92,7 +92,7 @@ void executeCd(t_env *env, char **argument)
         changeDirectory(env, argument[1]);
 }
 
-void executeEcho(char **argument)
+void executeEcho(t_execution *execStruct, char **argument)
 {
     int indexOne;
     int check;
@@ -110,7 +110,7 @@ void executeEcho(char **argument)
         ft_putchar_fd('\n', 1);
 }
 
-void executeExit(char **argument)
+void executeExit(t_execution *execStruct, char **argument)
 {
     int type;
     unsigned long long number;
