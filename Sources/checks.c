@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:50:47 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/09 19:24:13 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/11 18:56:28 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,7 @@ void checkCommand(t_execution *execStruct, t_command *command)
     redirections = execStruct->command->redirections;
     word_cmd = execStruct->command->word_cmd;
     if (execStruct->command->redirections)
-    {
         execStruct->redirectionsSorted = handleRedirection(redirections);
-        // printRedirections(execStruct->redirectionsSorted);
-    }
     if (!ft_strcmp(word_cmd[0], "env"))
         executeEnv(execStruct, execStruct->env);
     else if (!ft_strcmp(word_cmd[0], "unset"))

@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:03:17 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/09 20:42:51 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/11 19:24:27 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static void printCommand(t_command *command)
             tmp = tmp->next;
         }
         command = command->next;
+        printf("-----------------------------------\n");
     }
     command = commandTmp;
 }
@@ -86,6 +87,7 @@ t_command *customizeMyParse(char *buffer)
     char **bufferParsed = NULL;
     char **commandParsed = NULL;
     t_command *command = NULL;
+    t_command *tmp = NULL;
 
     int index = 0;
     int indexCommand = 0;
@@ -93,15 +95,17 @@ t_command *customizeMyParse(char *buffer)
     while (commandParsed[indexCommand])
     {
         index = 0;
-        bufferParsed = ft_split(buffer, ' ');
+        bufferParsed = ft_split(commandParsed[indexCommand], ' ');
         while (ft_strcmp(bufferParsed[index], ">") && ft_strcmp(bufferParsed[index], ">>") &&
                ft_strcmp(bufferParsed[index], "<") && ft_strcmp(bufferParsed[index], "<<") && bufferParsed[index])
             index++;
         command = parseNewCommand(command, bufferParsed, index);
-
+        tmp = command;
+        while (tmp->next)
+            tmp = tmp->next;
         while (bufferParsed[index])
         {
-            command->redirections = parseRedirections(command->redirections, &bufferParsed[index]);
+            tmp->redirections = parseRedirections(tmp->redirections, &bufferParsed[index]);
             index += 2;
         }
         indexCommand++;
