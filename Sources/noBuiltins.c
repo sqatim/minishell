@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 00:21:27 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/09 20:36:45 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/12 17:02:57 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char *checkCommandAccess(t_env *env, char *command)
     return NULL;
 }
 
-void handleNoBuiltins(t_execution *execStruct, char **cmdLine)
+void handleNoBuiltins(t_execution *execStruct, char **cmdLine, t_context context)
 {
     char *command;
     int pid;
@@ -47,12 +47,18 @@ void handleNoBuiltins(t_execution *execStruct, char **cmdLine)
         pid = fork();
         if (pid == 0)
         {
+            dup2(context.fd[STDIN_FILENO], STDIN_FILENO);
+            dup2(context.fd[STDOUT_FILENO], STDOUT_FILENO);
+            if (context.fd_close >= 0)
+            {
+                close(context.fd_close);
+            }
             execve(command, cmdLine, NULL);
         }
         else
         {
-            wait(NULL);
             g_global.forkFlag = 0;
+            return;
         }
     }
 }

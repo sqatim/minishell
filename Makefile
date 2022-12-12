@@ -50,6 +50,8 @@ SRC =Sources/Parse/lexer/lexeer.c\
 	Sources/redirections.c\
 	Sources/outputRedirections.c\
 	Sources/inputRedirections.c\
+	Sources/exec.c\
+	Sources/clone.c\
 	
 OBJ = $(SRC:%.c=%.o)
 

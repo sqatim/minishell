@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:50:47 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/11 18:56:28 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/12 18:35:00 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,29 +23,34 @@ void printRedirections(t_redirection *redirections)
     }
 }
 
-void checkCommand(t_execution *execStruct, t_command *command)
+static int checkTypeOfCommand(char *str)
+{
+    if (!ft_strcmp(str, "env") || !ft_strcmp(str, "unset") ||
+        !ft_strcmp(str, "export") || !ft_strcmp(str, "pwd") ||
+        !ft_strcmp(str, "cd") || !ft_strcmp(str, "echo") ||
+        !ft_strcmp(str, "exit"))
+        return BUILTIN;
+    return NON_BUILTIN;
+}
+
+int checkCommand(t_execution *execStruct, t_command *command, t_context context)
 {
     char **word_cmd;
     t_redirection *redirections;
 
-    redirections = execStruct->command->redirections;
-    word_cmd = execStruct->command->word_cmd;
-    if (execStruct->command->redirections)
-        execStruct->redirectionsSorted = handleRedirection(redirections);
-    if (!ft_strcmp(word_cmd[0], "env"))
-        executeEnv(execStruct, execStruct->env);
-    else if (!ft_strcmp(word_cmd[0], "unset"))
-        execStruct->env = executeUnset(execStruct, execStruct->env, word_cmd[1]);
-    else if (!ft_strcmp(word_cmd[0], "export"))
-        execStruct->env = executeExport(execStruct, execStruct->env, word_cmd);
-    else if (!ft_strcmp(word_cmd[0], "pwd"))
-        executePwd(execStruct);
-    else if (!ft_strcmp(word_cmd[0], "cd"))
-        executeCd(execStruct, execStruct->env, word_cmd);
-    else if (!ft_strcmp(word_cmd[0], "echo"))
-        executeEcho(execStruct, word_cmd);
-    else if (!ft_strcmp(word_cmd[0], "exit"))
-        executeExit(execStruct, word_cmd);
+    // redirections = execStruct->command->redirections;
+    // if (execStruct->command->redirections)
+    //     execStruct->redirectionsSorted = handleRedirection(redirections);
+    word_cmd = command->word_cmd;
+    if (checkTypeOfCommand(word_cmd[0]))
+    {
+        handleBuiltinCommand(execStruct, command, context);
+        return 0;
+    }
     else
-        handleNoBuiltins(execStruct, word_cmd);
+    {
+        // ft_putendl_fd("why",2);
+        handleNoBuiltins(execStruct, word_cmd, context);
+    }
+    return 1;
 }

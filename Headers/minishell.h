@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/09 20:17:27 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/12 18:22:04 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@
 #define BUFFER_SIZE 2000
 #define GREATER_THAN_MAXLONG 1
 #define LESS_THAN_MINLONG 2
+#define NON_BUILTIN 0
+#define BUILTIN 1
 
 /******************* GLOBAL *******************/
 
@@ -100,6 +102,21 @@ typedef struct s_main
 } t_main;
 
 /***************** EXECUTION *****************/
+
+typedef struct s_context
+{
+	int fd[2];	  // For stdin / stdout
+	int fd_close; // close fd if it's not -1
+} t_context;
+
+typedef struct s_pipe
+{
+	t_context left_context;
+	t_context right_context;
+	t_command *leftNode;
+	t_command *rightNode;
+
+} t_pipe;
 
 typedef struct s_execution
 {
@@ -185,7 +202,7 @@ int startParse(t_env *env);
 
 /***********************Execution ***********************/
 
-void checkCommand(t_execution *execStruct, t_command *command);
+int checkCommand(t_execution *execStruct, t_command *command, t_context context);
 void minishellLoop(t_execution *execStruct);
 t_env *setupEnv(char **envp);
 t_execution *executionInitialization(char **envp);
@@ -199,6 +216,7 @@ void executePwd(t_execution *execStruct);
 void executeCd(t_execution *execStruct, t_env *env, char **argument);
 void executeEcho(t_execution *execStruct, char **argument);
 void executeExit(t_execution *execStruct, char **argument);
+void handleBuiltinCommand(t_execution *execStruct, t_command *command, t_context context);
 
 // builtins__tools
 int handleNewLineInEcho(char **argument, int *indexOne);
@@ -232,7 +250,7 @@ void printExitError(int type, char *argument);
 void printError(char *cmd);
 
 // noBuiltins;
-void handleNoBuiltins(t_execution *execStruct, char **cmdLine);
+void handleNoBuiltins(t_execution *execStruct, char **cmdLine, t_context context);
 
 // noBuiltins_tools;
 char *joinPathWithCommand(char *path, char *command);
@@ -246,6 +264,14 @@ t_redirection *setupTheLastRedirections(t_redirection *redirectionsHead, t_redir
 void hereDocumentRedirection(char *filename);
 void outputAppendRedirection(char *filename);
 void ouputTruncRedirection(char *filename);
+
+// exec
+void startExecution(t_execution *execStruct, t_command *command);
+int execCommandOfNode(t_execution *execStruct, t_command *command, t_context context);
+
+// clone
+t_command *cloneNode(t_command *source);
+char **cloneCommandWords(char **str);
 
 // To delete;
 char **parseCommand(char *cmdLine);

@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:47:37 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/09 19:25:56 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/12 18:00:19 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void executeEnv(t_execution *execStruct, t_env *env)
     t_env *tmp;
 
     tmp = env;
+    // ft_putendl_fd("testo", 2);
     while (tmp)
     {
         if (tmp->display)
@@ -76,7 +77,11 @@ void executePwd(t_execution *execStruct)
     char buffer[1024];
 
     if (getcwd(buffer, 1024))
+    {
+
         ft_putendl_fd(buffer, 1);
+        // ft_putendl_fd("vayne", 2);
+    }
     else
         ft_putendl_fd("error: in pwd", 2);
     // to handle --------------
@@ -127,4 +132,44 @@ void executeExit(t_execution *execStruct, char **argument)
         else
             handleExitCases(type, argument);
     }
+}
+
+
+void handleBuiltinCommand(t_execution *execStruct, t_command *command, t_context context)
+{
+    char **word_cmd;
+    int stdOut;
+    int stdIn;
+    word_cmd = command->word_cmd;
+
+    stdOut = dup(STDOUT_FILENO);
+    stdIn = dup(STDIN_FILENO);
+    dup2(context.fd[STDIN_FILENO], STDIN_FILENO);
+    dup2(context.fd[STDOUT_FILENO], STDOUT_FILENO);
+    if (!ft_strcmp(word_cmd[0], "env"))
+        executeEnv(execStruct, execStruct->env);
+    else if (!ft_strcmp(word_cmd[0], "unset"))
+        execStruct->env = executeUnset(execStruct, execStruct->env, word_cmd[1]);
+    else if (!ft_strcmp(word_cmd[0], "export"))
+        execStruct->env = executeExport(execStruct, execStruct->env, word_cmd);
+    else if (!ft_strcmp(word_cmd[0], "pwd"))
+        executePwd(execStruct);
+    else if (!ft_strcmp(word_cmd[0], "cd"))
+        executeCd(execStruct, execStruct->env, word_cmd);
+    else if (!ft_strcmp(word_cmd[0], "echo"))
+        executeEcho(execStruct, word_cmd);
+    else if (!ft_strcmp(word_cmd[0], "exit"))
+        executeExit(execStruct, word_cmd);
+    if (context.fd[STDIN_FILENO] == STDIN_FILENO && context.fd[STDOUT_FILENO] != STDOUT_FILENO)
+    {
+        dup2(stdOut, STDOUT_FILENO);
+        close(stdOut);
+        close(stdIn);
+    }
+    else if (context.fd[STDOUT_FILENO] == STDOUT_FILENO && context.fd[STDIN_FILENO] != STDIN_FILENO)
+    {
+        dup2(stdIn, STDIN_FILENO);
+        close(stdOut);
+        close(stdIn);
+    } // ft_putendl_fd("dont say that", 2);
 }
