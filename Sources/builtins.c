@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:47:37 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/12 18:00:19 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/13 17:54:02 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,18 +134,19 @@ void executeExit(t_execution *execStruct, char **argument)
     }
 }
 
-
 void handleBuiltinCommand(t_execution *execStruct, t_command *command, t_context context)
 {
     char **word_cmd;
     int stdOut;
     int stdIn;
-    word_cmd = command->word_cmd;
+    int result;
 
+    word_cmd = command->word_cmd;
     stdOut = dup(STDOUT_FILENO);
     stdIn = dup(STDIN_FILENO);
-    dup2(context.fd[STDIN_FILENO], STDIN_FILENO);
-    dup2(context.fd[STDOUT_FILENO], STDOUT_FILENO);
+    result = execRedirection(execStruct, context);
+    // dup2(context.fd[STDIN_FILENO], STDIN_FILENO);
+    // dup2(context.fd[STDOUT_FILENO], STDOUT_FILENO);
     if (!ft_strcmp(word_cmd[0], "env"))
         executeEnv(execStruct, execStruct->env);
     else if (!ft_strcmp(word_cmd[0], "unset"))
@@ -160,16 +161,19 @@ void handleBuiltinCommand(t_execution *execStruct, t_command *command, t_context
         executeEcho(execStruct, word_cmd);
     else if (!ft_strcmp(word_cmd[0], "exit"))
         executeExit(execStruct, word_cmd);
-    if (context.fd[STDIN_FILENO] == STDIN_FILENO && context.fd[STDOUT_FILENO] != STDOUT_FILENO)
+    if (context.fd[STDOUT_FILENO] != STDOUT_FILENO || context.fd[STDIN_FILENO] != STDIN_FILENO || result)
     {
-        dup2(stdOut, STDOUT_FILENO);
+        if (context.fd[STDIN_FILENO] == STDIN_FILENO || result == 1 || result == 3)
+            dup2(stdOut, STDOUT_FILENO);
+        if (context.fd[STDOUT_FILENO] == STDOUT_FILENO || result == 2 || result == 3)
+            dup2(stdIn, STDIN_FILENO);
         close(stdOut);
         close(stdIn);
     }
-    else if (context.fd[STDOUT_FILENO] == STDOUT_FILENO && context.fd[STDIN_FILENO] != STDIN_FILENO)
-    {
-        dup2(stdIn, STDIN_FILENO);
-        close(stdOut);
-        close(stdIn);
-    } // ft_putendl_fd("dont say that", 2);
+    // else if (context.fd[STDOUT_FILENO] == STDOUT_FILENO && context.fd[STDIN_FILENO] != STDIN_FILENO)
+    // {
+    //     dup2(stdIn, STDIN_FILENO);
+    //     close(stdOut);
+    //     close(stdIn);
+    // } // ft_putendl_fd("dont say that", 2);
 }

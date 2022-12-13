@@ -6,72 +6,54 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:07:22 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/09 20:19:22 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/13 17:16:39 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
 
-t_redirection *addNewRedirection(t_redirection *redirectionsHead, t_redirection *currentRedirection)
+void hereDocumentRedirection(char *filename)
 {
-    t_redirection *tmp;
-    t_redirection *new;
+    int fd;
+    char *path;
+    char *buffer;
+    char *delimiter;
+    int len;
 
-    new = ft_calloc(1, sizeof(t_redirection));
-    new->f_name = ft_strdup(currentRedirection->f_name);
-    new->type = ft_strdup(currentRedirection->type);
-    new->next = NULL;
-    if (!redirectionsHead)
-        return new;
-    tmp = redirectionsHead;
-    while (tmp->next)
-        tmp = tmp->next;
-    tmp->next = new;
-    return redirectionsHead;
-}
-
-int redirectionsLen(t_redirection *redirection)
-{
-    t_redirection *tmp;
-    int index;
-
-    index = 0;
-    tmp = redirection;
-    while (tmp)
+    buffer = ft_calloc(BUFFER_SIZE, 1);
+    // path = ft_strjoin("./", filename);
+    path = ft_strjoin("/tmp/", filename);
+    delimiter = ft_strjoin(filename, "\n");
+    fd = open(path, O_CREAT | O_TRUNC | O_RDWR, 0777);
+    while (ft_strcmp(buffer, delimiter) != 0)
     {
-        tmp = tmp->next;
-        index++;
+        len = read(0, buffer, BUFFER_SIZE);
+        buffer[len] = '\0';
+        if (ft_strcmp(buffer, delimiter) != 0)
+            write(fd, buffer, len);
     }
-    return index;
+    freeString(delimiter);
+    freeString(path);
+    free(buffer);
+    buffer = NULL;
+    path = NULL;
+    delimiter = NULL;
 }
 
-int checkRedirection(t_redirection *redirection, t_redirection *current)
+void ouputTruncRedirection(char *filename)
 {
-    t_redirection *tmp;
+    int fd;
 
-    tmp = redirection;
-    if (!tmp)
-        return 1;
-    else if ((!ft_strcmp(tmp->type, ">>") || !ft_strcmp(tmp->type, ">")) &&
-             (ft_strcmp(current->type, ">>") && ft_strcmp(current->type, ">")))
-        return 1;
-    else if ((!ft_strcmp(tmp->type, "<") || !ft_strcmp(tmp->type, "<<")) &&
-             (ft_strcmp(current->type, "<") && ft_strcmp(current->type, "<<")))
-        return 1;
-    return (0);
+    fd = open(filename, O_CREAT | O_TRUNC | O_RDWR, 0777);
+    close(fd);
 }
 
-t_redirection *setupTheLastRedirections(t_redirection *redirectionsHead, t_redirection *currentRedirection)
+void outputAppendRedirection(char *filename)
 {
-    t_redirection *tmp;
-    t_redirection *new;
-    tmp = currentRedirection;
-    if (!tmp)
-        return NULL;
-    new = setupTheLastRedirections(new, tmp->next);
-    if (redirectionsLen(new) < 2 && checkRedirection(new, tmp))
-        new = addNewRedirection(new, tmp);
-    return new;
+    int fd;
+
+    fd = open(filename, O_CREAT | O_APPEND | O_RDWR, 0777);
+    close(fd);
 }
 
 t_redirection *handleRedirection(t_redirection *redirections)

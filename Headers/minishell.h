@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/12 18:22:04 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/13 18:07:49 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,6 +235,8 @@ void changeDirectoryWithArgument(char *path);
 void freeArrayTwoDimension(char **array);
 void freeString(char *str);
 void freeEnv(t_env *env);
+void freeRedirection(t_redirection **redirection);
+void freeCommand(t_command **command);
 
 // tools
 char *ft_getEnv(t_env *env, char *key);
@@ -264,10 +266,14 @@ t_redirection *setupTheLastRedirections(t_redirection *redirectionsHead, t_redir
 void hereDocumentRedirection(char *filename);
 void outputAppendRedirection(char *filename);
 void ouputTruncRedirection(char *filename);
+t_redirection *checkTypeOfRedirection(t_redirection *redirection, int type);
 
 // exec
 void startExecution(t_execution *execStruct, t_command *command);
 int execCommandOfNode(t_execution *execStruct, t_command *command, t_context context);
+int execRedirection(t_execution *execStruct, t_context context);
+int execInputRedirection(t_redirection *input);
+int execOutputRedirection(t_redirection *output);
 
 // clone
 t_command *cloneNode(t_command *source);

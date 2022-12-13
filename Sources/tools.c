@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:58:46 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/12 17:52:19 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/13 18:08:15 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,6 @@ void manageCommand(t_execution *execStruct, char *buffer)
 {
     t_command *tmpCommand;
 
-    // tmpCommand = execStruct->command;
-    // while (tmpCommand)
-    // {
-    // checkCommand(execStruct, tmpCommand);
-    // tmpCommand = tmpCommand->next;
-    // }
     startExecution(execStruct, execStruct->command);
     return;
 }
@@ -86,6 +80,8 @@ void minishellLoop(t_execution *execStruct)
             manageCommand(execStruct, buffer);
             freeString(buffer);
             buffer = NULL;
+            freeCommand(&execStruct->command);
+            freeRedirection(&execStruct->redirectionsSorted);
         }
     }
 }

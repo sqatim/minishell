@@ -48,9 +48,9 @@ SRC =Sources/Parse/lexer/lexeer.c\
 	Sources/signalHandler.c\
 	Sources/parseCustomized.c\
 	Sources/redirections.c\
-	Sources/outputRedirections.c\
-	Sources/inputRedirections.c\
+	Sources/redirections_tools.c\
 	Sources/exec.c\
+	Sources/exec_tools.c\
 	Sources/clone.c\
 	
 OBJ = $(SRC:%.c=%.o)
