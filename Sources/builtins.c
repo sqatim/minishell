@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:47:37 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/13 17:54:02 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/14 16:33:09 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,10 @@ void handleBuiltinCommand(t_execution *execStruct, t_command *command, t_context
         close(stdOut);
         close(stdIn);
     }
+    // if (context.fd >= 0)
+    // {
+        // close(context.fd_close);
+    // }
     // else if (context.fd[STDOUT_FILENO] == STDOUT_FILENO && context.fd[STDIN_FILENO] != STDIN_FILENO)
     // {
     //     dup2(stdIn, STDIN_FILENO);

@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 00:21:27 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/13 18:01:12 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/14 15:04:47 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void handleNoBuiltins(t_execution *execStruct, char **cmdLine, t_context context
 {
     char *command;
     int pid;
-    
+
     command = checkCommandAccess(execStruct->env, cmdLine[0]);
     if (!command)
         printError(cmdLine[0]);
@@ -88,6 +88,8 @@ void handleNoBuiltins(t_execution *execStruct, char **cmdLine, t_context context
             // duplicateFunction(context, execStruct);
             // dup2(context.fd[STDIN_FILENO], STDIN_FILENO);
             // dup2(context.fd[STDOUT_FILENO], STDOUT_FILENO);
+            // if (execStruct->redirectionsSorted)
+            //     ft_putendl_fd("realy", 2);
             execRedirection(execStruct, context);
             if (context.fd_close >= 0)
             {

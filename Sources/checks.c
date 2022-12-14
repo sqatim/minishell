@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:50:47 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/13 18:04:36 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/14 16:35:27 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void printRedirections(t_redirection *redirections)
     }
 }
 
-static int checkTypeOfCommand(char *str)
+int checkTypeOfCommand(char *str)
 {
     if (!ft_strcmp(str, "env") || !ft_strcmp(str, "unset") ||
         !ft_strcmp(str, "export") || !ft_strcmp(str, "pwd") ||
@@ -39,7 +39,7 @@ int checkCommand(t_execution *execStruct, t_command *command, t_context context)
     t_redirection *redirections;
 
     redirections = command->redirections;
-    if (command->redirections)
+    if (redirections)
         execStruct->redirectionsSorted = handleRedirection(redirections);
     word_cmd = command->word_cmd;
     if (checkTypeOfCommand(word_cmd[0]))
@@ -49,5 +49,7 @@ int checkCommand(t_execution *execStruct, t_command *command, t_context context)
     }
     else
         handleNoBuiltins(execStruct, word_cmd, context);
+    if (execStruct->redirectionsSorted)
+        freeRedirection(&execStruct->redirectionsSorted);
     return 1;
 }

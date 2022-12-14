@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 13:42:07 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/13 18:09:13 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/14 16:33:34 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@ void startExecution(t_execution *execStruct, t_command *command)
     t_context context;
     int children;
     int index;
+    // int stdOut;
+    // int stdIn;
 
+    // stdOut = dup(STDOUT_FILENO);
+    // stdIn = dup(STDIN_FILENO);
     index = 0;
     context.fd[0] = STDIN_FILENO;
     context.fd[1] = STDOUT_FILENO;
@@ -28,6 +32,10 @@ void startExecution(t_execution *execStruct, t_command *command)
         wait(NULL);
         index++;
     }
+    // dup2(stdOut, STDOUT_FILENO);
+    // dup2(stdIn, STDIN_FILENO);
+    // close(stdOut);
+    // close(stdIn);
     return;
 }
 
@@ -42,13 +50,15 @@ int execPipe(t_execution *execStruct, t_command *command, t_context context)
     pipeStruct.left_context.fd[STDOUT_FILENO] = p[STDOUT_FILENO];
     pipeStruct.left_context.fd_close = p[STDIN_FILENO];
     pipeStruct.leftNode = cloneNode(command);
+    // if (command->next->next)
+    //     close(p[STDIN_FILENO]);
 
     child += execCommandOfNode(execStruct, pipeStruct.leftNode, pipeStruct.left_context);
     freeCommand(&pipeStruct.leftNode);
     pipeStruct.right_context = context;
     pipeStruct.right_context.fd[STDIN_FILENO] = p[STDIN_FILENO];
     pipeStruct.right_context.fd_close = p[STDOUT_FILENO];
-    if (command->next->next)
+    if (command->next->next && !checkTypeOfCommand(command->next->next->word_cmd[0]))
         close(p[STDOUT_FILENO]);
     pipeStruct.rightNode = command->next;
     child += execCommandOfNode(execStruct, pipeStruct.rightNode, pipeStruct.right_context);
@@ -65,14 +75,31 @@ int execRedirection(t_execution *execStruct, t_context context)
     result = 0;
     redirection = checkTypeOfRedirection(execStruct->redirectionsSorted, 0);
     if (redirection)
+    {
+        // ft_putendl_fd("1", 2);
         result += execInputRedirection(redirection);
+    }
     else
+    {
+        // ft_putnbr_fd(context.fd[STDIN_FILENO], 2);
+        // ft_putendl_fd("", 2);
         dup2(context.fd[STDIN_FILENO], STDIN_FILENO);
+    }
     redirection = checkTypeOfRedirection(execStruct->redirectionsSorted, 1);
     if (redirection)
+    {
+        // ft_putendl_fd(redirection->type, 2);
+        // ft_putendl_fd(redirection->f_name, 2);
+        // ft_putendl_fd("3", 2);
         result += execOutputRedirection(redirection);
+    }
     else
+    {
+        // ft_putnbr_fd(context.fd[STDOUT_FILENO], 2);
+        // ft_putendl_fd("", 2);
         dup2(context.fd[STDOUT_FILENO], STDOUT_FILENO);
+    }
+    // ft_putendl_fd("----------------------------", 2);
     return (result);
 }
 

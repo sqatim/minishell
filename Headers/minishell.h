@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/13 18:07:49 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/14 16:35:58 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,6 +203,7 @@ int startParse(t_env *env);
 /***********************Execution ***********************/
 
 int checkCommand(t_execution *execStruct, t_command *command, t_context context);
+int checkTypeOfCommand(char *str);
 void minishellLoop(t_execution *execStruct);
 t_env *setupEnv(char **envp);
 t_execution *executionInitialization(char **envp);
