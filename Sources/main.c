@@ -1,5 +1,7 @@
 #include "../Headers/minishell.h"
 
+t_global g_global;
+
 void disableCtrlChars()
 {
     struct termios term;

@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:58:46 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/14 14:56:49 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/16 14:59:08 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
+
+void ft_exit(t_execution *execStruct)
+{
+    freeExecutionStruct(execStruct);
+    exit(0);
+}
 
 char **parseCommand(char *cmdLine)
 {
@@ -72,7 +78,8 @@ void minishellLoop(t_execution *execStruct)
     {
         buffer = readline("minishell:> ");
         if (!buffer)
-            exit(1);
+            ft_exit(execStruct);
+        // exit(1);
         if (buffer[0] != '\0')
         {
             execStruct->command = customizeMyParse(buffer);
@@ -84,6 +91,29 @@ void minishellLoop(t_execution *execStruct)
             freeRedirection(&execStruct->redirectionsSorted);
         }
     }
+}
+
+t_env *ft_getEnvNode(t_env *env, char *key)
+{
+    t_env *tmp;
+    int index;
+    char *tmpKey;
+
+    tmp = env;
+    tmpKey = ft_strjoin(key, "=");
+    index = 0;
+    while (tmp)
+    {
+        if (ft_strnstr(tmp->content, tmpKey, ft_strlen(tmpKey)))
+        {
+            while (tmp->content[index] != '=')
+                index++;
+            freeString(tmpKey);
+            return (tmp);
+        }
+        tmp = tmp->next;
+    }
+    return NULL;
 }
 
 char *ft_getEnv(t_env *env, char *key)

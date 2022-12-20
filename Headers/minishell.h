@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/14 16:35:58 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/16 14:59:38 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_global
 
 } t_global;
 
-t_global g_global;
+extern t_global g_global;
 /***************** PARSE *****************/
 
 typedef struct s_trash
@@ -229,7 +229,7 @@ t_env *sortEnv(t_env *env);
 t_env *handleExport(t_execution *execStruct, t_env *env, char **argument);
 
 // cd
-void changeDirectory(t_env *env, char *path);
+t_env *changeDirectory(t_env *env, char *path);
 void changeDirectoryWithArgument(char *path);
 
 // free
@@ -238,9 +238,11 @@ void freeString(char *str);
 void freeEnv(t_env *env);
 void freeRedirection(t_redirection **redirection);
 void freeCommand(t_command **command);
+void freeExecutionStruct(t_execution *execStruct);
 
 // tools
 char *ft_getEnv(t_env *env, char *key);
+t_env *ft_getEnvNode(t_env *env, char *key);
 int checkExitArgumentType(char *argument);
 
 // other
@@ -257,6 +259,7 @@ void handleNoBuiltins(t_execution *execStruct, char **cmdLine, t_context context
 
 // noBuiltins_tools;
 char *joinPathWithCommand(char *path, char *command);
+char **convertEnvToArray(t_env *env);
 
 // signalHandler
 void signalHandler();

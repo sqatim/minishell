@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 17:41:04 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/13 18:07:32 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/15 17:48:26 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,18 @@ void freeCommand(t_command **command)
     freeRedirection(&(*command)->redirections);
     free(*command);
     *command = NULL;
+}
+
+void freeExecutionStruct(t_execution *execStruct)
+{
+    if (execStruct)
+    {
+        if (execStruct->redirectionsSorted)
+            freeRedirection(&execStruct->redirectionsSorted);
+        if (execStruct->command)
+            freeCommand(&execStruct->command);
+        if (execStruct->env)
+            freeEnv(execStruct->env);
+        free(execStruct);
+    }
 }

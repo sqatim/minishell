@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:47:37 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/14 16:33:09 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/16 11:14:44 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,9 @@ void executeCd(t_execution *execStruct, t_env *env, char **argument)
     char *path;
 
     if (!argument[1])
-        changeDirectory(env, NULL);
+        execStruct->env = changeDirectory(env, NULL);
     else
-        changeDirectory(env, argument[1]);
+        execStruct->env = changeDirectory(env, argument[1]);
 }
 
 void executeEcho(t_execution *execStruct, char **argument)
@@ -145,8 +145,6 @@ void handleBuiltinCommand(t_execution *execStruct, t_command *command, t_context
     stdOut = dup(STDOUT_FILENO);
     stdIn = dup(STDIN_FILENO);
     result = execRedirection(execStruct, context);
-    // dup2(context.fd[STDIN_FILENO], STDIN_FILENO);
-    // dup2(context.fd[STDOUT_FILENO], STDOUT_FILENO);
     if (!ft_strcmp(word_cmd[0], "env"))
         executeEnv(execStruct, execStruct->env);
     else if (!ft_strcmp(word_cmd[0], "unset"))
@@ -172,7 +170,7 @@ void handleBuiltinCommand(t_execution *execStruct, t_command *command, t_context
     }
     // if (context.fd >= 0)
     // {
-        // close(context.fd_close);
+    // close(context.fd_close);
     // }
     // else if (context.fd[STDOUT_FILENO] == STDOUT_FILENO && context.fd[STDIN_FILENO] != STDIN_FILENO)
     // {

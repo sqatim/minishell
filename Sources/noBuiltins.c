@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   noBuiltins.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 00:21:27 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/14 15:04:47 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/16 13:05:36 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,13 @@ void duplicateFunction(t_context context, t_execution *execStruct)
         dup2(context.fd[STDOUT_FILENO], STDOUT_FILENO);
 }
 
+
+
 void handleNoBuiltins(t_execution *execStruct, char **cmdLine, t_context context)
 {
     char *command;
     int pid;
+    char **env;
 
     command = checkCommandAccess(execStruct->env, cmdLine[0]);
     if (!command)
@@ -82,14 +85,11 @@ void handleNoBuiltins(t_execution *execStruct, char **cmdLine, t_context context
     else
     {
         g_global.forkFlag = 1;
+        env = convertEnvToArray(execStruct->env);
+        // ft_putendl_fd("no way",2);
         pid = fork();
         if (pid == 0)
         {
-            // duplicateFunction(context, execStruct);
-            // dup2(context.fd[STDIN_FILENO], STDIN_FILENO);
-            // dup2(context.fd[STDOUT_FILENO], STDOUT_FILENO);
-            // if (execStruct->redirectionsSorted)
-            //     ft_putendl_fd("realy", 2);
             execRedirection(execStruct, context);
             if (context.fd_close >= 0)
             {
