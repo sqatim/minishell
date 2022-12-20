@@ -6,7 +6,7 @@
 /*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/16 14:59:38 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/20 15:26:56 by kernel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@
 #define LESS_THAN_MINLONG 2
 #define NON_BUILTIN 0
 #define BUILTIN 1
+#define TRUE 1
+#define FALSE 0
 
 /******************* GLOBAL *******************/
 
@@ -124,6 +126,8 @@ typedef struct s_execution
 	t_env *env;
 	t_command *command;
 	int status;
+	char *path;
+	int checkPath;
 } t_execution;
 
 /***************** PARSE *****************/
