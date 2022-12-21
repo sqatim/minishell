@@ -3,68 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utilis.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 06:27:06 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/07 11:23:28 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/21 22:15:07 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Headers/minishell.h"
 
-int	len_word_cmd(t_command *cmd)
+void	len_command_arg(t_parse *parse, t_token *token)
+{
+	while (token != NULL && ft_strcmp(token->value, PIPE)
+		&& ft_strcmp(token->value, NWLN))
+	{
+		if (ft_check_word(token->value))
+			parse->len++;
+		if (ft_norm_redi(token->value))
+			token = token->next;
+		token = token->next;
+	}	
+}
+
+void	get_command_arg(t_parse *parse)
 {
 	t_token	*token;
-	int		len;
-
-	len = 0;
-	cmd->word_cmd = NULL;
-	token = cmd->token;
-	while (token != NULL && ft_strcmp(token->value, PIPE)
-		&& ft_strcmp(token->value, NWLN))
-	{
-		if (ft_check_word(token->value))
-			len++;
-		if (ft_norm_redi(token->value))
-			token = token->next;
-		token = token->next;
-	}
-	return (len);
-}
-
-void	get_word_cmd(t_command *cmd)
-{
-	t_token		*token;
-	int			i;
-	int			len;
+	token = parse->token;
+	int				i;
 
 	i = 0;
-	token = cmd->token;
-	len = len_word_cmd(cmd);
-	cmd->word_cmd = ft_malloc(sizeof(char *), (len + 1));
-	while (token != NULL && ft_strcmp(token->value, PIPE)
-		&& ft_strcmp(token->value, NWLN))
+	parse->len = 0;
+	parse->command_arg = NULL;
+	token = parse->token;
+	len_command_arg(parse, token);
+	parse->command_arg = ft_malloc(sizeof(char *) , parse->len + 1);
+	while (i < parse->len)
 	{
 		if (ft_check_word(token->value))
-		{
-			cmd->word_cmd[i] = ft_strdup(token->value);
-			printf(" cmd->word_cmd[i]*************>|%s|\n", cmd->word_cmd[i]);
-			i++;
-		}
+			parse->command_arg[i++] = ft_strdup(token->value);
 		if (ft_norm_redi(token->value))
-		{
-			take_redirection (cmd, token, token->value);
 			token = token->next;
-		}
 		token = token->next;
 	}
-	cmd->word_cmd[i] = NULL;
+	parse->command_arg[i] = NULL;
 }
 
-void	initialize_cmd(t_command *cmd, t_token *token)
+void	initialize_parse(t_parse *parse, t_token *token)
 {
-	cmd->token = token;
-	cmd->redirections = NULL;
-	cmd->word_cmd = NULL;
-	cmd = NULL;
+	parse->token = token;
+	parse->redirections = NULL;
+	parse->command_arg = NULL;
+	parse->cmd = NULL;
+}
+
+int	len_arg(char **cmd_arg)
+{
+	int	i;
+
+	i = 0;
+	while (cmd_arg[i] != NULL)
+		i++;
+	return (i);
 }

@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 12:35:52 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/21 14:54:28 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/21 15:31:08 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ t_env *changeDirectory(t_execution *execStruct, t_env *env, char *path)
         path = ft_getEnv(env, "HOME");
     if (path)
     {
+        // to fix it when Home = \0
         tmp = changeOldPwdInEnv(execStruct, tmp);
         if (chdir(path) == 0)
         {

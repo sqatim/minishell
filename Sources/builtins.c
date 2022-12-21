@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:47:37 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/21 15:03:28 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/21 23:03:43 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ void handleBuiltinCommand(t_execution *execStruct, t_command *command, t_context
     int stdIn;
     int result;
 
-    word_cmd = command->word_cmd;
+    word_cmd = command->command;
     stdOut = dup(STDOUT_FILENO);
     stdIn = dup(STDIN_FILENO);
     result = execRedirection(execStruct, context);

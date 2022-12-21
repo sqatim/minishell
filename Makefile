@@ -3,6 +3,7 @@ NAME = minishell
 HEADER = Headers/minishell.h
 
 LIB_PATH= Libft
+PARSE_PATH= Sources/Parse
 
 INCLUDE_READLINE = $(addprefix $(READLINE_PATH),/include)
 
@@ -11,9 +12,11 @@ LIB_READLINE = $(addprefix $(READLINE_PATH),/lib)
 READLINE_PATH = $(shell brew --prefix readline)
 
 LLIB_FLAG= -L$(LIB_PATH) Libft/libft.a
+LPARSE_FLAG= -L$(PARSE_PATH) Sources/Parse/libparse.a
 
 
 LIB= libft.a
+PARSE= libparse.a
 
 CC = gcc
 
@@ -55,25 +58,29 @@ SRC =Sources/Parse/lexer/lexeer.c\
 	
 OBJ = $(SRC:%.c=%.o)
 
-all: lib $(NAME)
+all: lib parse $(NAME)
 
-$(NAME) : $(LIB_PATH)/$(LIB) $(OBJ) $(HEADER)
+$(NAME) : $(LIB_PATH)/$(LIB) $(PARSE_PATH)/$(PARSE) $(OBJ) $(HEADER)
 	# $(CC) $(FLAGS) $(OBJ) $(LLIB_FLAG) -o $(NAME) -lreadline
-	$(CC) $(FLAGS) $(OBJ) $(LLIB_FLAG) -lreadline -I $(INCLUDE_READLINE) -L$(LIB_READLINE) -o $(NAME) 
+	$(CC) $(FLAGS) $(OBJ) $(LLIB_FLAG) $(LPARSE_FLAG) -lreadline -I $(INCLUDE_READLINE) -L$(LIB_READLINE) -o $(NAME) 
 
 lib:
 	@make -sC $(LIB_PATH)
 
+parse:
+	@make -sC $(PARSE_PATH)
 
 %.o: %.c
 	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
 	@make clean -sC $(LIB_PATH)
+	@make clean -sC $(PARSE_PATH)
 	@rm -f $(OBJ) 
 
 fclean: clean
 	@rm -rf $(LIB_PATH)/libft.a
+	@rm -rf $(PARSE_PATH)/libft.a
 	@rm -f minishell
 
 re: fclean all

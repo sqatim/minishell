@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 17:41:04 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/15 17:48:26 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/21 23:03:51 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void freeCommand(t_command **command)
     if (!*command)
         return;
     freeCommand(&((*command)->next));
-    freeArrayTwoDimension((*command)->word_cmd);
+    freeArrayTwoDimension((*command)->command);
     freeRedirection(&(*command)->redirections);
     free(*command);
     *command = NULL;

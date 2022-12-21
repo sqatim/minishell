@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 13:42:07 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/21 11:31:06 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/21 23:04:19 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int execPipe(t_execution *execStruct, t_command *command, t_context context)
     pipeStruct.right_context = context;
     pipeStruct.right_context.fd[STDIN_FILENO] = p[STDIN_FILENO];
     pipeStruct.right_context.fd_close = p[STDOUT_FILENO];
-    if (command->next->next && !checkTypeOfCommand(command->next->next->word_cmd[0]))
+    if (command->next->next && !checkTypeOfCommand(command->next->next->command[0]))
         close(p[STDOUT_FILENO]);
     pipeStruct.rightNode = command->next;
     child += execCommandOfNode(execStruct, pipeStruct.rightNode, pipeStruct.right_context);

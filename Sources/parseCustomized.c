@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parseCustomized.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:03:17 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/14 15:06:18 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/21 23:04:11 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ static void printCommand(t_command *command)
     while (command)
     {
         index = 0;
-        while (command->word_cmd[index])
+        while (command->command[index])
         {
-            printf("%s", command->word_cmd[index]);
+            printf("%s", command->command[index]);
             index++;
-            !command->word_cmd[index] ? printf("\n") : printf(" ");
+            !command->command[index] ? printf("\n") : printf(" ");
         }
         tmp = command->redirections;
         if (tmp)
@@ -49,10 +49,10 @@ static t_command *parseNewCommand(t_command *head, char **command, int size)
     int index = 0;
 
     new = ft_calloc(1, sizeof(t_command));
-    new->word_cmd = ft_calloc(size + 1, sizeof(char *));
+    new->command = ft_calloc(size + 1, sizeof(char *));
     while (index < size)
     {
-        new->word_cmd[index] = ft_strdup(command[index]);
+        new->command[index] = ft_strdup(command[index]);
         index++;
     }
     new->redirections = NULL;

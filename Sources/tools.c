@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:58:46 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/16 14:59:08 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/21 22:58:43 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ void minishellLoop(t_execution *execStruct)
         // exit(1);
         if (buffer[0] != '\0')
         {
-            execStruct->command = customizeMyParse(buffer);
+            execStruct->command = startParse(execStruct->env, buffer);
+            // execStruct->command = customizeMyParse(buffer);
             add_history(buffer);
             manageCommand(execStruct, buffer);
             freeString(buffer);

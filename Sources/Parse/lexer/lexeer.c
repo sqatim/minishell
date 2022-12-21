@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   lexeer.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 08:58:45 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/07 13:13:47 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/21 23:14:09 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Headers/minishell.h"
 
-t_token *creat_first_node(t_token *head)
+t_token	*creat_first_node(t_token *head)
 {
-	head = ft_malloc(sizeof(t_token), 1);
+	head = ft_malloc(sizeof(t_token),1);
 	if (!head)
 		return (NULL);
 	head->value = ft_strdup("RIEN");
@@ -22,12 +22,12 @@ t_token *creat_first_node(t_token *head)
 	return (head);
 }
 
-char *get_word(char *line, int *index)
+char	*get_word(char *line, int *index)
 {
-	char *str;
-	int len;
-	int i;
-	int j;
+	char	*str;
+	int		len;
+	int		i;
+	int		j;
 
 	i = *index;
 	j = 0;
@@ -38,7 +38,7 @@ char *get_word(char *line, int *index)
 		i++;
 	}
 	i = *index;
-	str = ft_malloc(sizeof(char), (len + 1));
+	str = ft_malloc(sizeof(char) , (len + 1));
 	while (line[i] && (ft_strchr("|> \"<'", line[i])) == NULL)
 		str[j++] = line[i++];
 	str[j] = '\0';
@@ -46,14 +46,14 @@ char *get_word(char *line, int *index)
 	return (str);
 }
 
-t_token *get_token_word(t_token *ptr, char *line, int *index, t_main *m_main)
+t_token	*get_token_word(t_token *ptr, char *line, int *index, t_main *m_main)
 {
-	char *token;
-	int i;
-	int j;
+	char	*token;
+	int		i;
+	int		j;
 	t_token *tmp;
 	int check;
-
+	
 	i = *index;
 	token = NULL;
 	while (line[i] && line[i] != '\n' && (ft_strchr("|> <", line[i])) == NULL)
@@ -68,7 +68,7 @@ t_token *get_token_word(t_token *ptr, char *line, int *index, t_main *m_main)
 				tmp = ptr;
 				while (tmp->next)
 					tmp = tmp->next;
-				tmp->value = ft_strjoin_prs(tmp->value, token);
+				tmp->value = ft_strjoin(tmp->value, token);
 			}
 			else
 				ptr = add_to_end_lexe(ptr, token);
@@ -87,7 +87,7 @@ t_token *get_token_word(t_token *ptr, char *line, int *index, t_main *m_main)
 				tmp = ptr;
 				while (tmp->next)
 					tmp = tmp->next;
-				tmp->value = ft_strjoin_prs(tmp->value, token);
+				tmp->value = ft_strjoin(tmp->value, token);
 			}
 			else
 				ptr = add_to_end_lexe(ptr, token);
@@ -133,23 +133,45 @@ void test()
 	system("leaks a.out");
 }
 
-int startParse(t_env *env)
+void print(t_command *cmd)
+{
+	while (cmd != NULL)
+	{
+		printf("----------------command-------------\n");
+    	int index = 0;
+		while (cmd->command[index] != NULL)
+		{
+			printf("%s\n", cmd->command[index++]);
+		}
+		printf("----------------redirection-------------\n");
+
+		while (cmd->redirections)
+		{
+			printf("type de redi ===> |%s| file name =====> %s\n", cmd->redirections->type, cmd->redirections->f_name);
+			cmd->redirections = cmd->redirections->next;
+		}
+		cmd = cmd->next;
+	}
+}
+
+t_command*  startParse(t_env *env, char *buffer)
 {
 	// t_token *head;
 	// t_command *cmd;
-	t_redirection *redi;
+	// t_redirection *redi;
 	t_main *m_main;
-	
-	redi = NULL;
+	// redi = NULL;
 	// head = NULL;
 	// m_main->cmd = NULL;
-	m_main = ft_malloc(sizeof(t_main), 1);
+	m_main = ft_malloc(sizeof(t_main) ,1);
+	// ft_putendl_fd("kass ifri9ya f jib",2);
 	m_main->h_env = env;
 	m_main->list = creat_first_node(m_main->list);
-	m_main->list = ft_lexer(m_main->list, m_main, " oussama ibra | cat -e | ls -la ");
+	m_main->list = ft_lexer(m_main->list, m_main, buffer);
 	ft_check_syntax(m_main->list);
-	m_main->cmd = ft_parse(m_main->cmd, m_main->list);
-	return (0);
+	m_main->cmd = ft_parse(m_main->list);
+	// print(m_main->cmd);
+	return (m_main->cmd);
 }
 
 // atexit(test);

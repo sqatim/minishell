@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 18:17:26 by oussama           #+#    #+#             */
-/*   Updated: 2022/12/07 11:23:28 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/21 22:14:44 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,6 @@ int	ft_check(t_token *head)
 
 void	ft_check_syntax(t_token *head)
 {
-	int	i;
-
-	i = 0;
 	while (head != NULL)
 	{	
 		if (ft_check(head))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clone.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:31:18 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/12 17:59:50 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/21 23:04:27 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_command *cloneNode(t_command *source)
 
     index = 0;
     new = ft_calloc(1, sizeof(t_command));
-    new->word_cmd = cloneCommandWords(source->word_cmd);
+    new->command = cloneCommandWords(source->command);
     new->redirections = cloneCommandRedirections(source->redirections);
     return new;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checks.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:50:47 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/14 16:35:27 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/21 23:03:34 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int checkCommand(t_execution *execStruct, t_command *command, t_context context)
     redirections = command->redirections;
     if (redirections)
         execStruct->redirectionsSorted = handleRedirection(redirections);
-    word_cmd = command->word_cmd;
+    word_cmd = command->command;
     if (checkTypeOfCommand(word_cmd[0]))
     {
         handleBuiltinCommand(execStruct, command, context);
