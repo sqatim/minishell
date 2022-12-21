@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:47:37 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/21 11:40:10 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/21 15:03:28 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,15 @@ void executePwd(t_execution *execStruct)
 {
     char buffer[1024];
 
-    if (getcwd(buffer, 1024))
-    {
-
-        ft_putendl_fd(buffer, 1);
-        // ft_putendl_fd("vayne", 2);
-    }
+    if (execStruct->path)
+            ft_putendl_fd(execStruct->path, 1);
     else
-        ft_putendl_fd("error: in pwd", 2);
-    // to handle --------------
+    {
+        if (getcwd(buffer, 1024))
+            ft_putendl_fd(buffer, 1);
+        else
+            ft_putendl_fd("error: in pwd", 2);
+    }
 }
 
 void executeCd(t_execution *execStruct, t_env *env, char **argument)

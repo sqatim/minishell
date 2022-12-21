@@ -6,23 +6,11 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 12:35:52 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/21 14:17:26 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/21 14:54:28 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
-
-void printEnv(t_env *env)
-{
-    t_env *tmp = env;
-    printf("-----------------------------------\n");
-    while (tmp)
-    {
-        printf("%s\n", tmp->content);
-        tmp = tmp->next;
-    }
-    printf("-----------------------------------\n");
-}
 
 static void changePathInExecStruct(t_execution *execStruct, t_env *env, char *path)
 {
@@ -106,8 +94,8 @@ t_env *changeOldPwdInEnv(t_execution *execStruct, t_env *env)
             pwd = ft_strjoin("OLDPWD=", buffer);
             tmp = addEnvNode(tmp, pwd, 1);
             freeString(pwd);
-            pwd = NULL;
         }
+        free(buffer);
     }
     return tmp;
 }
