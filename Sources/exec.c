@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 13:42:07 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/14 16:33:34 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/21 11:31:06 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,7 @@ void startExecution(t_execution *execStruct, t_command *command)
     t_context context;
     int children;
     int index;
-    // int stdOut;
-    // int stdIn;
 
-    // stdOut = dup(STDOUT_FILENO);
-    // stdIn = dup(STDIN_FILENO);
     index = 0;
     context.fd[0] = STDIN_FILENO;
     context.fd[1] = STDOUT_FILENO;
@@ -32,10 +28,6 @@ void startExecution(t_execution *execStruct, t_command *command)
         wait(NULL);
         index++;
     }
-    // dup2(stdOut, STDOUT_FILENO);
-    // dup2(stdIn, STDIN_FILENO);
-    // close(stdOut);
-    // close(stdIn);
     return;
 }
 

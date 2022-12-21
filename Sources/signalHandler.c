@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signalHandler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 12:43:55 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/09 12:44:55 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/20 18:24:45 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void handleCtrlC(int signum)
     {
         write(1, "\n", 1);
         rl_on_new_line();
-        rl_replace_line("", 0);
+        // rl_replace_line("", 0);
         rl_redisplay();
     }
     g_global.forkFlag = 0;

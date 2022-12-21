@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/20 15:26:56 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/21 11:40:40 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,7 @@ t_env *sortEnv(t_env *env);
 t_env *handleExport(t_execution *execStruct, t_env *env, char **argument);
 
 // cd
-t_env *changeDirectory(t_env *env, char *path);
+t_env *changeDirectory(t_execution* execStruct, t_env *env, char *path);
 void changeDirectoryWithArgument(char *path);
 
 // free

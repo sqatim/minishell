@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:47:37 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/16 11:14:44 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/21 11:40:10 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,9 @@ void executeCd(t_execution *execStruct, t_env *env, char **argument)
     char *path;
 
     if (!argument[1])
-        execStruct->env = changeDirectory(env, NULL);
+        execStruct->env = changeDirectory(execStruct, env, NULL);
     else
-        execStruct->env = changeDirectory(env, argument[1]);
+        execStruct->env = changeDirectory(execStruct, env, argument[1]);
 }
 
 void executeEcho(t_execution *execStruct, char **argument)

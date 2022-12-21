@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 22:16:29 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/09 15:28:12 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/21 12:06:56 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_execution *executionInitialization(char **envp)
     execStruct->status = 0;
     execStruct->command = NULL;
     execStruct->redirectionsSorted = NULL;
+    execStruct->path = NULL;
     return execStruct;
 }
 

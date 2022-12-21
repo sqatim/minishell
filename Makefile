@@ -58,8 +58,8 @@ OBJ = $(SRC:%.c=%.o)
 all: lib $(NAME)
 
 $(NAME) : $(LIB_PATH)/$(LIB) $(OBJ) $(HEADER)
-	$(CC) $(FLAGS) $(OBJ) $(LLIB_FLAG) -o $(NAME) -lreadline
-	# $(CC) $(FLAGS) $(OBJ) $(LLIB_FLAG) -I $(INCLUDE_READLINE) -L$(LIB_READLINE) -o $(NAME) -lreadline
+	# $(CC) $(FLAGS) $(OBJ) $(LLIB_FLAG) -o $(NAME) -lreadline
+	$(CC) $(FLAGS) $(OBJ) $(LLIB_FLAG) -lreadline -I $(INCLUDE_READLINE) -L$(LIB_READLINE) -o $(NAME) 
 
 lib:
 	@make -sC $(LIB_PATH)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   noBuiltins.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 00:21:27 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/16 13:05:36 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/21 11:33:20 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void handleNoBuiltins(t_execution *execStruct, char **cmdLine, t_context context
             {
                 close(context.fd_close);
             }
-            execve(command, cmdLine, NULL);
+            execve(command, cmdLine, env);
         }
         else
         {
