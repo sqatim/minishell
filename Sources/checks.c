@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:50:47 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/21 23:03:34 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/22 15:34:09 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,33 @@ int checkTypeOfCommand(char *str)
         !ft_strcmp(str, "exit"))
         return BUILTIN;
     return NON_BUILTIN;
+}
+
+int checkShellLvlValue(char *argument)
+{
+    int index;
+    int type;
+    int len;
+
+    len = 0;
+    index = 0;
+    type = 1;
+    if (argument[index] == '-' || argument[index] == '+')
+    {
+        if (argument[index == '-'])
+            type = -1;
+        index++;
+        if (!argument[index])
+            return (0);
+    }
+    while (argument[index])
+    {
+        if (!ft_isdigit(argument[index]))
+            return 0;
+        index++;
+        len++;
+    }
+    return type;
 }
 
 int checkCommand(t_execution *execStruct, t_command *command, t_context context)

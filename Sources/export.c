@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 14:25:08 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/09 19:26:37 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/22 14:26:06 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,21 @@ t_env *sortEnv(t_env *env)
     return envExport;
 }
 
-void printEnvWithExport(t_execution *execStruct,t_env *env)
+void printValueOfExport(char *value)
+{
+    int index;
+    
+    index = 0;
+    while (value[index])
+    {
+        if (value[index] == '"')
+            ft_putchar_fd('\\', 1);
+        ft_putchar_fd(value[index], 1);
+        index++;
+    }
+}
+
+void printEnvWithExport(t_execution *execStruct, t_env *env)
 {
     t_env *sortedEnv;
     int index;
@@ -95,7 +109,7 @@ void printEnvWithExport(t_execution *execStruct,t_env *env)
         ft_putstr_fd("declare -x ", 1);
         ft_putstr_fd(key, 1);
         ft_putstr_fd("\"", 1);
-        ft_putstr_fd(value, 1);
+        printValueOfExport(value);
         ft_putendl_fd("\"", 1);
         sortedEnv = sortedEnv->next;
     }
@@ -106,19 +120,14 @@ char **parseExportArgument(char *argument)
 {
     char **keyValue;
     int index;
-    int keyIndex;
 
     index = 0;
-    keyIndex = 0;
+    if (!argument[index])
+        printExportError(argument);
     while (argument[index] != '=' && argument[index])
     {
         if (!ft_isalpha(argument[index]) && argument[index] != '_')
-        {
-            ft_putstr_fd("export: `", 2);
-            ft_putstr_fd(argument, 2);
-            ft_putendl_fd("': not a valid identifier", 2);
-            return (NULL);
-        }
+            printExportError(argument);
         index++;
     }
     keyValue = (char **)calloc(3, sizeof(char *));
@@ -130,11 +139,6 @@ char **parseExportArgument(char *argument)
     else
         keyValue[0] = ft_substr(argument, 0, ft_strlen(argument));
     return (keyValue);
-}
-
-int checkExportArgument(char *argument)
-{
-    return (0);
 }
 
 char *joinExportKeyValue(char **keyValue)
@@ -158,10 +162,10 @@ t_env *handleExport(t_execution *execStruct, t_env *env, char **argument)
     while (argument[index])
     {
         keyValue = parseExportArgument(argument[index]);
-        // to handle ---------------
         if (keyValue && !keyValue[1])
         {
-            // printf("Just for test: %s\n", getenv(keyValue[0]));
+            if (!ft_getEnv(env, keyValue[0]))
+                env = addEnvNode(env, keyValue[0], 0);
         }
         else if (keyValue && !keyValue[2])
         {

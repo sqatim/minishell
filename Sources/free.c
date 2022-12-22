@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 17:41:04 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/21 23:03:51 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/22 15:44:51 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,24 @@ void freeExecutionStruct(t_execution *execStruct)
         if (execStruct->env)
             freeEnv(execStruct->env);
         free(execStruct);
+    }
+}
+
+void freeEnvNodeContent(t_env *node)
+{
+    if(node->content)
+    {
+        free(node->content);
+        node->content = NULL;
+    }
+    if(node->name)
+    {
+        free(node->name);
+        node->name = NULL;
+    }
+    if(node->value)
+    {
+        free(node->value);
+        node->value = NULL;
     }
 }

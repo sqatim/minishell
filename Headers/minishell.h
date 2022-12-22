@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/21 22:57:29 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/22 15:45:05 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ typedef struct s_execution
 /****************libft_utils****************/
 
 int		get_lenght(char *ln, char c);
+char	*ft_strjoin_prs(char *s1, char *s2);
 
 /****************ft_split****************/
 
@@ -213,6 +214,7 @@ int checkTypeOfCommand(char *str);
 void minishellLoop(t_execution *execStruct);
 t_env *setupEnv(char **envp);
 t_execution *executionInitialization(char **envp);
+int checkShellLvlValue(char *argument);
 
 // builtins
 void executeEnv(t_execution *execStruct, t_env *env);
@@ -245,6 +247,7 @@ void freeEnv(t_env *env);
 void freeRedirection(t_redirection **redirection);
 void freeCommand(t_command **command);
 void freeExecutionStruct(t_execution *execStruct);
+void freeEnvNodeContent(t_env *node);
 
 // tools
 char *ft_getEnv(t_env *env, char *key);
@@ -259,6 +262,7 @@ int ft_strcmp(const char *s1, const char *s2);
 // print
 void printExitError(int type, char *argument);
 void printError(char *cmd);
+char *printExportError(char *key);
 
 // noBuiltins;
 void handleNoBuiltins(t_execution *execStruct, char **cmdLine, t_context context);
