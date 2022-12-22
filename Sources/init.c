@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 22:16:29 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/22 16:14:05 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/22 20:03:59 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ t_env *initEnv(t_env *new, char *content, int display)
 
     return (new);
 }
+
 t_env *addEnvNode(t_env *head, char *content, int display)
 {
     t_env *tmp;

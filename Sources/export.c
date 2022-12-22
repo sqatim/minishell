@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 14:25:08 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/22 14:26:06 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/22 20:11:38 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_env *sortEnv(t_env *env)
 void printValueOfExport(char *value)
 {
     int index;
-    
+
     index = 0;
     while (value[index])
     {
@@ -122,31 +122,55 @@ char **parseExportArgument(char *argument)
     int index;
 
     index = 0;
-    if (!argument[index])
-        printExportError(argument);
+    if (!argument[index] || ft_isdigit(argument[index]))
+        return printExportError(argument);
     while (argument[index] != '=' && argument[index])
     {
-        if (!ft_isalpha(argument[index]) && argument[index] != '_')
-            printExportError(argument);
+        if (argument[index] == '+' && argument[index + 1] == '=')
+            break;
+        if (!ft_isalnum(argument[index]) && argument[index] != '_')
+            return printExportError(argument);
         index++;
     }
-    keyValue = (char **)calloc(3, sizeof(char *));
-    if (argument[index] == '=')
+    keyValue = (char **)calloc(4, sizeof(char *));
+    if (argument[index] == '=' || (argument[index] == '+' && argument[index + 1] == '='))
     {
         keyValue[0] = ft_substr(argument, 0, index);
-        keyValue[1] = ft_substr(argument, index + 1, ft_strlen(argument));
+        if (argument[index] == '=')
+        {
+            keyValue[1] = ft_strdup("=");
+            keyValue[2] = ft_substr(argument, index + 1, ft_strlen(argument));
+        }
+        else
+        {
+            keyValue[1] = ft_strdup("+=");
+            keyValue[2] = ft_substr(argument, index + 2, ft_strlen(argument));
+        }
     }
     else
         keyValue[0] = ft_substr(argument, 0, ft_strlen(argument));
     return (keyValue);
 }
 
-char *joinExportKeyValue(char **keyValue)
+char *joinExportKeyValue(char **keyValue, char *oldValue)
 {
     char *joined;
+    char *oldWithNew;
 
-    joined = ft_strjoin(keyValue[0], "=");
-    joined = ft_strjoin(joined, keyValue[1]);
+    if (!ft_strcmp(keyValue[1], "+="))
+    {
+        joined = ft_strjoin(keyValue[0], "=");
+        if (oldValue)
+            oldWithNew = ft_strjoin(oldValue, keyValue[2]);
+        else
+            oldWithNew = ft_strjoin("", keyValue[2]);
+        joined = ft_strjoin(joined, oldWithNew);
+    }
+    else
+    {
+        joined = ft_strjoin(keyValue[0], "=");
+        joined = ft_strjoin(joined, keyValue[2]);
+    }
     return joined;
 }
 
@@ -156,6 +180,9 @@ t_env *handleExport(t_execution *execStruct, t_env *env, char **argument)
     char **keyValue;
     char *keyValueJoined;
     int index;
+    char *oldValue;
+    int test = 0;
+    
 
     tempEnv = env;
     index = 1;
@@ -167,10 +194,13 @@ t_env *handleExport(t_execution *execStruct, t_env *env, char **argument)
             if (!ft_getEnv(env, keyValue[0]))
                 env = addEnvNode(env, keyValue[0], 0);
         }
-        else if (keyValue && !keyValue[2])
+        else if (keyValue && !keyValue[3])
         {
+            oldValue = ft_getEnv(env, keyValue[0]);
+            if(oldValue)
+                oldValue = ft_strdup(oldValue);
             env = executeUnset(execStruct, env, keyValue[0]);
-            keyValueJoined = joinExportKeyValue(keyValue);
+            keyValueJoined = joinExportKeyValue(keyValue, oldValue);
             env = addEnvNode(env, keyValueJoined, 1);
             freeString(keyValueJoined);
             freeArrayTwoDimension(keyValue);

@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 23:10:39 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/22 12:27:18 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/22 18:19:42 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void printError(char *cmd)
     ft_putendl_fd(strerror(errno), 2);
 }
 
-char *printExportError(char *key)
+char **printExportError(char *key)
 {
     ft_putstr_fd("export: `", 2);
     ft_putstr_fd(key, 2);

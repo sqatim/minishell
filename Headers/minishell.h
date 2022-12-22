@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/22 15:45:05 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/22 18:19:52 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,7 +262,7 @@ int ft_strcmp(const char *s1, const char *s2);
 // print
 void printExitError(int type, char *argument);
 void printError(char *cmd);
-char *printExportError(char *key);
+char **printExportError(char *key);
 
 // noBuiltins;
 void handleNoBuiltins(t_execution *execStruct, char **cmdLine, t_context context);
