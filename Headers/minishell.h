@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/22 18:19:52 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/23 19:27:07 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@
 typedef struct s_global
 {
 	int forkFlag;
+	int exit;
 
 } t_global;
 
@@ -123,6 +124,16 @@ typedef struct s_pipe
 	t_command *rightNode;
 
 } t_pipe;
+
+typedef struct s_export
+{
+    char **keyValue;
+    char *keyValueJoined;
+    int index;
+    char *oldValue;
+    int status;
+	
+}	t_export;
 
 typedef struct s_execution
 {
@@ -262,7 +273,7 @@ int ft_strcmp(const char *s1, const char *s2);
 // print
 void printExitError(int type, char *argument);
 void printError(char *cmd);
-char **printExportError(char *key);
+char **printExportError(char *key, int *status);
 
 // noBuiltins;
 void handleNoBuiltins(t_execution *execStruct, char **cmdLine, t_context context);

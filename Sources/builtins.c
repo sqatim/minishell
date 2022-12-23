@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:47:37 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/21 23:03:43 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/23 20:12:54 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ void executeEnv(t_execution *execStruct, t_env *env)
     t_env *tmp;
 
     tmp = env;
-    // ft_putendl_fd("testo", 2);
     while (tmp)
     {
         if (tmp->display)
             ft_putendl_fd(tmp->content, 1);
         tmp = tmp->next;
     }
+    g_global.exit = 0;
 }
 
 t_env *executeUnset(t_execution *execStruct, t_env *env, char *argument)
@@ -40,7 +40,6 @@ t_env *executeUnset(t_execution *execStruct, t_env *env, char *argument)
         {
             if (ft_strnstr(tmp->content, tmpArgument, ft_strlen(tmpArgument)))
             {
-                // printf("------------%s\n", tmp->content);
                 next = tmp->next;
                 if (tmp->prev)
                     tmp->prev->next = tmp->next;
@@ -60,6 +59,7 @@ t_env *executeUnset(t_execution *execStruct, t_env *env, char *argument)
         free(tmpArgument);
         tmpArgument = NULL;
     }
+    g_global.exit = 0;
     return env;
 }
 
@@ -77,7 +77,7 @@ void executePwd(t_execution *execStruct)
     char buffer[1024];
 
     if (execStruct->path)
-            ft_putendl_fd(execStruct->path, 1);
+        ft_putendl_fd(execStruct->path, 1);
     else
     {
         if (getcwd(buffer, 1024))
@@ -85,6 +85,7 @@ void executePwd(t_execution *execStruct)
         else
             ft_putendl_fd("error: in pwd", 2);
     }
+    g_global.exit = 0;
 }
 
 void executeCd(t_execution *execStruct, t_env *env, char **argument)
@@ -113,6 +114,7 @@ void executeEcho(t_execution *execStruct, char **argument)
     }
     if (check == 0)
         ft_putchar_fd('\n', 1);
+    g_global.exit = 0;
 }
 
 void executeExit(t_execution *execStruct, char **argument)
@@ -121,9 +123,7 @@ void executeExit(t_execution *execStruct, char **argument)
     unsigned long long number;
 
     if (!argument[1])
-    {
-        // to handle ---- Will exit with status of last command
-    }
+        exit(g_global.exit);
     else
     {
         type = checkExitArgumentType(argument[1]);

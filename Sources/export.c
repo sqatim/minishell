@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 14:25:08 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/22 20:11:38 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/23 19:29:23 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,22 +114,23 @@ void printEnvWithExport(t_execution *execStruct, t_env *env)
         sortedEnv = sortedEnv->next;
     }
     freeEnv(sortedEnv);
+    g_global.exit = 0;
 }
 
-char **parseExportArgument(char *argument)
+char **parseExportArgument(char *argument, int *status)
 {
     char **keyValue;
     int index;
 
     index = 0;
     if (!argument[index] || ft_isdigit(argument[index]))
-        return printExportError(argument);
+        return printExportError(argument, status);
     while (argument[index] != '=' && argument[index])
     {
         if (argument[index] == '+' && argument[index + 1] == '=')
             break;
         if (!ft_isalnum(argument[index]) && argument[index] != '_')
-            return printExportError(argument);
+            return printExportError(argument, status);
         index++;
     }
     keyValue = (char **)calloc(4, sizeof(char *));
@@ -176,36 +177,61 @@ char *joinExportKeyValue(char **keyValue, char *oldValue)
 
 t_env *handleExport(t_execution *execStruct, t_env *env, char **argument)
 {
-    t_env *tempEnv;
-    char **keyValue;
-    char *keyValueJoined;
-    int index;
-    char *oldValue;
-    int test = 0;
-    
+    t_export export;
 
-    tempEnv = env;
-    index = 1;
-    while (argument[index])
+    export.status = 1;
+    export.index = 1;
+    while (argument[export.index])
     {
-        keyValue = parseExportArgument(argument[index]);
-        if (keyValue && !keyValue[1])
+        export.keyValue = parseExportArgument(argument[export.index], &export.status);
+        if (export.keyValue && !export.keyValue[1])
         {
-            if (!ft_getEnv(env, keyValue[0]))
-                env = addEnvNode(env, keyValue[0], 0);
+            if (!ft_getEnv(env, export.keyValue[0]))
+                env = addEnvNode(env, export.keyValue[0], 0);
         }
-        else if (keyValue && !keyValue[3])
+        else if (export.keyValue && !export.keyValue[3])
         {
-            oldValue = ft_getEnv(env, keyValue[0]);
-            if(oldValue)
-                oldValue = ft_strdup(oldValue);
-            env = executeUnset(execStruct, env, keyValue[0]);
-            keyValueJoined = joinExportKeyValue(keyValue, oldValue);
-            env = addEnvNode(env, keyValueJoined, 1);
-            freeString(keyValueJoined);
-            freeArrayTwoDimension(keyValue);
+            export.oldValue = ft_getEnv(env, export.keyValue[0]);
+            if (export.oldValue)
+                export.oldValue = ft_strdup(export.oldValue);
+            env = executeUnset(execStruct, env, export.keyValue[0]);
+                ft_putendl_fd("diana",2);
+            export.keyValueJoined = joinExportKeyValue(export.keyValue, export.oldValue);
+            env = addEnvNode(env, export.keyValueJoined, 1);
+            freeString(export.keyValueJoined);
+            freeArrayTwoDimension(export.keyValue);
         }
-        index++;
+        export.index++;
+    }
+    if(export.status)
+        g_global.exit = 0;
+    else
+        g_global.exit = 1;
+    return env;
+}
+
+t_env *handleExitStatusEnv(t_execution *execStruct, t_env *env, char *argument)
+{
+    t_export export;
+
+    export.status = 0;
+    export.index = 1;
+    export.keyValue = parseExportArgument(argument, &export.status);
+    if (export.keyValue && !export.keyValue[1])
+    {
+        if (!ft_getEnv(env, export.keyValue[0]))
+            env = addEnvNode(env, export.keyValue[0], 0);
+    }
+    else if (export.keyValue && !export.keyValue[3])
+    {
+        export.oldValue = ft_getEnv(env, export.keyValue[0]);
+        if (export.oldValue)
+            export.oldValue = ft_strdup(export.oldValue);
+        env = executeUnset(execStruct, env, export.keyValue[0]);
+        export.keyValueJoined = joinExportKeyValue(export.keyValue, export.oldValue);
+        env = addEnvNode(env, export.keyValueJoined, 1);
+        freeString(export.keyValueJoined);
+        freeArrayTwoDimension(export.keyValue);
     }
     return env;
 }

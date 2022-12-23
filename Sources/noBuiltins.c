@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 00:21:27 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/21 11:33:20 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/23 19:27:36 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ void duplicateFunction(t_context context, t_execution *execStruct)
         dup2(context.fd[STDOUT_FILENO], STDOUT_FILENO);
 }
 
-
-
 void handleNoBuiltins(t_execution *execStruct, char **cmdLine, t_context context)
 {
     char *command;
@@ -81,25 +79,24 @@ void handleNoBuiltins(t_execution *execStruct, char **cmdLine, t_context context
 
     command = checkCommandAccess(execStruct->env, cmdLine[0]);
     if (!command)
+    {
+        g_global.exit = 127;
         printError(cmdLine[0]);
+    }
     else
     {
         g_global.forkFlag = 1;
         env = convertEnvToArray(execStruct->env);
-        // ft_putendl_fd("no way",2);
         pid = fork();
         if (pid == 0)
         {
             execRedirection(execStruct, context);
             if (context.fd_close >= 0)
-            {
                 close(context.fd_close);
-            }
             execve(command, cmdLine, env);
         }
         else
         {
-            g_global.forkFlag = 0;
             return;
         }
     }

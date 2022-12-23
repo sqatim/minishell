@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 12:43:55 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/20 18:24:45 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/23 14:29:33 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void handleCtrlC(int signum)
         // rl_replace_line("", 0);
         rl_redisplay();
     }
-    g_global.forkFlag = 0;
+    // g_global.forkFlag = 0;
 }
 
 void handleCtrlBackSlash(int signum)

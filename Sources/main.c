@@ -15,6 +15,7 @@ void disableCtrlChars()
 void initGlobalVariable()
 {
     g_global.forkFlag = 0;
+    g_global.exit = 0;
 }
 
 int main(int ac, char **av, char **envp)

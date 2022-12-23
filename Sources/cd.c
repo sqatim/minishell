@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 12:35:52 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/21 15:31:08 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/23 20:20:34 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int changePathInExecStructInCaseOfError(t_execution *execStruct, t_env *e
 {
     char *tmp;
     t_env *node;
-    
+
     tmp = execStruct->path;
     execStruct->path = ft_strjoin(tmp, "/");
     if (tmp)
@@ -105,7 +105,9 @@ t_env *changeDirectory(t_execution *execStruct, t_env *env, char *path)
     t_env *tmp;
     char buffer[1024];
     char *pwd;
+    int home;
 
+    home = 0;
     tmp = env;
     if (!path)
         path = ft_getEnv(env, "HOME");
@@ -113,22 +115,34 @@ t_env *changeDirectory(t_execution *execStruct, t_env *env, char *path)
     {
         // to fix it when Home = \0
         tmp = changeOldPwdInEnv(execStruct, tmp);
+        if (!*path)
+        {
+            home = 1;
+            path = ft_strdup(".");
+        }
         if (chdir(path) == 0)
         {
             if (!getcwd(buffer, 1024))
                 changePathInExecStructInCaseOfError(execStruct, env, path);
             else
                 changePathInExecStruct(execStruct, env, buffer);
+            g_global.exit = 0;
         }
         else
         {
+            g_global.exit = 1;
             ft_putstr_fd("cd: ", 2);
             ft_putstr_fd(path, 2);
             ft_putstr_fd(": ", 2);
             ft_putendl_fd(strerror(errno), 2);
         }
+        if (home == 1)
+            free(path);
     }
     else
+    {
+        g_global.exit = 1;
         ft_putendl_fd("cd: HOME not set", 2);
+    }
     return (tmp);
 }

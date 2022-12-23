@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 13:42:07 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/21 23:04:19 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/23 19:27:29 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ void startExecution(t_execution *execStruct, t_command *command)
     t_context context;
     int children;
     int index;
+    int wStatus;
+    int statusCode;
+    char *toDelete;
 
     index = 0;
     context.fd[0] = STDIN_FILENO;
@@ -25,9 +28,17 @@ void startExecution(t_execution *execStruct, t_command *command)
     children = execCommandOfNode(execStruct, command, context);
     while (index < children)
     {
-        wait(NULL);
+        wait(&wStatus);
+        if (WIFEXITED(wStatus))
+        {
+            statusCode = WEXITSTATUS(wStatus);
+            g_global.exit = statusCode;
+            toDelete = ft_strjoin("STATUS=", ft_itoa(statusCode));
+        }
         index++;
     }
+    g_global.forkFlag = 0;
+    printf("=== %d ===\n", g_global.exit);
     return;
 }
 
