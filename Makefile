@@ -20,7 +20,7 @@ PARSE= libparse.a
 
 CC = gcc
 
-# FLAGS = -Wall -Wextra -Werror 
+FLAGS = -Wall -Wextra -Werror 
 SRC =Sources/Parse/lexer/lexeer.c\
 	Sources/Parse/lexer/lexeer2.c\
 	Sources/Parse/env.c \
@@ -39,6 +39,7 @@ SRC =Sources/Parse/lexer/lexeer.c\
 	Sources/checks.c\
 	Sources/tools.c\
 	Sources/builtins.c\
+	Sources/builtins2.c\
 	Sources/init.c\
 	Sources/export.c\
 	Sources/free.c\

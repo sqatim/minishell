@@ -3,28 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   noBuiltins_tools.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 20:37:25 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/15 17:28:00 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/24 15:37:37 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
 
-char *joinPathWithCommand(char *path, char *command)
+char *join_path_with_command(char *path, char *command)
 {
-    char *ptrToBeFreed;
-    char *cmdJoined;
+    char *ptr_to_be_freed;
+    char *cmd_joined;
 
-    cmdJoined = ft_strjoin(path, "/");
-    ptrToBeFreed = cmdJoined;
-    cmdJoined = ft_strjoin(cmdJoined, command);
-    freeString(ptrToBeFreed);
-    return cmdJoined;
+    cmd_joined = ft_strjoin(path, "/");
+    ptr_to_be_freed = cmd_joined;
+    cmd_joined = ft_strjoin(cmd_joined, command);
+    free_string(ptr_to_be_freed);
+    return cmd_joined;
 }
 
-int envLinkedListLen(t_env *env)
+int env_linked_list_len(t_env *env)
 {
     t_env *tmp;
     int index;
@@ -39,21 +39,21 @@ int envLinkedListLen(t_env *env)
     return (index);
 }
 
-char **convertEnvToArray(t_env *env)
+char **convert_env_to_array(t_env *env)
 {
-    char **envArray;
+    char **env_array;
     int index;
     int len;
     t_env *tmp;
 
     index = 0;
-    len = envLinkedListLen(env);
-    envArray = ft_calloc(++len, sizeof(char *));
+    len = env_linked_list_len(env);
+    env_array = ft_calloc(++len, sizeof(char *));
     tmp = env;
     while (tmp)
     {
-        envArray[index++] = ft_strdup(tmp->content);
+        env_array[index++] = ft_strdup(tmp->content);
         tmp = tmp->next;
     }
-    return envArray;
+    return env_array;
 }

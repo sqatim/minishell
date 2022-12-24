@@ -6,13 +6,13 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:31:18 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/21 23:04:27 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/24 17:30:13 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
 
-char **cloneCommandWords(char **str)
+char **clone_command_words(char **str)
 {
     int index;
     char **new;
@@ -32,11 +32,12 @@ char **cloneCommandWords(char **str)
     return new;
 }
 
-static t_redirection *createRedirectionNode(t_redirection *head, t_redirection *source)
+static t_redirection *create_redirection_node(t_redirection *head, t_redirection *source)
 {
-    t_redirection *tmp = head;
+    t_redirection *tmp;
     t_redirection *new;
 
+    tmp = head;
     new = ft_calloc(1, sizeof(t_redirection));
     new->next = NULL;
     new->type = ft_strdup(source->type);
@@ -49,7 +50,7 @@ static t_redirection *createRedirectionNode(t_redirection *head, t_redirection *
     return head;
 }
 
-t_redirection *cloneCommandRedirections(t_redirection *source)
+t_redirection *clone_command_redirections(t_redirection *source)
 {
     t_redirection *new;
     t_redirection *tmp;
@@ -58,20 +59,18 @@ t_redirection *cloneCommandRedirections(t_redirection *source)
     new = NULL;
     while (tmp)
     {
-        new = createRedirectionNode(new, tmp);
+        new = create_redirection_node(new, tmp);
         tmp = tmp->next;
     }
     return new;
 }
 
-t_command *cloneNode(t_command *source)
+t_command *clone_node(t_command *source)
 {
     t_command *new;
-    int index;
 
-    index = 0;
     new = ft_calloc(1, sizeof(t_command));
-    new->command = cloneCommandWords(source->command);
-    new->redirections = cloneCommandRedirections(source->redirections);
+    new->command = clone_command_words(source->command);
+    new->redirections = clone_command_redirections(source->redirections);
     return new;
 }

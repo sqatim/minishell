@@ -6,79 +6,78 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 22:16:29 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/22 20:03:59 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/24 17:25:41 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
 
-t_env *assignEnvNode(t_env *node, char *key, char *value, char *keyValue)
+t_env *assign_env_node(t_env *node, char *key, char *value, char *key_value)
 {
     node->name = ft_strdup(key);
     node->value = ft_strdup(value);
-    node->content = ft_strdup(keyValue);
+    node->content = ft_strdup(key_value);
     return (node);
 }
 
-t_env *handleShellLevel(t_env *env)
+t_env *handle_shell_level(t_env *env)
 {
     t_env *node;
     int type;
     int number;
-    char *itoaNumber;
+    char *itoa_number;
     char *tmp;
 
-    node = ft_getEnvNode(env, "SHLVL");
+    node = ft_get_env_node(env, "SHLVL");
     if (!node)
-        env = addEnvNode(env, "SHLVL=1", 1);
+        env = add_env_node(env, "SHLVL=1", 1);
     else
     {
-        type = checkShellLvlValue(node->value);
+        type = check_shell_lvl_value(node->value);
         if (!type)
         {
-            freeEnvNodeContent(node);
-            node = assignEnvNode(node, "SHLVL", "1", "SHLVL=1");
+            free_env_node_content(node);
+            node = assign_env_node(node, "SHLVL", "1", "SHLVL=1");
         }
         else
         {
             number = ft_atoi(node->value);
-            freeEnvNodeContent(node);
+            free_env_node_content(node);
             if (number >= 0 && number <= 998)
             {
-                itoaNumber = ft_itoa(++number);
-                tmp = itoaNumber;
-                itoaNumber = ft_strjoin("SHLVL=", itoaNumber);
-                node = assignEnvNode(node, "SHLVL", tmp, itoaNumber);
-                free(itoaNumber);
+                itoa_number = ft_itoa(++number);
+                tmp = itoa_number;
+                itoa_number = ft_strjoin("SHLVL=", itoa_number);
+                node = assign_env_node(node, "SHLVL", tmp, itoa_number);
+                free(itoa_number);
                 free(tmp);
             }
             else if (number > 998)
-                node = assignEnvNode(node, "SHLVL", "", "SHLVL=");
+                node = assign_env_node(node, "SHLVL", "", "SHLVL=");
             else if (number < 0)
-                node = assignEnvNode(node, "SHLVL", "0", "SHLVL=0");
-            
+                node = assign_env_node(node, "SHLVL", "0", "SHLVL=0");
         }
     }
     return env;
 }
 
-t_execution *executionInitialization(char **envp)
+t_execution *execution_initialization(char **envp)
 {
-    t_execution *execStruct;
+    t_execution *exec_struct;
 
-    execStruct = ft_calloc(1, sizeof(t_execution));
-    if (!execStruct)
+    exec_struct = ft_calloc(1, sizeof(t_execution));
+    if (!exec_struct)
         exit(1);
-    execStruct->env = setupEnv(envp);
-    execStruct->env = handleShellLevel(execStruct->env);
-    execStruct->status = 0;
-    execStruct->command = NULL;
-    execStruct->redirectionsSorted = NULL;
-    execStruct->path = NULL;
-    return execStruct;
+    exec_struct->env = setup_env(envp);
+    exec_struct->env = handle_shell_level(exec_struct->env);
+    exec_struct->status = 0;
+    exec_struct->command = NULL;
+    exec_struct->redirections_sorted = NULL;
+    exec_struct->path = NULL;
+    return exec_struct;
 }
 
-t_env *initEnv(t_env *new, char *content, int display)
+t_env *init_env(t_env *new, char *content, int display)
 {
     int index;
 
@@ -101,17 +100,16 @@ t_env *initEnv(t_env *new, char *content, int display)
     return (new);
 }
 
-t_env *addEnvNode(t_env *head, char *content, int display)
+t_env *add_env_node(t_env *head, char *content, int display)
 {
     t_env *tmp;
     t_env *new;
-    char **keyvalue;
 
     new = (t_env *)calloc(1, sizeof(t_env));
     // to handle ---------
     if (!new)
         exit(1);
-    new = initEnv(new, content, display);
+    new = init_env(new, content, display);
     // new->name = keyvalue[]
     new->next = NULL;
     new->prev = NULL;

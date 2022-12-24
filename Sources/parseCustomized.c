@@ -6,41 +6,11 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:03:17 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/21 23:04:11 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/24 17:28:17 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
-
-static void printCommand(t_command *command)
-{
-    int index;
-    t_redirection *tmp;
-    t_command *commandTmp;
-
-    commandTmp = command;
-    while (command)
-    {
-        index = 0;
-        while (command->command[index])
-        {
-            printf("%s", command->command[index]);
-            index++;
-            !command->command[index] ? printf("\n") : printf(" ");
-        }
-        tmp = command->redirections;
-        if (tmp)
-            printf("Redirections\n");
-        while (tmp)
-        {
-            printf("%s %s\n", tmp->type, tmp->f_name);
-            tmp = tmp->next;
-        }
-        command = command->next;
-        printf("-----------------------------------\n");
-    }
-    command = commandTmp;
-}
 
 static t_command *parseNewCommand(t_command *head, char **command, int size)
 {

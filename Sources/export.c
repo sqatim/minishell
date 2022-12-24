@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 14:25:08 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/23 19:29:23 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/24 17:30:39 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,53 +30,53 @@ int ft_strcmp(const char *s1, const char *s2)
     return (0);
 }
 
-t_env *envClone(t_env *env)
+t_env *env_clone(t_env *env)
 {
     t_env *tmp;
-    t_env *newEnv;
+    t_env *new_env;
 
     tmp = env;
-    newEnv = NULL;
+    new_env = NULL;
     while (tmp)
     {
-        newEnv = addEnvNode(newEnv, tmp->content, tmp->display);
+        new_env = add_env_node(new_env, tmp->content, tmp->display);
         tmp = tmp->next;
     }
-    return (newEnv);
+    return (new_env);
 }
 
-t_env *sortEnv(t_env *env)
+t_env *sort_env(t_env *env)
 {
-    t_env *firstTmp;
-    t_env *secondTmp;
-    t_env *envExport;
+    t_env *first_tmp;
+    t_env *second_tmp;
+    t_env *env_export;
     char *tmp;
 
-    envExport = envClone(env);
-    if (envExport)
+    env_export = env_clone(env);
+    if (env_export)
     {
-        firstTmp = envExport;
-        secondTmp = envExport;
-        while (firstTmp->next)
+        first_tmp = env_export;
+        second_tmp = env_export;
+        while (first_tmp->next)
         {
-            secondTmp = firstTmp->next;
-            while (secondTmp)
+            second_tmp = first_tmp->next;
+            while (second_tmp)
             {
-                if (ft_strcmp(secondTmp->content, firstTmp->content) < 0)
+                if (ft_strcmp(second_tmp->content, first_tmp->content) < 0)
                 {
-                    tmp = firstTmp->content;
-                    firstTmp->content = secondTmp->content;
-                    secondTmp->content = tmp;
+                    tmp = first_tmp->content;
+                    first_tmp->content = second_tmp->content;
+                    second_tmp->content = tmp;
                 }
-                secondTmp = secondTmp->next;
+                second_tmp = second_tmp->next;
             }
-            firstTmp = firstTmp->next;
+            first_tmp = first_tmp->next;
         }
     }
-    return envExport;
+    return env_export;
 }
 
-void printValueOfExport(char *value)
+void print_value_of_export(char *value)
 {
     int index;
 
@@ -90,92 +90,92 @@ void printValueOfExport(char *value)
     }
 }
 
-void printEnvWithExport(t_execution *execStruct, t_env *env)
+void print_env_with_export(t_env *env)
 {
-    t_env *sortedEnv;
+    t_env *sorted_env;
     int index;
     char *key;
     char *value;
 
-    sortedEnv = sortEnv(env);
-    while (sortedEnv)
+    sorted_env = sort_env(env);
+    while (sorted_env)
     {
         index = 0;
-        while (sortedEnv->content[index] != '=')
+        while (sorted_env->content[index] != '=')
             index++;
-        key = ft_substr(sortedEnv->content, 0, ++index);
-        value = ft_substr(sortedEnv->content, index, ft_strlen(sortedEnv->content));
+        key = ft_substr(sorted_env->content, 0, ++index);
+        value = ft_substr(sorted_env->content, index, ft_strlen(sorted_env->content));
 
         ft_putstr_fd("declare -x ", 1);
         ft_putstr_fd(key, 1);
         ft_putstr_fd("\"", 1);
-        printValueOfExport(value);
+        print_value_of_export(value);
         ft_putendl_fd("\"", 1);
-        sortedEnv = sortedEnv->next;
+        sorted_env = sorted_env->next;
     }
-    freeEnv(sortedEnv);
+    free_env(sorted_env);
     g_global.exit = 0;
 }
 
-char **parseExportArgument(char *argument, int *status)
+char **parse_export_argument(char *argument, int *status)
 {
-    char **keyValue;
+    char **key_value;
     int index;
 
     index = 0;
     if (!argument[index] || ft_isdigit(argument[index]))
-        return printExportError(argument, status);
+        return print_export_error(argument, status);
     while (argument[index] != '=' && argument[index])
     {
         if (argument[index] == '+' && argument[index + 1] == '=')
             break;
         if (!ft_isalnum(argument[index]) && argument[index] != '_')
-            return printExportError(argument, status);
+            return print_export_error(argument, status);
         index++;
     }
-    keyValue = (char **)calloc(4, sizeof(char *));
+    key_value = (char **)calloc(4, sizeof(char *));
     if (argument[index] == '=' || (argument[index] == '+' && argument[index + 1] == '='))
     {
-        keyValue[0] = ft_substr(argument, 0, index);
+        key_value[0] = ft_substr(argument, 0, index);
         if (argument[index] == '=')
         {
-            keyValue[1] = ft_strdup("=");
-            keyValue[2] = ft_substr(argument, index + 1, ft_strlen(argument));
+            key_value[1] = ft_strdup("=");
+            key_value[2] = ft_substr(argument, index + 1, ft_strlen(argument));
         }
         else
         {
-            keyValue[1] = ft_strdup("+=");
-            keyValue[2] = ft_substr(argument, index + 2, ft_strlen(argument));
+            key_value[1] = ft_strdup("+=");
+            key_value[2] = ft_substr(argument, index + 2, ft_strlen(argument));
         }
     }
     else
-        keyValue[0] = ft_substr(argument, 0, ft_strlen(argument));
-    return (keyValue);
+        key_value[0] = ft_substr(argument, 0, ft_strlen(argument));
+    return (key_value);
 }
 
-char *joinExportKeyValue(char **keyValue, char *oldValue)
+char *join_export_key_value(char **key_value, char *old_value)
 {
     char *joined;
-    char *oldWithNew;
+    char *old_with_new;
 
-    if (!ft_strcmp(keyValue[1], "+="))
+    if (!ft_strcmp(key_value[1], "+="))
     {
-        joined = ft_strjoin(keyValue[0], "=");
-        if (oldValue)
-            oldWithNew = ft_strjoin(oldValue, keyValue[2]);
+        joined = ft_strjoin(key_value[0], "=");
+        if (old_value)
+            old_with_new = ft_strjoin(old_value, key_value[2]);
         else
-            oldWithNew = ft_strjoin("", keyValue[2]);
-        joined = ft_strjoin(joined, oldWithNew);
+            old_with_new = ft_strjoin("", key_value[2]);
+        joined = ft_strjoin(joined, old_with_new);
     }
     else
     {
-        joined = ft_strjoin(keyValue[0], "=");
-        joined = ft_strjoin(joined, keyValue[2]);
+        joined = ft_strjoin(key_value[0], "=");
+        joined = ft_strjoin(joined, key_value[2]);
     }
     return joined;
 }
 
-t_env *handleExport(t_execution *execStruct, t_env *env, char **argument)
+t_env *handle_export(t_env *env, char **argument)
 {
     t_export export;
 
@@ -183,55 +183,28 @@ t_env *handleExport(t_execution *execStruct, t_env *env, char **argument)
     export.index = 1;
     while (argument[export.index])
     {
-        export.keyValue = parseExportArgument(argument[export.index], &export.status);
-        if (export.keyValue && !export.keyValue[1])
+        export.key_value = parse_export_argument(argument[export.index], &export.status);
+        if (export.key_value && !export.key_value[1])
         {
-            if (!ft_getEnv(env, export.keyValue[0]))
-                env = addEnvNode(env, export.keyValue[0], 0);
+            if (!ft_get_env(env, export.key_value[0]))
+                env = add_env_node(env, export.key_value[0], 0);
         }
-        else if (export.keyValue && !export.keyValue[3])
+        else if (export.key_value && !export.key_value[3])
         {
-            export.oldValue = ft_getEnv(env, export.keyValue[0]);
-            if (export.oldValue)
-                export.oldValue = ft_strdup(export.oldValue);
-            env = executeUnset(execStruct, env, export.keyValue[0]);
-                ft_putendl_fd("diana",2);
-            export.keyValueJoined = joinExportKeyValue(export.keyValue, export.oldValue);
-            env = addEnvNode(env, export.keyValueJoined, 1);
-            freeString(export.keyValueJoined);
-            freeArrayTwoDimension(export.keyValue);
+            export.old_value = ft_get_env(env, export.key_value[0]);
+            if (export.old_value)
+                export.old_value = ft_strdup(export.old_value);
+            env = execute_unset(env, export.key_value[0]);
+            export.key_value_joined = join_export_key_value(export.key_value, export.old_value);
+            env = add_env_node(env, export.key_value_joined, 1);
+            free_string(export.key_value_joined);
+            free_array_two_dimension(export.key_value);
         }
         export.index++;
     }
-    if(export.status)
+    if (export.status)
         g_global.exit = 0;
     else
         g_global.exit = 1;
-    return env;
-}
-
-t_env *handleExitStatusEnv(t_execution *execStruct, t_env *env, char *argument)
-{
-    t_export export;
-
-    export.status = 0;
-    export.index = 1;
-    export.keyValue = parseExportArgument(argument, &export.status);
-    if (export.keyValue && !export.keyValue[1])
-    {
-        if (!ft_getEnv(env, export.keyValue[0]))
-            env = addEnvNode(env, export.keyValue[0], 0);
-    }
-    else if (export.keyValue && !export.keyValue[3])
-    {
-        export.oldValue = ft_getEnv(env, export.keyValue[0]);
-        if (export.oldValue)
-            export.oldValue = ft_strdup(export.oldValue);
-        env = executeUnset(execStruct, env, export.keyValue[0]);
-        export.keyValueJoined = joinExportKeyValue(export.keyValue, export.oldValue);
-        env = addEnvNode(env, export.keyValueJoined, 1);
-        freeString(export.keyValueJoined);
-        freeArrayTwoDimension(export.keyValue);
-    }
     return env;
 }

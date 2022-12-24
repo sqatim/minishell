@@ -3,43 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   exec_tools.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 17:17:35 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/13 17:51:59 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/24 15:28:20 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
 
-int execInputRedirection(t_redirection *input)
+int exec_input_redirection(t_redirection *input)
 {
-    int fdInput;
+    int fd_input;
     char *path;
 
     if (!ft_strcmp(input->type, "<<"))
     {
         path = ft_strjoin("/tmp/", input->f_name);
-        fdInput = open(path, O_RDWR, 0777);
-        freeString(path);
+        fd_input = open(path, O_RDWR, 0777);
+        free_string(path);
         path = NULL;
     }
     else
-        fdInput = open(input->f_name, O_RDWR, 0777);
-    dup2(fdInput, STDIN_FILENO);
-    close(fdInput);
+        fd_input = open(input->f_name, O_RDWR, 0777);
+    dup2(fd_input, STDIN_FILENO);
+    close(fd_input);
     return (1);
 }
 
-int execOutputRedirection(t_redirection *output)
+int exec_output_redirection(t_redirection *output)
 {
-    int fdOutput;
+    int fd_output;
 
     if (!ft_strcmp(output->type, ">>"))
-        fdOutput = open(output->f_name, O_CREAT | O_APPEND | O_RDWR, 0777);
+        fd_output = open(output->f_name, O_CREAT | O_APPEND | O_RDWR, 0777);
     else
-        fdOutput = open(output->f_name, O_CREAT | O_TRUNC | O_RDWR, 0777);
-    dup2(fdOutput, STDOUT_FILENO);
-    close(fdOutput);
+        fd_output = open(output->f_name, O_CREAT | O_TRUNC | O_RDWR, 0777);
+    dup2(fd_output, STDOUT_FILENO);
+    close(fd_output);
     return (2);
 }

@@ -6,13 +6,13 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 12:35:52 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/23 20:20:34 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/24 17:27:17 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
 
-static void changePathInExecStruct(t_execution *execStruct, t_env *env, char *path)
+static void change_path_in_exec_struct(t_execution *execStruct, t_env *env, char *path)
 {
     t_env *node;
 
@@ -22,14 +22,14 @@ static void changePathInExecStruct(t_execution *execStruct, t_env *env, char *pa
         execStruct->path = NULL;
     }
     execStruct->path = ft_strdup(path);
-    node = ft_getEnvNode(env, "PWD");
+    node = ft_get_env_node(env, "PWD");
     if (node)
     {
-        freeString(node->content);
+        free_string(node->content);
         node->content = ft_strjoin("PWD=", path);
     }
 }
-static int changePathInExecStructInCaseOfError(t_execution *execStruct, t_env *env, char *path)
+static int change_path_in_exec_struct_in_case_of_error(t_execution *execStruct, t_env *env, char *path)
 {
     char *tmp;
     t_env *node;
@@ -49,16 +49,16 @@ static int changePathInExecStructInCaseOfError(t_execution *execStruct, t_env *e
         tmp = NULL;
     }
     ft_putendl_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", 2);
-    node = ft_getEnvNode(env, "PWD");
+    node = ft_get_env_node(env, "PWD");
     if (node)
     {
-        freeString(node->content);
+        free_string(node->content);
         node->content = ft_strjoin("PWD=", execStruct->path);
     }
     return 0;
 }
 
-char *checkCurrentPath(t_execution *execStruct)
+char *check_current_path(t_execution *execStruct)
 {
     char *buffer;
 
@@ -72,7 +72,7 @@ char *checkCurrentPath(t_execution *execStruct)
         return buffer;
     return NULL;
 }
-t_env *changeOldPwdInEnv(t_execution *execStruct, t_env *env)
+t_env *change_old_pwd_in_env(t_execution *execStruct, t_env *env)
 {
     char *buffer;
     t_env *node;
@@ -80,41 +80,40 @@ t_env *changeOldPwdInEnv(t_execution *execStruct, t_env *env)
     t_env *tmp;
 
     tmp = env;
-    buffer = checkCurrentPath(execStruct);
+    buffer = check_current_path(execStruct);
     if (buffer)
     {
-        node = ft_getEnvNode(env, "OLDPWD");
+        node = ft_get_env_node(env, "OLDPWD");
         if (node)
         {
-            freeString(node->content);
+            free_string(node->content);
             node->content = ft_strjoin("OLDPWD=", buffer);
         }
         else
         {
             pwd = ft_strjoin("OLDPWD=", buffer);
-            tmp = addEnvNode(tmp, pwd, 1);
-            freeString(pwd);
+            tmp = add_env_node(tmp, pwd, 1);
+            free_string(pwd);
         }
         free(buffer);
     }
     return tmp;
 }
 
-t_env *changeDirectory(t_execution *execStruct, t_env *env, char *path)
+t_env *change_directory(t_execution *execStruct, t_env *env, char *path)
 {
     t_env *tmp;
     char buffer[1024];
-    char *pwd;
     int home;
 
     home = 0;
     tmp = env;
     if (!path)
-        path = ft_getEnv(env, "HOME");
+        path = ft_get_env(env, "HOME");
     if (path)
     {
         // to fix it when Home = \0
-        tmp = changeOldPwdInEnv(execStruct, tmp);
+        tmp = change_old_pwd_in_env(execStruct, tmp);
         if (!*path)
         {
             home = 1;
@@ -123,9 +122,9 @@ t_env *changeDirectory(t_execution *execStruct, t_env *env, char *path)
         if (chdir(path) == 0)
         {
             if (!getcwd(buffer, 1024))
-                changePathInExecStructInCaseOfError(execStruct, env, path);
+                change_path_in_exec_struct_in_case_of_error(execStruct, env, path);
             else
-                changePathInExecStruct(execStruct, env, buffer);
+                change_path_in_exec_struct(execStruct, env, buffer);
             g_global.exit = 0;
         }
         else

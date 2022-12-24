@@ -6,27 +6,13 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:58:46 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/22 23:57:03 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/24 18:35:08 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
 
-void ft_exit(t_execution *execStruct)
-{
-    freeExecutionStruct(execStruct);
-    exit(0);
-}
-
-char **parseCommand(char *cmdLine)
-{
-    char **parsedCmd;
-
-    parsedCmd = ft_split(cmdLine, ' ');
-    return parsedCmd;
-}
-
-t_env *setupEnv(char **envp)
+t_env *setup_env(char **envp)
 {
     int index;
     t_env *env;
@@ -35,81 +21,57 @@ t_env *setupEnv(char **envp)
     index = 0;
     while (envp[index])
     {
-        env = addEnvNode(env, envp[index], 1);
+        env = add_env_node(env, envp[index], 1);
         index++;
     }
     return env;
 }
 
-int manageEndOfFile(char *buffer, char **bufferJoined, int size)
+void manage_command(t_execution *exec_struct, char *buffer)
 {
-    char *ptrToBeFreed;
-
-    ptrToBeFreed = *bufferJoined;
-    buffer[size] = '\0';
-    if (size == 0)
-        exit(0);
-    if (!(*bufferJoined))
-        *bufferJoined = ft_strjoin("", buffer);
-    else
-    {
-        *bufferJoined = ft_strjoin(*bufferJoined, buffer);
-        freeString(ptrToBeFreed);
-    }
-    return 0;
-}
-
-void manageCommand(t_execution *execStruct, char *buffer)
-{
-    t_command *tmpCommand;
-
-    startExecution(execStruct, execStruct->command);
+    start_execution(exec_struct, exec_struct->command);
+    free_string(buffer);
+    buffer = NULL;
+    free_command(&exec_struct->command);
+    free_redirection(&exec_struct->redirections_sorted);
     return;
 }
 
-void minishellLoop(t_execution *execStruct)
+void minishell_loop(t_execution *exec_struct)
 {
     char *buffer;
-    char *bufferJoined;
 
-    bufferJoined = NULL;
     signalHandler();
     while (1)
     {
         buffer = readline("minishell:> ");
         if (!buffer)
-            ft_exit(execStruct);
-        // exit(1);
+            ft_exit(exec_struct,130);
         if (buffer[0] != '\0')
         {
-            execStruct->command = startParse(execStruct->env, buffer);
-            // execStruct->command = customizeMyParse(buffer);
+            exec_struct->command = startParse(exec_struct->env, buffer);
             add_history(buffer);
-            manageCommand(execStruct, buffer);
-            freeString(buffer);
-            buffer = NULL;
-            freeCommand(&execStruct->command);
-            freeRedirection(&execStruct->redirectionsSorted);
+            manage_command(exec_struct, buffer);
         }
     }
 }
 
-t_env *ft_getEnvNode(t_env *env, char *key)
+t_env *ft_get_env_node(t_env *env, char *key)
 {
     t_env *tmp;
     int index;
-    char *tmpKey;
+    char *tmp_key;
 
     tmp = env;
-    tmpKey = ft_strjoin(key, "=");
+    tmp_key = ft_strjoin(key, "=");
     index = 0;
     while (tmp)
     {
-        if (ft_strnstr(tmp->content, tmpKey, ft_strlen(tmpKey)))
+        if (ft_strnstr(tmp->content, tmp_key, ft_strlen(tmp_key)))
         {
             while (tmp->content[index] != '=')
                 index++;
-            freeString(tmpKey);
+            free_string(tmp_key);
             return (tmp);
         }
         tmp = tmp->next;
@@ -117,22 +79,22 @@ t_env *ft_getEnvNode(t_env *env, char *key)
     return NULL;
 }
 
-char *ft_getEnv(t_env *env, char *key)
+char *ft_get_env(t_env *env, char *key)
 {
     t_env *tmp;
     int index;
-    char *tmpKey;
+    char *tmp_key;
 
     tmp = env;
-    tmpKey = ft_strjoin(key, "=");
+    tmp_key = ft_strjoin(key, "=");
     index = 0;
     while (tmp)
     {
-        if (ft_strnstr(tmp->content, tmpKey, ft_strlen(tmpKey)))
+        if (ft_strnstr(tmp->content, tmp_key, ft_strlen(tmp_key)))
         {
             while (tmp->content[index] != '=')
                 index++;
-            freeString(tmpKey);
+            free_string(tmp_key);
             return (&tmp->content[++index]);
         }
         tmp = tmp->next;
@@ -140,7 +102,7 @@ char *ft_getEnv(t_env *env, char *key)
     return NULL;
 }
 
-int checkExitArgumentType(char *argument)
+int check_exit_argument_type(char *argument)
 {
     int index;
     int type;

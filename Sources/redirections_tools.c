@@ -3,34 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_tools.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 15:29:37 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/13 17:42:05 by sqatim           ###   ########.fr       */
+/*   Updated: 2022/12/24 17:55:09 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
 
-t_redirection *addNewRedirection(t_redirection *redirectionsHead, t_redirection *currentRedirection)
+t_redirection *add_new_redirection(t_redirection *redirections_head, t_redirection *current_redirection)
 {
     t_redirection *tmp;
     t_redirection *new;
 
     new = ft_calloc(1, sizeof(t_redirection));
-    new->f_name = ft_strdup(currentRedirection->f_name);
-    new->type = ft_strdup(currentRedirection->type);
+    new->f_name = ft_strdup(current_redirection->f_name);
+    new->type = ft_strdup(current_redirection->type);
     new->next = NULL;
-    if (!redirectionsHead)
+    if (!redirections_head)
         return new;
-    tmp = redirectionsHead;
+    tmp = redirections_head;
     while (tmp->next)
         tmp = tmp->next;
     tmp->next = new;
-    return redirectionsHead;
+    return redirections_head;
 }
 
-int redirectionsLen(t_redirection *redirection)
+int redirections_len(t_redirection *redirection)
 {
     t_redirection *tmp;
     int index;
@@ -45,7 +45,7 @@ int redirectionsLen(t_redirection *redirection)
     return index;
 }
 
-int checkRedirection(t_redirection *redirection, t_redirection *current)
+int check_redirection(t_redirection *redirection, t_redirection *current)
 {
     t_redirection *tmp;
 
@@ -61,20 +61,20 @@ int checkRedirection(t_redirection *redirection, t_redirection *current)
     return (0);
 }
 
-t_redirection *setupTheLastRedirections(t_redirection *redirectionsHead, t_redirection *currentRedirection)
+t_redirection *setup_the_last_redirections(t_redirection *current_redirection)
 {
     t_redirection *tmp;
     t_redirection *new;
-    tmp = currentRedirection;
+    tmp = current_redirection;
     if (!tmp)
         return NULL;
-    new = setupTheLastRedirections(new, tmp->next);
-    if (redirectionsLen(new) < 2 && checkRedirection(new, tmp))
-        new = addNewRedirection(new, tmp);
+    new = setup_the_last_redirections(tmp->next);
+    if (redirections_len(new) < 2 && check_redirection(new, tmp))
+        new = add_new_redirection(new, tmp);
     return new;
 }
 
-t_redirection *checkTypeOfRedirection(t_redirection *redirection, int type)
+t_redirection *check_type_of_redirection(t_redirection *redirection, int type)
 {
     t_redirection *next;
 
@@ -91,7 +91,7 @@ t_redirection *checkTypeOfRedirection(t_redirection *redirection, int type)
     {
         if (!ft_strcmp(redirection->type, ">>") || !ft_strcmp(redirection->type, ">"))
             return (redirection);
-        else if (next && (!ft_strcmp(next->type, ">>") && !ft_strcmp(next->type, ">")))
+        else if (next && (!ft_strcmp(next->type, ">>") || !ft_strcmp(next->type, ">")))
             return (next);
     }
     return (NULL);

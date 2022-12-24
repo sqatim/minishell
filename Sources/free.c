@@ -6,13 +6,13 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 17:41:04 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/22 15:44:51 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/24 18:06:45 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
 
-void freeArrayTwoDimension(char **array)
+void free_array_two_dimension(char **array)
 {
     int index;
 
@@ -29,17 +29,17 @@ void freeArrayTwoDimension(char **array)
     }
 }
 
-void freeString(char *str)
+void free_string(char *str)
 {
     free(str);
     str = NULL;
 }
 
-void freeRedirection(t_redirection **redirection)
+void free_redirection(t_redirection **redirection)
 {
     if (!*redirection)
         return;
-    freeRedirection(&(*redirection)->next);
+    free_redirection(&(*redirection)->next);
     free((*redirection)->f_name);
     free((*redirection)->type);
     (*redirection)->f_name = NULL;
@@ -48,55 +48,57 @@ void freeRedirection(t_redirection **redirection)
     *redirection = NULL;
 }
 
-void freeEnv(t_env *env)
+void free_env(t_env *env)
 {
     if (!env)
         return;
-    freeEnv(env->next);
+    free_env(env->next);
     free(env->content);
     env->content = NULL;
     free(env);
     env = NULL;
 }
 
-void freeCommand(t_command **command)
+void free_command(t_command **command)
 {
     if (!*command)
         return;
-    freeCommand(&((*command)->next));
-    freeArrayTwoDimension((*command)->command);
-    freeRedirection(&(*command)->redirections);
+    free_command(&((*command)->next));
+    free_array_two_dimension((*command)->command);
+    free_redirection(&(*command)->redirections);
     free(*command);
     *command = NULL;
 }
 
-void freeExecutionStruct(t_execution *execStruct)
+void free_execution_struct(t_execution *exec_struct)
 {
-    if (execStruct)
+    if (exec_struct)
     {
-        if (execStruct->redirectionsSorted)
-            freeRedirection(&execStruct->redirectionsSorted);
-        if (execStruct->command)
-            freeCommand(&execStruct->command);
-        if (execStruct->env)
-            freeEnv(execStruct->env);
-        free(execStruct);
+        if (exec_struct->redirections_sorted)
+            free_redirection(&exec_struct->redirections_sorted);
+        if (exec_struct->command)
+            free_command(&exec_struct->command);
+        if (exec_struct->env)
+            free_env(exec_struct->env);
+        if(exec_struct->path)
+            free_string(exec_struct->path);
+        free(exec_struct);
     }
 }
 
-void freeEnvNodeContent(t_env *node)
+void free_env_node_content(t_env *node)
 {
-    if(node->content)
+    if (node->content)
     {
         free(node->content);
         node->content = NULL;
     }
-    if(node->name)
+    if (node->name)
     {
         free(node->name);
         node->name = NULL;
     }
-    if(node->value)
+    if (node->value)
     {
         free(node->value);
         node->value = NULL;

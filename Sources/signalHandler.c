@@ -6,14 +6,15 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 12:43:55 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/23 14:29:33 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/24 17:28:02 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
 
-void handleCtrlC(int signum)
+void handle_ctrl_c(int signum)
 {
+    (void) signum;
     if (g_global.forkFlag == 0)
     {
         write(1, "\n", 1);
@@ -24,8 +25,9 @@ void handleCtrlC(int signum)
     // g_global.forkFlag = 0;
 }
 
-void handleCtrlBackSlash(int signum)
+void handle_ctrl_back_slash(int signum)
 {
+    (void) signum;
     if (g_global.forkFlag == 0)
         rl_redisplay();
     else
@@ -38,6 +40,6 @@ void handleCtrlBackSlash(int signum)
 
 void signalHandler()
 {
-    signal(SIGINT, handleCtrlC);
-    signal(SIGQUIT, handleCtrlBackSlash);
+    signal(SIGINT, handle_ctrl_c);
+    signal(SIGQUIT, handle_ctrl_back_slash);
 }

@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   atoul.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kernel <kernel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 20:49:07 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/07 11:24:19 by kernel           ###   ########.fr       */
+/*   Updated: 2022/12/24 18:43:49 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
-
-// static int	check(int counter, int sign, int result)
-// {
-// 	if (counter > 19)
-// 	{
-// 		if (sign > 0)
-// 			return (-1);
-// 		else
-// 			return (0);
-// 	}
-// 	return (result * sign);
-// }
 
 unsigned long long ft_atoull(const char *str)
 {
@@ -33,7 +21,8 @@ unsigned long long ft_atoull(const char *str)
 	i = 0;
 	result = 0;
 	counter = 0;
-	while (str[i] == ' ' || str[i] == '\r' || str[i] == '\f' || str[i] == '\n' || str[i] == '\v' || str[i] == '\t')
+	while (str[i] == ' ' || str[i] == '\r' || str[i] == '\f' ||\
+		str[i] == '\n' || str[i] == '\v' || str[i] == '\t')
 		i++;
 	if (str[i] == '+')
 		i++;

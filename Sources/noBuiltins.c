@@ -6,94 +6,57 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 00:21:27 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/23 19:27:36 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/24 15:50:11 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
 
-char *checkCommandAccess(t_env *env, char *command)
+char *check_command_access(t_env *env, char *command)
 {
-    char *pathEnv;
+    char *path_env;
     char **path;
-    char *cmdJoined;
+    char *cmd_joined;
     int index;
 
     index = 0;
     if (!access(command, F_OK))
         return ft_strdup(command);
-    pathEnv = ft_getEnv(env, "PATH");
-    path = ft_split(pathEnv, ':');
+    path_env = ft_get_env(env, "PATH");
+    path = ft_split(path_env, ':');
     while (path && path[index])
     {
-        cmdJoined = joinPathWithCommand(path[index], command);
-        if (!access(cmdJoined, F_OK))
-            return cmdJoined;
+        cmd_joined = join_path_with_command(path[index], command);
+        if (!access(cmd_joined, F_OK))
+            return cmd_joined;
         index++;
     }
     return NULL;
 }
 
-void duplicateFunction(t_context context, t_execution *execStruct)
-{
-    t_redirection *input;
-    t_redirection *output;
-    int fdInput;
-    int fdOutput;
-    char *path;
-
-    input = checkTypeOfRedirection(execStruct->redirectionsSorted, 0);
-    output = checkTypeOfRedirection(execStruct->redirectionsSorted, 1);
-    if (input)
-    {
-        if (!ft_strcmp(input->type, "<<"))
-        {
-            path = ft_strjoin("/tmp/", input->f_name);
-            fdInput = open(path, O_RDWR, 0777);
-            freeString(path);
-            path = NULL;
-        }
-        else
-            fdInput = open(input->f_name, O_RDWR, 0777);
-        dup2(fdInput, STDIN_FILENO);
-    }
-    else
-        dup2(context.fd[STDIN_FILENO], STDIN_FILENO);
-    if (output)
-    {
-        if (!ft_strcmp(output->type, ">>"))
-            fdOutput = open(output->f_name, O_CREAT | O_APPEND | O_RDWR, 0777);
-        else
-            fdOutput = open(output->f_name, O_CREAT | O_TRUNC | O_RDWR, 0777);
-        dup2(fdOutput, STDOUT_FILENO);
-    }
-    else
-        dup2(context.fd[STDOUT_FILENO], STDOUT_FILENO);
-}
-
-void handleNoBuiltins(t_execution *execStruct, char **cmdLine, t_context context)
+void handle_no_builtins(t_execution *exec_struct, char **cmd_line, t_context context)
 {
     char *command;
     int pid;
     char **env;
 
-    command = checkCommandAccess(execStruct->env, cmdLine[0]);
+    command = check_command_access(exec_struct->env, cmd_line[0]);
     if (!command)
     {
         g_global.exit = 127;
-        printError(cmdLine[0]);
+        print_error(cmd_line[0]);
     }
     else
     {
         g_global.forkFlag = 1;
-        env = convertEnvToArray(execStruct->env);
+        env = convert_env_to_array(exec_struct->env);
         pid = fork();
         if (pid == 0)
         {
-            execRedirection(execStruct, context);
+            execRedirection(exec_struct, context);
             if (context.fd_close >= 0)
                 close(context.fd_close);
-            execve(command, cmdLine, env);
+            execve(command, cmd_line, env);
         }
         else
         {
