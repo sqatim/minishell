@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:50:47 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/24 15:50:49 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/26 17:33:52 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,24 @@ int check_shell_lvl_value(char *argument)
 
 int check_command(t_execution *execStruct, t_command *command, t_context context)
 {
-    char **word_cmd;
     t_redirection *redirections;
+    int check;
 
+    check = 1;
     redirections = command->redirections;
     if (redirections)
-        execStruct->redirections_sorted = handle_redirection(redirections);
-    word_cmd = command->command;
-    if (check_type_of_command(word_cmd[0]))
+        execStruct->redirections_sorted = handle_redirection(redirections, &check);
+    if (command->command)
     {
-        handle_builtin_command(execStruct, command, context);
-        return 0;
+        if (check_type_of_command(command->command[0]))
+        {
+            handle_builtin_command(execStruct, command, context, check);
+            return 0;
+        }
+        else
+            handle_no_builtins(execStruct, command->command, context, check);
+        if (execStruct->redirections_sorted)
+            free_redirection(&execStruct->redirections_sorted);
     }
-    else
-        handle_no_builtins(execStruct, word_cmd, context);
-    if (execStruct->redirections_sorted)
-        free_redirection(&execStruct->redirections_sorted);
-    return 1;
+    return check;
 }

@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:58:46 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/26 12:42:52 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/26 17:56:04 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,24 @@ void manage_command(t_execution *exec_struct, char *buffer)
 void minishell_loop(t_execution *exec_struct)
 {
     char *buffer;
+    int fd;
 
     signalHandler();
     while (1)
     {
         buffer = readline("minishell:> ");
         if (!buffer)
-            ft_exit(exec_struct,130);
+            ft_exit(exec_struct, 130);
         if (buffer[0] != '\0')
         {
             exec_struct->command = startParse(exec_struct->env, buffer);
             add_history(buffer);
             manage_command(exec_struct, buffer);
         }
+        fd = open("/tmp/testFD", O_RDWR | O_CREAT);
+        if (fd > 3)
+            printf("FD LEAKS: fd => %d\n", fd);
+        close(fd);
     }
 }
 

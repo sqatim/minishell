@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:47:37 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/26 14:39:55 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/26 17:01:59 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int unset_itterator(t_env **tmp, char *tmp_argument)
 {
     t_env *next;
     int check;
-    
+
     check = 1;
     while (*tmp)
     {
@@ -41,7 +41,7 @@ int unset_itterator(t_env **tmp, char *tmp_argument)
                 (*tmp)->prev->next = (*tmp)->next;
             if ((*tmp)->next)
                 (*tmp)->next->prev = (*tmp)->prev;
-            if(!(*tmp)->prev && !(*tmp)->next)
+            if (!(*tmp)->prev && !(*tmp)->next)
                 check = 0;
             free((*tmp)->content);
             free(*tmp);
@@ -64,7 +64,7 @@ t_env *execute_unset(t_env *env, char *argument)
     {
         tmp_argument = ft_strjoin(argument, "=");
         tmp = env;
-        if(!unset_itterator(&tmp, tmp_argument))
+        if (!unset_itterator(&tmp, tmp_argument))
             env = NULL;
         if (tmp && !tmp->prev)
             env = tmp;
@@ -97,7 +97,7 @@ void select_builtins_command(t_execution *exec_struct, t_command *command)
 }
 
 void handle_builtin_command(t_execution *exec_struct,
-                            t_command *command, t_context context)
+                            t_command *command, t_context context, int check)
 {
     int std_out;
     int std_in;
@@ -106,7 +106,8 @@ void handle_builtin_command(t_execution *exec_struct,
     std_out = dup(STDOUT_FILENO);
     std_in = dup(STDIN_FILENO);
     result = execRedirection(exec_struct, context);
-    select_builtins_command(exec_struct, command);
+    if (check)
+        select_builtins_command(exec_struct, command);
     if (context.fd[STDOUT_FILENO] != STDOUT_FILENO ||
         context.fd[STDIN_FILENO] != STDIN_FILENO || result)
     {

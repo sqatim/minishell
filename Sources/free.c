@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 17:41:04 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/24 18:06:45 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/26 17:49:58 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void free_redirection(t_redirection **redirection)
     free(*redirection);
     *redirection = NULL;
 }
+
+
 
 void free_env(t_env *env)
 {

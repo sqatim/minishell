@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/26 13:41:40 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/26 17:06:21 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,7 +238,7 @@ void execute_pwd(t_execution *exec_struct);
 void execute_cd(t_execution *exec_struct, t_env *env, char **argument);
 void execute_echo(char **argument);
 void execute_exit(t_execution *exec_struct, char **argument);
-void handle_builtin_command(t_execution *exec_struct, t_command *command, t_context context);
+void handle_builtin_command(t_execution *exec_struct, t_command *command, t_context context, int check);
 
 // builtins__tools
 int handle_new_line_in_echo(char **argument, int *index_one);
@@ -277,9 +277,10 @@ void print_exit_error(t_execution *exec_struct,int type, char *argument);
 void print_error(char *cmd);
 char **print_export_error(char *key, int *status);
 void print_cd_error(char *path, int type);
+void print_fd_errors(char *file_name);
 
 // noBuiltins;
-void handle_no_builtins(t_execution *exec_struct, char **cmdLine, t_context context);
+void handle_no_builtins(t_execution *exec_struct, char **cmdLine, t_context context, int check);
 
 // noBuiltins_tools;
 char *join_path_with_command(char *path, char *command);
@@ -291,7 +292,7 @@ int env_linked_list_len(t_env *env);
 void signalHandler();
 
 // redirections
-t_redirection *handle_redirection(t_redirection *redirections);
+t_redirection *handle_redirection(t_redirection *redirections, int *check);
 t_redirection *setup_the_last_redirections(t_redirection *current_redirection);
 void here_document_redirection(char *filename);
 void output_append_redirection(char *filename);

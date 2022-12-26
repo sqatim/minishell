@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:07:22 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/24 17:38:50 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/26 17:12:35 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void printRedirection(t_redirection *redirections)
 {
     t_redirection *tmp = redirections;
 
-    while(tmp)
+    while (tmp)
     {
         printf("%s %s\n", tmp->type, tmp->f_name);
         tmp = tmp->next;
@@ -48,13 +48,14 @@ void here_document_redirection(char *filename)
     buffer = NULL;
     path = NULL;
     delimiter = NULL;
+    close(fd);
 }
 
 void ouput_trunc_redirection(char *filename)
 {
     int fd;
 
-    fd = open(filename, O_CREAT | O_TRUNC | O_RDWR, 0777);
+    fd = open(filename, O_CREAT | O_TRUNC | O_WRONLY, 0777);
     close(fd);
 }
 
@@ -62,11 +63,36 @@ void output_append_redirection(char *filename)
 {
     int fd;
 
-    fd = open(filename, O_CREAT | O_APPEND | O_RDWR, 0777);
+    fd = open(filename, O_CREAT | O_APPEND | O_WRONLY, 0777);
     close(fd);
 }
 
-t_redirection *handle_redirection(t_redirection *redirections)
+int check_input_redirection(t_redirection *redirections, int *check)
+{
+    t_redirection *tmp;
+    int fd;
+
+    tmp = redirections;
+    while (tmp)
+    {
+        if (!ft_strcmp(tmp->type, "<"))
+        {
+            fd = open(tmp->f_name, O_RDONLY, 0777);
+            if (fd == -1)
+            {
+                print_fd_errors(tmp->f_name);
+                g_global.exit = 1;
+                *check = 0;
+                return (0);
+            }
+            close(fd);
+        }
+        tmp = tmp->next;
+    }
+    return 1;
+}
+
+t_redirection *handle_redirection(t_redirection *redirections, int *check)
 {
     t_redirection *last_redirections;
     t_redirection *tmp;
@@ -78,6 +104,8 @@ t_redirection *handle_redirection(t_redirection *redirections)
             here_document_redirection(tmp->f_name);
         tmp = tmp->next;
     }
+    if (!check_input_redirection(redirections, check))
+        return NULL;
     tmp = redirections;
     while (tmp)
     {
@@ -88,6 +116,6 @@ t_redirection *handle_redirection(t_redirection *redirections)
         tmp = tmp->next;
     }
     last_redirections = setup_the_last_redirections(redirections);
-    printRedirection(last_redirections);
+    // printRedirection(last_redirections);
     return last_redirections;
 }

@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 00:21:27 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/26 14:50:01 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/26 17:14:31 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,26 +49,30 @@ char *handle_no_builtins_command(t_execution *exec_struct, char **cmd_line)
 }
 
 void handle_no_builtins(t_execution *exec_struct, char **cmd_line,
-                        t_context context)
+                        t_context context, int check)
 {
     char *command;
     int pid;
     char **env;
 
-    command = handle_no_builtins_command(exec_struct, cmd_line);
-    if (command)
+    if (check)
     {
-        g_global.forkFlag = 1;
-        env = convert_env_to_array(exec_struct->env);
-        pid = fork();
-        if (pid == 0)
+        command = handle_no_builtins_command(exec_struct, cmd_line);
+        if (command)
         {
-            execRedirection(exec_struct, context);
-            if (context.fd_close >= 0)
-                close(context.fd_close);
-            execve(command, cmd_line, env);
+            g_global.forkFlag = 1;
+            env = convert_env_to_array(exec_struct->env);
+            pid = fork();
+            if (pid == 0)
+            {
+                execRedirection(exec_struct, context);
+                if (context.fd_close >= 0)
+                    close(context.fd_close);
+                if (execve(command, cmd_line, env) == -1)
+                    printf("hii");
+            }
+            else
+                return;
         }
-        else
-            return;
     }
 }

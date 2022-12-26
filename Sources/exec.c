@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 13:42:07 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/26 12:38:49 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/26 17:15:30 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ int execRedirection(t_execution *exec_struct, t_context context)
 
     result = 0;
     redirection = check_type_of_redirection(exec_struct->redirections_sorted, 0);
-    printRedirection(exec_struct->redirections_sorted);
     if (redirection)
         result += exec_input_redirection(redirection);
     else

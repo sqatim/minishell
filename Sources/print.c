@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 23:10:39 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/24 19:54:15 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/26 17:11:06 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,10 @@ void print_cd_error(char *path, int type)
     {
         ft_putendl_fd("cd: HOME not set", 2);
     }
+}
+
+void print_fd_errors(char *file_name)
+{
+    ft_putstr_fd(file_name, 2);
+    ft_putendl_fd(": No such file or directory", 2);
 }
