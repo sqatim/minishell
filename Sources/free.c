@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 17:41:04 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/26 17:49:58 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/26 18:09:08 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,23 @@ void free_redirection(t_redirection **redirection)
     *redirection = NULL;
 }
 
-
+void unlink_heredocument_files(t_redirection *redirections)
+{
+    t_redirection *tmp;
+    char *path;
+    
+    tmp = redirections;
+    while(tmp)
+    {
+        if(!ft_strcmp(tmp->type, "<<"))
+        {
+            path = ft_strjoin("/tmp/", tmp->f_name);
+            unlink(path);
+            free(path);
+        }
+        tmp = tmp->next;
+    }
+}
 
 void free_env(t_env *env)
 {
@@ -67,6 +83,7 @@ void free_command(t_command **command)
         return;
     free_command(&((*command)->next));
     free_array_two_dimension((*command)->command);
+    unlink_heredocument_files((*command)->redirections);
     free_redirection(&(*command)->redirections);
     free(*command);
     *command = NULL;
