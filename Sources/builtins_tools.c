@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 17:23:49 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/24 18:44:36 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/26 12:36:25 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,35 @@ void handle_exit_cases(t_execution *exec_struct, int type, char **argument)
     }
 }
 
+char *check_current_path(t_execution *execStruct)
+{
+    char *buffer;
+
+    buffer = ft_calloc(1024, sizeof(char));
+    if (execStruct->path)
+    {
+        ft_strlcpy(buffer, execStruct->path, ft_strlen(execStruct->path) + 1);
+        return buffer;
+    }
+    else if (getcwd(buffer, 1024))
+        return buffer;
+    return NULL;
+}
+
 void ft_exit(t_execution *exec_struct, int status)
 {
     free_execution_struct(exec_struct);
     exit(status);
+}
+
+void change_pwd_in_env_in_case_of_error(t_execution *exec_struct,t_env *env)
+{
+    t_env *node;
+
+    node = ft_get_env_node(env, "PWD");
+    if (node)
+    {
+        free_string(node->content);
+        node->content = ft_strjoin("PWD=", exec_struct->path);
+    }
 }

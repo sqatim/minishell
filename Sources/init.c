@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 22:16:29 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/24 17:25:41 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/26 13:03:32 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,33 @@ t_env *assign_env_node(t_env *node, char *key, char *value, char *key_value)
     return (node);
 }
 
+void handle_shell_level_non_zero_case(t_env *node)
+{
+    char *itoa_number;
+    int number;
+    char *tmp;
+
+    number = ft_atoi(node->value);
+    free_env_node_content(node);
+    if (number >= 0 && number <= 998)
+    {
+        itoa_number = ft_itoa(++number);
+        tmp = itoa_number;
+        itoa_number = ft_strjoin("SHLVL=", itoa_number);
+        node = assign_env_node(node, "SHLVL", tmp, itoa_number);
+        free(itoa_number);
+        free(tmp);
+    }
+    else if (number > 998)
+        node = assign_env_node(node, "SHLVL", "", "SHLVL=");
+    else if (number < 0)
+        node = assign_env_node(node, "SHLVL", "0", "SHLVL=0");
+}
+
 t_env *handle_shell_level(t_env *env)
 {
     t_env *node;
     int type;
-    int number;
-    char *itoa_number;
-    char *tmp;
 
     node = ft_get_env_node(env, "SHLVL");
     if (!node)
@@ -40,23 +60,7 @@ t_env *handle_shell_level(t_env *env)
             node = assign_env_node(node, "SHLVL", "1", "SHLVL=1");
         }
         else
-        {
-            number = ft_atoi(node->value);
-            free_env_node_content(node);
-            if (number >= 0 && number <= 998)
-            {
-                itoa_number = ft_itoa(++number);
-                tmp = itoa_number;
-                itoa_number = ft_strjoin("SHLVL=", itoa_number);
-                node = assign_env_node(node, "SHLVL", tmp, itoa_number);
-                free(itoa_number);
-                free(tmp);
-            }
-            else if (number > 998)
-                node = assign_env_node(node, "SHLVL", "", "SHLVL=");
-            else if (number < 0)
-                node = assign_env_node(node, "SHLVL", "0", "SHLVL=0");
-        }
+            handle_shell_level_non_zero_case(node);
     }
     return env;
 }

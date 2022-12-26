@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/24 18:15:54 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/26 13:41:40 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,6 +244,7 @@ void handle_builtin_command(t_execution *exec_struct, t_command *command, t_cont
 int handle_new_line_in_echo(char **argument, int *index_one);
 void handle_exit_cases(t_execution *exec_struct,int type, char **argument);
 void ft_exit(t_execution *exec_struct, int status);
+char *check_current_path(t_execution *execStruct);
 
 // Export
 void print_env_with_export(t_env *env);
@@ -275,6 +276,7 @@ int ft_strcmp(const char *s1, const char *s2);
 void print_exit_error(t_execution *exec_struct,int type, char *argument);
 void print_error(char *cmd);
 char **print_export_error(char *key, int *status);
+void print_cd_error(char *path, int type);
 
 // noBuiltins;
 void handle_no_builtins(t_execution *exec_struct, char **cmdLine, t_context context);
@@ -282,6 +284,8 @@ void handle_no_builtins(t_execution *exec_struct, char **cmdLine, t_context cont
 // noBuiltins_tools;
 char *join_path_with_command(char *path, char *command);
 char **convert_env_to_array(t_env *env);
+void change_pwd_in_env_in_case_of_error(t_execution *exec_struct,t_env *env);
+int env_linked_list_len(t_env *env);
 
 // signalHandler
 void signalHandler();

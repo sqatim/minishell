@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 20:49:07 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/24 18:43:49 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/26 14:44:18 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 unsigned long long ft_atoull(const char *str)
 {
-	int i;
 	unsigned long long result;
 	int counter;
+	int i;
 
 	i = 0;
 	result = 0;

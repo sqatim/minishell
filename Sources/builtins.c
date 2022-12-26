@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:47:37 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/24 19:40:47 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/26 14:39:55 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,12 @@ void execute_env(t_env *env)
     g_global.exit = 0;
 }
 
-void unset_itterator(t_env **tmp, char *tmp_argument)
+int unset_itterator(t_env **tmp, char *tmp_argument)
 {
     t_env *next;
-
+    int check;
+    
+    check = 1;
     while (*tmp)
     {
         if (ft_strnstr((*tmp)->content, tmp_argument, ft_strlen(tmp_argument)))
@@ -39,15 +41,18 @@ void unset_itterator(t_env **tmp, char *tmp_argument)
                 (*tmp)->prev->next = (*tmp)->next;
             if ((*tmp)->next)
                 (*tmp)->next->prev = (*tmp)->prev;
+            if(!(*tmp)->prev && !(*tmp)->next)
+                check = 0;
             free((*tmp)->content);
             free(*tmp);
             *tmp = NULL;
             *tmp = next;
-            break;
+            return check;
         }
         else
             *tmp = (*tmp)->next;
     }
+    return (check);
 }
 
 t_env *execute_unset(t_env *env, char *argument)
@@ -59,14 +64,15 @@ t_env *execute_unset(t_env *env, char *argument)
     {
         tmp_argument = ft_strjoin(argument, "=");
         tmp = env;
-        unset_itterator(&tmp, tmp_argument);
+        if(!unset_itterator(&tmp, tmp_argument))
+            env = NULL;
         if (tmp && !tmp->prev)
             env = tmp;
         free(tmp_argument);
         tmp_argument = NULL;
     }
     g_global.exit = 0;
-    return env;
+    return (env);
 }
 
 void select_builtins_command(t_execution *exec_struct, t_command *command)
@@ -101,14 +107,14 @@ void handle_builtin_command(t_execution *exec_struct,
     std_in = dup(STDIN_FILENO);
     result = execRedirection(exec_struct, context);
     select_builtins_command(exec_struct, command);
-    if (context.fd[STDOUT_FILENO] != STDOUT_FILENO ||\
-         context.fd[STDIN_FILENO] != STDIN_FILENO || result)
+    if (context.fd[STDOUT_FILENO] != STDOUT_FILENO ||
+        context.fd[STDIN_FILENO] != STDIN_FILENO || result)
     {
-        if (context.fd[STDIN_FILENO] == STDIN_FILENO ||\
-             result == 1 || result == 3)
+        if (context.fd[STDIN_FILENO] == STDIN_FILENO ||
+            result == 1 || result == 3)
             dup2(std_out, STDOUT_FILENO);
-        if (context.fd[STDOUT_FILENO] == STDOUT_FILENO ||\
-             result == 2 || result == 3)
+        if (context.fd[STDOUT_FILENO] == STDOUT_FILENO ||
+            result == 2 || result == 3)
             dup2(std_in, STDIN_FILENO);
         close(std_out);
         close(std_in);

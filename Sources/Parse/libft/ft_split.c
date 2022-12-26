@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 13:07:21 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/21 22:16:48 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/26 14:43:15 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,30 +56,30 @@ static char	*word_dup(const char *str, int start, int finish)
 	return (word);
 }
 
-char	**ft_split(char const *s, char c)
-{
-	size_t	i;
-	size_t	j;
-	int		index;
-	char	**split;
+// char	**ft_split(char const *s, char c)
+// {
+// 	size_t	i;
+// 	size_t	j;
+// 	int		index;
+// 	char	**split;
 
-	split = ft_malloc((count_words(s, c) + 1), sizeof(char *));
-	if (!s || !split)
-		return (0);
-	i = 0;
-	j = 0;
-	index = -1;
-	while (i <= ft_strlen(s))
-	{
-		if (s[i] != c && index < 0)
-			index = i;
-		else if ((s[i] == c || i == ft_strlen(s)) && index >= 0)
-		{
-			split[j++] = word_dup(s, index, i);
-			index = -1;
-		}
-		i++;
-	}
-	split[j] = 0;
-	return (split);
-}
+// 	split = ft_malloc((count_words(s, c) + 1), sizeof(char *));
+// 	if (!s || !split)
+// 		return (0);
+// 	i = 0;
+// 	j = 0;
+// 	index = -1;
+// 	while (i <= ft_strlen(s))
+// 	{
+// 		if (s[i] != c && index < 0)
+// 			index = i;
+// 		else if ((s[i] == c || i == ft_strlen(s)) && index >= 0)
+// 		{
+// 			split[j++] = word_dup(s, index, i);
+// 			index = -1;
+// 		}
+// 		i++;
+// 	}
+// 	split[j] = 0;
+// 	return (split);
+// }

@@ -6,13 +6,14 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 15:29:37 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/24 17:55:09 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/26 12:47:27 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
 
-t_redirection *add_new_redirection(t_redirection *redirections_head, t_redirection *current_redirection)
+t_redirection *add_new_redirection(t_redirection *redirections_head,\
+     t_redirection *current_redirection)
 {
     t_redirection *tmp;
     t_redirection *new;
@@ -82,16 +83,20 @@ t_redirection *check_type_of_redirection(t_redirection *redirection, int type)
         next = redirection->next;
     if (redirection && type == 0)
     {
-        if (!ft_strcmp(redirection->type, "<<") || !ft_strcmp(redirection->type, "<"))
+        if (!ft_strcmp(redirection->type, "<<") || \
+            !ft_strcmp(redirection->type, "<"))
             return (redirection);
-        else if (next && (!ft_strcmp(next->type, "<<") || !ft_strcmp(next->type, "<")))
+        else if (next && (!ft_strcmp(next->type, "<<") || \
+            !ft_strcmp(next->type, "<")))
             return (next);
     }
     if (redirection && type == 1)
     {
-        if (!ft_strcmp(redirection->type, ">>") || !ft_strcmp(redirection->type, ">"))
+        if (!ft_strcmp(redirection->type, ">>") || \
+            !ft_strcmp(redirection->type, ">"))
             return (redirection);
-        else if (next && (!ft_strcmp(next->type, ">>") || !ft_strcmp(next->type, ">")))
+        else if (next && (!ft_strcmp(next->type, ">>") || \
+            !ft_strcmp(next->type, ">")))
             return (next);
     }
     return (NULL);

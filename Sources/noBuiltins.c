@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 00:21:27 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/24 15:50:11 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/26 14:50:01 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 char *check_command_access(t_env *env, char *command)
 {
+    char *cmd_joined;
     char *path_env;
     char **path;
-    char *cmd_joined;
     int index;
 
     index = 0;
@@ -34,19 +34,29 @@ char *check_command_access(t_env *env, char *command)
     return NULL;
 }
 
-void handle_no_builtins(t_execution *exec_struct, char **cmd_line, t_context context)
+char *handle_no_builtins_command(t_execution *exec_struct, char **cmd_line)
 {
     char *command;
-    int pid;
-    char **env;
 
     command = check_command_access(exec_struct->env, cmd_line[0]);
     if (!command)
     {
         g_global.exit = 127;
         print_error(cmd_line[0]);
+        return NULL;
     }
-    else
+    return (command);
+}
+
+void handle_no_builtins(t_execution *exec_struct, char **cmd_line,
+                        t_context context)
+{
+    char *command;
+    int pid;
+    char **env;
+
+    command = handle_no_builtins_command(exec_struct, cmd_line);
+    if (command)
     {
         g_global.forkFlag = 1;
         env = convert_env_to_array(exec_struct->env);
@@ -59,8 +69,6 @@ void handle_no_builtins(t_execution *exec_struct, char **cmd_line, t_context con
             execve(command, cmd_line, env);
         }
         else
-        {
             return;
-        }
     }
 }
