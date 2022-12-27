@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 14:25:08 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/26 15:00:19 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/27 19:51:59 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,42 +79,21 @@ t_env *sort_env(t_env *env)
     return env_export;
 }
 
-void print_value_of_export(char *value)
-{
-    int index;
-
-    index = 0;
-    while (value[index])
-    {
-        if (value[index] == '"')
-            ft_putchar_fd('\\', 1);
-        ft_putchar_fd(value[index], 1);
-        index++;
-    }
-}
-
 void print_env_with_export(t_env *env)
 {
     t_env *sorted_env;
-    char *key;
-    char *value;
+    t_env *tmp;
     int index;
 
     sorted_env = sort_env(env);
-    while (sorted_env)
+    tmp = sorted_env;
+    while (tmp)
     {
         index = 0;
-        while (sorted_env->content[index] != '=')
+        while (tmp->content[index] != '=')
             index++;
-        key = ft_substr(sorted_env->content, 0, ++index);
-        value = ft_substr(sorted_env->content, index,
-                          ft_strlen(sorted_env->content));
-        ft_putstr_fd("declare -x ", 1);
-        ft_putstr_fd(key, 1);
-        ft_putstr_fd("\"", 1);
-        print_value_of_export(value);
-        ft_putendl_fd("\"", 1);
-        sorted_env = sorted_env->next;
+        print_env_with_export_second(tmp, &index);
+        tmp = tmp->next;
     }
     free_env(sorted_env);
     g_global.exit = 0;
@@ -167,7 +146,8 @@ char *join_export_key_value(char **key_value, char *old_value)
 {
     char *joined;
     char *old_with_new;
-
+    char *ptr_to_free;
+    
     if (!ft_strcmp(key_value[1], "+="))
     {
         joined = ft_strjoin(key_value[0], "=");
@@ -180,17 +160,19 @@ char *join_export_key_value(char **key_value, char *old_value)
     else
     {
         joined = ft_strjoin(key_value[0], "=");
+        ptr_to_free = joined;
         joined = ft_strjoin(joined, key_value[2]);
+        free(ptr_to_free);
     }
     return joined;
 }
 
-t_env *handle_export_key_value(t_env *env, t_export *export)
+t_env *handle_export_key_value(t_execution *exec_struct, t_env *env, t_export *export)
 {
     export->old_value = ft_get_env(env, export->key_value[0]);
     if (export->old_value)
         export->old_value = ft_strdup(export->old_value);
-    env = execute_unset(env, export->key_value[0]);
+    env = execute_unset(exec_struct, env, export->key_value[0]);
     export->key_value_joined = join_export_key_value(export->key_value,
                                                      export->old_value);
     env = add_env_node(env, export->key_value_joined, 1);
@@ -198,10 +180,12 @@ t_env *handle_export_key_value(t_env *env, t_export *export)
     export->key_value_joined = NULL;
     free_array_two_dimension(export->key_value);
     export->key_value = NULL;
+    if (export->old_value)
+        free_string(export->old_value);
     return env;
 }
 
-t_env *handle_export(t_env *env, char **argument)
+t_env *handle_export(t_execution *exec_struct, t_env *env, char **argument)
 {
     t_export export;
 
@@ -217,12 +201,13 @@ t_env *handle_export(t_env *env, char **argument)
                 env = add_env_node(env, export.key_value[0], 0);
         }
         else if (export.key_value && !export.key_value[3])
-            env = handle_export_key_value(env, &export);
+            env = handle_export_key_value(exec_struct, env, &export);
         export.index++;
     }
     if (export.status)
         g_global.exit = 0;
     else
         g_global.exit = 1;
+    exec_struct->envArray = convert_env_to_array(exec_struct, env);
     return env;
 }

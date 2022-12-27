@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 00:21:27 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/26 17:14:31 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/27 17:34:38 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,14 @@ char *check_command_access(t_env *env, char *command)
     {
         cmd_joined = join_path_with_command(path[index], command);
         if (!access(cmd_joined, F_OK))
+        {
+            free_array_two_dimension(path);
             return cmd_joined;
+        }
+        free_string(cmd_joined);
         index++;
     }
+    free_array_two_dimension(path);
     return NULL;
 }
 
@@ -61,18 +66,18 @@ void handle_no_builtins(t_execution *exec_struct, char **cmd_line,
         if (command)
         {
             g_global.forkFlag = 1;
-            env = convert_env_to_array(exec_struct->env);
             pid = fork();
             if (pid == 0)
             {
                 execRedirection(exec_struct, context);
                 if (context.fd_close >= 0)
                     close(context.fd_close);
-                if (execve(command, cmd_line, env) == -1)
+                // if (execve(command, cmd_line, NULL) == -1)
+                if (execve(command, cmd_line, exec_struct->envArray) == -1)
                     printf("hii");
             }
             else
-                return;
+                free_string(command);               
         }
     }
 }

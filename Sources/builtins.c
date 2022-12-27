@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:47:37 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/26 17:01:59 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/27 19:36:53 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int unset_itterator(t_env **tmp, char *tmp_argument)
     return (check);
 }
 
-t_env *execute_unset(t_env *env, char *argument)
+t_env *execute_unset(t_execution *exec_struct, t_env *env, char *argument)
 {
     t_env *tmp;
     char *tmp_argument;
@@ -72,6 +72,7 @@ t_env *execute_unset(t_env *env, char *argument)
         tmp_argument = NULL;
     }
     g_global.exit = 0;
+    exec_struct->envArray = convert_env_to_array(exec_struct, env);
     return (env);
 }
 
@@ -83,9 +84,11 @@ void select_builtins_command(t_execution *exec_struct, t_command *command)
     if (!ft_strcmp(word_cmd[0], "env"))
         execute_env(exec_struct->env);
     else if (!ft_strcmp(word_cmd[0], "unset"))
-        exec_struct->env = execute_unset(exec_struct->env, word_cmd[1]);
+        exec_struct->env = execute_unset(exec_struct,exec_struct->env,\
+             word_cmd[1]);
     else if (!ft_strcmp(word_cmd[0], "export"))
-        exec_struct->env = execute_export(exec_struct->env, word_cmd);
+        exec_struct->env = execute_export(exec_struct, exec_struct->env,\
+             word_cmd);
     else if (!ft_strcmp(word_cmd[0], "pwd"))
         execute_pwd(exec_struct);
     else if (!ft_strcmp(word_cmd[0], "cd"))

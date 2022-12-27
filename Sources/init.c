@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 22:16:29 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/26 13:03:32 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/27 19:39:41 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ t_execution *execution_initialization(char **envp)
     exec_struct->command = NULL;
     exec_struct->redirections_sorted = NULL;
     exec_struct->path = NULL;
+    exec_struct->envArray = NULL;
+    exec_struct->envArray = convert_env_to_array(exec_struct,exec_struct->env);
     return exec_struct;
 }
 

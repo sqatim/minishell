@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 18:49:40 by samirqatim        #+#    #+#             */
-/*   Updated: 2022/12/24 19:33:08 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/27 18:09:50 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,11 @@ void execute_pwd(t_execution *exec_struct)
     g_global.exit = 0;
 }
 
-t_env *execute_export(t_env *env, char **argument)
+t_env *execute_export(t_execution *exec_struct,t_env *env, char **argument)
 {
     if (!argument[1])
         print_env_with_export(env);
     else
-        env = handle_export(env, argument);
+        env = handle_export(exec_struct, env, argument);
     return env;
 }

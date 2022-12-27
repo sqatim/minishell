@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 13:42:07 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/26 17:15:30 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/27 15:55:22 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int exec_pipe(t_execution *exec_struct, t_command *command, t_context context)
     pipe_struct.left_node = clone_node(command);
     child += execCommandOfNode(exec_struct, pipe_struct.left_node,\
          pipe_struct.left_context);
-    free_command(&pipe_struct.left_node);
+    pipe_struct.left_node = free_command(pipe_struct.left_node);
     pipe_struct.right_context = context;
     pipe_struct.right_context.fd[STDIN_FILENO] = p[STDIN_FILENO];
     pipe_struct.right_context.fd_close = p[STDOUT_FILENO];

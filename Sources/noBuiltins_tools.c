@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 20:37:25 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/26 12:57:12 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/27 17:54:31 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,23 @@ int env_linked_list_len(t_env *env)
     return (index);
 }
 
-char **convert_env_to_array(t_env *env)
+int env_linked_list_len_with_key_value(t_env *env)
+{
+    t_env *tmp;
+    int index;
+
+    index = 0;
+    tmp = env;
+    while (tmp)
+    {
+        if (tmp->display)
+            index++;
+        tmp = tmp->next;
+    }
+    return (index);
+}
+
+char **convert_env_to_array(t_execution *exec_struct, t_env *env)
 {
     t_env *tmp;
     char **env_array;
@@ -47,7 +63,11 @@ char **convert_env_to_array(t_env *env)
     int len;
 
     index = 0;
-    len = env_linked_list_len(env);
+    len = env_linked_list_len_with_key_value(env);
+    if(exec_struct->envArray)
+        free_array_two_dimension(exec_struct->envArray);
+    if (len == 0)
+        return NULL;
     env_array = ft_calloc(++len, sizeof(char *));
     tmp = env;
     while (tmp)

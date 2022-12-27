@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:50:47 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/26 17:33:52 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/27 15:55:53 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ int check_command(t_execution *execStruct, t_command *command, t_context context
         else
             handle_no_builtins(execStruct, command->command, context, check);
         if (execStruct->redirections_sorted)
-            free_redirection(&execStruct->redirections_sorted);
+           execStruct->redirections_sorted = \
+            free_redirection(execStruct->redirections_sorted);
     }
     return check;
 }

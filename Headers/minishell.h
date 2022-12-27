@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/26 17:06:21 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/27 19:46:36 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ typedef struct s_execution
 	t_redirection *redirections_sorted;
 	t_env *env;
 	t_command *command;
+	char **envArray;
 	int status;
 	char *path;
 } t_execution;
@@ -231,8 +232,8 @@ int check_shell_lvl_value(char *argument);
 
 // builtins
 void execute_env(t_env *env);
-t_env *execute_unset(t_env *env, char *argument);
-t_env *execute_export(t_env *env, char **argument);
+t_env *execute_unset(t_execution *exec_struct, t_env *env, char *argument);
+t_env *execute_export(t_execution *exec_struct, t_env *env, char **argument);
 t_env *add_env_node(t_env *head, char *content, int display);
 void execute_pwd(t_execution *exec_struct);
 void execute_cd(t_execution *exec_struct, t_env *env, char **argument);
@@ -242,14 +243,15 @@ void handle_builtin_command(t_execution *exec_struct, t_command *command, t_cont
 
 // builtins__tools
 int handle_new_line_in_echo(char **argument, int *index_one);
-void handle_exit_cases(t_execution *exec_struct,int type, char **argument);
+void handle_exit_cases(t_execution *exec_struct, int type, char **argument);
 void ft_exit(t_execution *exec_struct, int status);
 char *check_current_path(t_execution *execStruct);
 
 // Export
 void print_env_with_export(t_env *env);
 t_env *sort_env(t_env *env);
-t_env *handle_export(t_env *env, char **argument);
+t_env *handle_export(t_execution *exec_struct, t_env *env, char **argument);
+void print_env_with_export_second(t_env *sorted_env, int *index);
 
 // cd
 t_env *change_directory(t_execution *exec_struct, t_env *env, char *path);
@@ -258,8 +260,8 @@ t_env *change_directory(t_execution *exec_struct, t_env *env, char *path);
 void free_array_two_dimension(char **array);
 void free_string(char *str);
 void free_env(t_env *env);
-void free_redirection(t_redirection **redirection);
-void free_command(t_command **command);
+t_redirection *free_redirection(t_redirection *redirection);
+t_command *free_command(t_command *command);
 void free_execution_struct(t_execution *exec_struct);
 void free_env_node_content(t_env *node);
 
@@ -273,7 +275,7 @@ unsigned long long ft_atoull(const char *str);
 int ft_strcmp(const char *s1, const char *s2);
 
 // print
-void print_exit_error(t_execution *exec_struct,int type, char *argument);
+void print_exit_error(t_execution *exec_struct, int type, char *argument);
 void print_error(char *cmd);
 char **print_export_error(char *key, int *status);
 void print_cd_error(char *path, int type);
@@ -284,9 +286,10 @@ void handle_no_builtins(t_execution *exec_struct, char **cmdLine, t_context cont
 
 // noBuiltins_tools;
 char *join_path_with_command(char *path, char *command);
-char **convert_env_to_array(t_env *env);
-void change_pwd_in_env_in_case_of_error(t_execution *exec_struct,t_env *env);
+char **convert_env_to_array(t_execution *exec_struct, t_env *env);
+void change_pwd_in_env_in_case_of_error(t_execution *exec_struct, t_env *env);
 int env_linked_list_len(t_env *env);
+int env_linked_list_len_with_key_value(t_env *env);
 
 // signalHandler
 void signalHandler();

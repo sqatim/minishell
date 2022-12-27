@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:58:46 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/26 17:56:04 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/27 19:36:22 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,11 @@ void manage_command(t_execution *exec_struct, char *buffer)
     start_execution(exec_struct, exec_struct->command);
     free_string(buffer);
     buffer = NULL;
-    free_command(&exec_struct->command);
-    free_redirection(&exec_struct->redirections_sorted);
+    if (exec_struct->command)
+        exec_struct->command = free_command(exec_struct->command);
+    if (exec_struct->redirections_sorted)
+        exec_struct->redirections_sorted =
+            free_redirection(exec_struct->redirections_sorted);
     return;
 }
 
@@ -47,10 +50,14 @@ void minishell_loop(t_execution *exec_struct)
     {
         buffer = readline("minishell:> ");
         if (!buffer)
+        {
+            system("leaks minishell");
             ft_exit(exec_struct, 130);
+        }
         if (buffer[0] != '\0')
         {
-            exec_struct->command = startParse(exec_struct->env, buffer);
+            // exec_struct->command = startParse(exec_struct->env, buffer);
+            exec_struct->command = customizeMyParse(buffer);
             add_history(buffer);
             manage_command(exec_struct, buffer);
         }
@@ -58,6 +65,7 @@ void minishell_loop(t_execution *exec_struct)
         if (fd > 3)
             printf("FD LEAKS: fd => %d\n", fd);
         close(fd);
+        // free_execution_struct(exec_struct);
     }
 }
 
@@ -104,6 +112,7 @@ char *ft_get_env(t_env *env, char *key)
         }
         tmp = tmp->next;
     }
+    free_string(tmp_key);
     return NULL;
 }
 

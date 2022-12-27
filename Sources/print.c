@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 23:10:39 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/26 17:11:06 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/27 19:49:37 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,35 @@ void print_fd_errors(char *file_name)
 {
     ft_putstr_fd(file_name, 2);
     ft_putendl_fd(": No such file or directory", 2);
+}
+
+void print_value_of_export(char *value)
+{
+    int index;
+
+    index = 0;
+    while (value[index])
+    {
+        if (value[index] == '"')
+            ft_putchar_fd('\\', 1);
+        ft_putchar_fd(value[index], 1);
+        index++;
+    }
+}
+
+void print_env_with_export_second(t_env *sorted_env, int *index)
+{
+    char *key;
+    char *value;
+
+    key = ft_substr(sorted_env->content, 0, ++(*index));
+    value = ft_substr(sorted_env->content, *index,
+                      ft_strlen(sorted_env->content));
+    ft_putstr_fd("declare -x ", 1);
+    ft_putstr_fd(key, 1);
+    ft_putstr_fd("\"", 1);
+    print_value_of_export(value);
+    ft_putendl_fd("\"", 1);
+    free(key);
+    free(value);
 }
