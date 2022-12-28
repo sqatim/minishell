@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 12:35:52 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/26 14:46:00 by samirqatim       ###   ########.fr       */
+/*   Updated: 2022/12/28 12:59:51 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void change_path_in_exec_struct_in_case_of_error(t_execution *exec_struct,
         tmp = NULL;
     }
     ft_putendl_fd("cd: error retrieving current directory: getcwd: cannot\
-         access parent directories: No such file or directory",
+     access parent directories: No such file or directory",
                   2);
     change_pwd_in_env_in_case_of_error(exec_struct, env);
 }
