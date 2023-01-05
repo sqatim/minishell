@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 12:43:55 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/24 17:28:02 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/05 17:45:49 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,14 @@
 
 void handle_ctrl_c(int signum)
 {
-    (void) signum;
+    (void)signum;
     if (g_global.forkFlag == 0)
     {
+        if (g_global.here_doc == 1)
+        {
+            g_global.exit = 1;
+            g_global.here_doc = 0;
+        }
         write(1, "\n", 1);
         rl_on_new_line();
         // rl_replace_line("", 0);
@@ -27,7 +32,7 @@ void handle_ctrl_c(int signum)
 
 void handle_ctrl_back_slash(int signum)
 {
-    (void) signum;
+    (void)signum;
     if (g_global.forkFlag == 0)
         rl_redisplay();
     else

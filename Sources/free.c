@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 17:41:04 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/27 18:49:58 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/05 17:10:06 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_command *free_command(t_command *command)
         return NULL;
     free_command(command->next);
     free_array_two_dimension(command->command);
-    unlink_heredocument_files(command->redirections);
+    // unlink_heredocument_files(command->redirections);
     free_redirection(command->redirections);
     free(command);
     command = NULL;

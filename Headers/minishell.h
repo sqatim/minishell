@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/27 19:46:36 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/05 17:43:56 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_global
 {
 	int forkFlag;
 	int exit;
+	int here_doc;
 
 } t_global;
 

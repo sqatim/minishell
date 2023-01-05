@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:07:22 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/26 17:12:35 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/05 17:44:48 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,11 @@ void here_document_redirection(char *filename)
     int len;
 
     buffer = ft_calloc(BUFFER_SIZE, 1);
+    // path = ft_strjoin("./", filename);
     path = ft_strjoin("/tmp/", filename);
     delimiter = ft_strjoin(filename, "\n");
     fd = open(path, O_CREAT | O_TRUNC | O_RDWR, 0777);
+    g_global.here_doc = 1;
     while (ft_strcmp(buffer, delimiter) != 0)
     {
         len = read(0, buffer, BUFFER_SIZE);
@@ -42,6 +44,7 @@ void here_document_redirection(char *filename)
         if (ft_strcmp(buffer, delimiter) != 0)
             write(fd, buffer, len);
     }
+    g_global.here_doc = 0;
     free_string(delimiter);
     free_string(path);
     free(buffer);

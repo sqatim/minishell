@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 17:17:35 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/28 13:12:07 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/05 17:09:59 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,18 @@ int exec_input_redirection(t_redirection *input)
     {
         path = ft_strjoin("/tmp/", input->f_name);
         fd_input = open(path, O_RDONLY, 0777);
+        if (fd_input == -1)
+            printf("wadsadsadsadsads\n");
         free_string(path);
         path = NULL;
     }
     else
     {
         fd_input = open(input->f_name, O_RDONLY, 0777);
-        if(fd_input == -1)
+        if (fd_input == -1)
         {
             print_fd_errors(input->f_name);
-            if(g_global.forkFlag == 1)
+            if (g_global.forkFlag == 1)
                 exit(1);
         }
     }

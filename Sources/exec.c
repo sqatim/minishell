@@ -6,13 +6,13 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 13:42:07 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/27 15:55:22 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/05 17:08:08 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
 
-void  start_execution(t_execution *exec_struct, t_command *command)
+void start_execution(t_execution *exec_struct, t_command *command)
 {
     t_context context;
     int children;
@@ -27,6 +27,7 @@ void  start_execution(t_execution *exec_struct, t_command *command)
     children = execCommandOfNode(exec_struct, command, context);
     while (index < children)
     {
+        // printf("index: %d\n", index);
         wait(&w_status);
         if (WIFEXITED(w_status))
         {
@@ -45,25 +46,25 @@ int exec_pipe(t_execution *exec_struct, t_command *command, t_context context)
     t_pipe pipe_struct;
     int child;
     int p[2];
-    
+
     child = 0;
     pipe(p);
     pipe_struct.left_context = context;
     pipe_struct.left_context.fd[STDOUT_FILENO] = p[STDOUT_FILENO];
     pipe_struct.left_context.fd_close = p[STDIN_FILENO];
     pipe_struct.left_node = clone_node(command);
-    child += execCommandOfNode(exec_struct, pipe_struct.left_node,\
-         pipe_struct.left_context);
+    child += execCommandOfNode(exec_struct, pipe_struct.left_node,
+                               pipe_struct.left_context);
     pipe_struct.left_node = free_command(pipe_struct.left_node);
     pipe_struct.right_context = context;
     pipe_struct.right_context.fd[STDIN_FILENO] = p[STDIN_FILENO];
     pipe_struct.right_context.fd_close = p[STDOUT_FILENO];
-    if (command->next->next && \
-        !check_type_of_command(command->next->next->command[0]))
+    if (command->next &&
+        !check_type_of_command(command->next->command[0]))
         close(p[STDOUT_FILENO]);
     pipe_struct.right_node = command->next;
-    child += execCommandOfNode(exec_struct, pipe_struct.right_node,\
-         pipe_struct.right_context);
+    child += execCommandOfNode(exec_struct, pipe_struct.right_node,
+                               pipe_struct.right_context);
     close(p[STDIN_FILENO]);
     close(p[STDOUT_FILENO]);
     return child;

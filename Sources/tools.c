@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:58:46 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/28 13:14:03 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/05 17:10:29 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,14 @@ void minishell_loop(t_execution *exec_struct)
             add_history(buffer);
             manage_command(exec_struct, buffer);
         }
-        fd = open("/tmp/testFD", O_RDWR | O_CREAT);
+        fd = open("./testFD", O_RDWR | O_CREAT, 0777);
         if (fd > 3)
-            printf("FD LEAKS: fd => %d\n", fd);
+        {
+            ft_putstr_fd("FD LEAKS: fd => ", 2);
+            ft_putnbr_fd(fd, 2);
+            ft_putendl_fd("", 2);
+        }
+        // printf("FD LEAKS: fd => %d\n", fd);
         close(fd);
         // free_execution_struct(exec_struct);
     }

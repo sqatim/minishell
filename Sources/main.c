@@ -15,13 +15,14 @@ void init_global_variable()
 {
     g_global.forkFlag = 0;
     g_global.exit = 0;
+    g_global.here_doc = 1;
 }
 
 int main(int ac, char **av, char **envp)
 {
     t_execution *exec_struct;
 
-    (void) av;
+    (void)av;
     if (ac == 1)
     {
         disable_ctrl_chars();
