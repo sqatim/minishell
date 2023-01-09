@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
+/*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:07:22 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/26 17:12:35 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/08 16:28:36 by oussama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void here_document_redirection(char *filename)
     {
         len = read(0, buffer, BUFFER_SIZE);
         buffer[len] = '\0';
+        // while (search_dollar(buffer) == 1)
+        //     expand_after_dollar_h(&buffer, env);
         if (ft_strcmp(buffer, delimiter) != 0)
             write(fd, buffer, len);
     }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
+/*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/27 19:46:36 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/08 16:27:12 by oussama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,30 +176,41 @@ t_token *add_PIPE_node(t_token *ptr, char *line, int i);
 t_token *add_lim_rederi_node(t_token *ptr, char *line, int *index);
 t_token *add_lis_rederi_node(t_token *ptr, char *line, int *index);
 t_token *get_different_token(t_token *ptr, char *line, int *index);
+t_token	*ft_norm_word(t_token *ptr, t_main *m_main, int *index, char *line);
+t_token	*ft_norm_quots(t_token *ptr, t_main *m_main, int *index, char *line);
+t_token	*ft_norm_word_h(t_token *ptr, t_main *m_main, int *index, char *line);
+t_token	*ft_norm_quots_h(t_token *ptr, t_main *m_main, int *index, char *line);
+t_token	*ft_check_norm(t_token *ptr, t_main *m_main, int *index, char *line);
 t_command *startParse(t_env *env, char *buffer);
 
 /****************quots****************/
 
-char *check_quotes(int *indice, char *line, t_main *m_main);
-char *between_quots(char *line, int *indice, char type, t_main *main);
-int word_len_quotes(int i, char *line, char type);
-int find_quotes(char *line, int *indice, char type);
-char *quotes_after_quotes(char *line, int *indice, char type);
+char	*check_quotes(int *indice, char *line, t_main *m_main);
+char	*between_quots(char *line, int *indice, char type, t_main *main);
+int		word_len_quotes(int i, char *line, char type);
+int		find_quotes(char *line, int *indice, char type);
+char	*quotes_after_quotes(char *line, int *indice, char type);
+char	*between_quots_h(char *line, int *indice, char type, t_main *main);
+char	*check_quotes_h(int *indice, char *line, t_main *m_main);
 
 /****************dollar****************/
 
-int expand_after_dollar(char **token, t_main *m_main);
-void after_dollar(t_main *m_main, char **token, char *name);
-void take_token(t_main *m_main, char **token, char *value, char *name);
-char *join_token_after_dollar(char **token, char *d_value);
-int search_dollar(char *str);
-void take_after_dollar(char **token, int *index, char **name);
-void ft_check_dollar(char **token, int *index, t_main *m_main);
-int len_dollar_name(char **token);
-int alpha_numeric(char c);
-char *last_part(char **token, int *index);
-char *take_last_part(char **token, int *i);
-char *take_last_token(char **token);
+int		expand_after_dollar(char **token, t_main *m_main);
+void	after_dollar(t_main *m_main, char **token, char *name);
+void	take_token(t_main *m_main, char **token, char *value, char *name);
+char	*join_token_after_dollar(char **token, char *d_value);
+int		search_dollar(char *str);
+void	take_after_dollar(char **token, int *index, char **name);
+void	ft_check_dollar(char **token, int *index, t_main *m_main);
+int		len_dollar_name(char **token);
+int		alpha_numeric(char c);
+char	*last_part(char **token, int *index);
+char	*take_last_part(char **token, int *i);
+char	*take_last_token(char **token);
+void	ft_check_dollar_h(char **token, int *index, int *flag_dollar);
+void	take_token_h(int flag, char **token, char *value, char *name);
+void	after_dollar_h(t_env *env, char **token, char *name, int flag);
+int		expand_after_dollar_h(char **token, t_env *env);
 
 /****************syntax error****************/
 

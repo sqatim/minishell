@@ -3,3 +3,5 @@
 *.a
 Objects
 minishell
+
+./Sources/tools.c

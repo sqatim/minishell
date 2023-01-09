@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utilis3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
+/*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 23:59:28 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/24 15:01:50 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/09 12:46:45 by oussama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*last_part(char **token, int *index)
 	j = 0;
 	while ((*token)[i++])
 		len++;
-	str = ft_malloc(sizeof(char), len + 1);
+	str = malloc(sizeof(char) * (len + 1));
 	i = *index;
 	while ((*token)[i])
 		str[j++] = (*token)[i++];
@@ -36,10 +36,17 @@ char	*take_last_part(char **token, int *i)
 {
 	char	*str;
 	int		index;
+	char	*exit;
 
 	index = *i;
 	while ((*token)[index] == '$')
 		index++;
+	if ((*token)[index] == '?')
+	{
+		exit = ft_itoa(G_GLOBAL);
+		str = ft_strjoin(exit, &(*token)[++index]);
+		return (str);
+	}
 	while ((*token)[index] != '\0')
 	{
 		if (!alpha_numeric((*token)[index]))
@@ -63,6 +70,7 @@ char	*take_last_token(char **token)
 		if ((*token)[index] == '$')
 		{
 			str = take_last_part(token, &index);
+			printf("cococo\n");
 			return (str);
 		}
 		index++;

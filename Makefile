@@ -5,11 +5,11 @@ HEADER = Headers/minishell.h
 LIB_PATH= Libft
 PARSE_PATH= Sources/Parse
 
-INCLUDE_READLINE = $(addprefix $(READLINE_PATH),/include)
+# INCLUDE_READLINE = $(addprefix $(READLINE_PATH),/include)
+#
+# LIB_READLINE = $(addprefix $(READLINE_PATH),/lib)
 
-LIB_READLINE = $(addprefix $(READLINE_PATH),/lib)
-
-READLINE_PATH = $(shell brew --prefix readline)
+# READLINE_PATH = $(shell brew --prefix readline)
 
 LLIB_FLAG= -L$(LIB_PATH) Libft/libft.a
 LPARSE_FLAG= -L$(PARSE_PATH) Sources/Parse/libparse.a
@@ -63,7 +63,8 @@ all: lib parse $(NAME)
 
 $(NAME) : $(LIB_PATH)/$(LIB) $(PARSE_PATH)/$(PARSE) $(OBJ) $(HEADER)
 	# $(CC) $(FLAGS) $(OBJ) $(LLIB_FLAG) -o $(NAME) -lreadline
-	$(CC) $(FLAGS) $(OBJ) $(LLIB_FLAG) $(LPARSE_FLAG) -lreadline -I $(INCLUDE_READLINE) -L$(LIB_READLINE) -o $(NAME) 
+	$(CC) $(FLAGS) $(OBJ) $(LLIB_FLAG) $(LPARSE_FLAG) -o $(NAME) 
+	# $(CC) $(FLAGS) $(OBJ) $(LLIB_FLAG) $(LPARSE_FLAG) -lreadline -I $(INCLUDE_READLINE) -L$(LIB_READLINE) -o $(NAME) 
 
 lib:
 	@make -sC $(LIB_PATH)

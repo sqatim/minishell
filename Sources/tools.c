@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
+/*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:58:46 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/28 13:14:03 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/08 16:52:07 by oussama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,28 +45,30 @@ void minishell_loop(t_execution *exec_struct)
     char *buffer;
     int fd;
 
-    signalHandler();
-    while (1)
-    {
-        buffer = readline("minishell:> ");
-        if (!buffer)
-        {
-            system("leaks minishell");
-            ft_exit(exec_struct, 130);
-        }
-        if (buffer[0] != '\0')
-        {
+    // signalHandler();
+    // while (1)
+    // {
+        // buffer = readline("minishell:> ");
+        // if (!buffer)
+        // {
+        //     // system("leaks minishell");
+        //     ft_exit(exec_struct, 130);
+        // }
+        // if (buffer[0] != '\0')
+        // {
             exec_struct->command = startParse(exec_struct->env, buffer);
             // exec_struct->command = customizeMyParse(buffer);
-            add_history(buffer);
-            manage_command(exec_struct, buffer);
-        }
-        fd = open("/tmp/testFD", O_RDWR | O_CREAT);
-        if (fd > 3)
-            printf("FD LEAKS: fd => %d\n", fd);
-        close(fd);
+            // add_history(buffer);
+            // manage_command(exec_struct, buffer);
+        // }
+        // fd = open("/tmp/testFD", O_RDWR | O_CREAT);
+        // if (fd > 3)
+            // printf("FD LEAKS: fd => %d\n", fd);
+        // close(fd);
         // free_execution_struct(exec_struct);
-    }
+    // }
+    free_execution_struct(exec_struct);
+
 }
 
 t_env *ft_get_env_node(t_env *env, char *key)
