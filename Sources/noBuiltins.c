@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 00:21:27 by kernel            #+#    #+#             */
-/*   Updated: 2022/12/27 17:34:38 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/09 18:10:52 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void handle_no_builtins(t_execution *exec_struct, char **cmd_line,
                     printf("hii");
             }
             else
-                free_string(command);               
+                free_string(command);
         }
     }
 }

@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 17:17:35 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/05 17:09:59 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/09 16:57:13 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,9 @@ int exec_output_redirection(t_redirection *output)
     else
         fd_output = open(output->f_name, O_CREAT | O_TRUNC | O_WRONLY, 0777);
     dup2(fd_output, STDOUT_FILENO);
+    ft_putstr_fd("fd_output: ", 2);
+    ft_putnbr_fd(fd_output, 2);
+    ft_putendl_fd("", 2);
     close(fd_output);
     return (2);
 }

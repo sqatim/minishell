@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utilis.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
+/*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 06:27:06 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/21 22:15:07 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/03 13:22:05 by oussama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,15 @@ void	len_command_arg(t_parse *parse, t_token *token)
 void	get_command_arg(t_parse *parse)
 {
 	t_token	*token;
-	token = parse->token;
-	int				i;
+	int		i;
 
 	i = 0;
+	// token = parse->token;
 	parse->len = 0;
 	parse->command_arg = NULL;
 	token = parse->token;
 	len_command_arg(parse, token);
-	parse->command_arg = ft_malloc(sizeof(char *) , parse->len + 1);
+	parse->command_arg = malloc(sizeof(char *) * (parse->len + 1));
 	while (i < parse->len)
 	{
 		if (ft_check_word(token->value))

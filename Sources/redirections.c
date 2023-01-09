@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:07:22 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/05 17:44:48 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/09 14:22:20 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void printRedirection(t_redirection *redirections)
     }
 }
 
-void here_document_redirection(char *filename)
+void here_document_redirection(char *filename, t_env *env)
 {
     int fd;
     char *path;
@@ -37,10 +37,14 @@ void here_document_redirection(char *filename)
     delimiter = ft_strjoin(filename, "\n");
     fd = open(path, O_CREAT | O_TRUNC | O_RDWR, 0777);
     g_global.here_doc = 1;
+
     while (ft_strcmp(buffer, delimiter) != 0)
     {
         len = read(0, buffer, BUFFER_SIZE);
         buffer[len] = '\0';
+        while (search_dollar(buffer) == 1)
+            expand_after_dollar_h(&buffer, env);
+        // printf("delimter: %s\n", delimiter);
         if (ft_strcmp(buffer, delimiter) != 0)
             write(fd, buffer, len);
     }
@@ -95,16 +99,17 @@ int check_input_redirection(t_redirection *redirections, int *check)
     return 1;
 }
 
-t_redirection *handle_redirection(t_redirection *redirections, int *check)
+t_redirection *handle_redirection(t_env *env, t_redirection *redirections, int *check)
 {
     t_redirection *last_redirections;
     t_redirection *tmp;
 
     tmp = redirections;
+    // printf("tmp -> %s\n", tmp->type);
     while (tmp)
     {
         if (!ft_strcmp(tmp->type, "<<"))
-            here_document_redirection(tmp->f_name);
+            here_document_redirection(tmp->f_name, env);
         tmp = tmp->next;
     }
     if (!check_input_redirection(redirections, check))

@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 13:42:07 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/05 17:08:08 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/09 18:24:57 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void start_execution(t_execution *exec_struct, t_command *command)
         index++;
     }
     g_global.forkFlag = 0;
-    printf("=== %d ===\n", g_global.exit);
+    // printf("=== %d ===\n", g_global.exit);
     return;
 }
 
@@ -59,9 +59,11 @@ int exec_pipe(t_execution *exec_struct, t_command *command, t_context context)
     pipe_struct.right_context = context;
     pipe_struct.right_context.fd[STDIN_FILENO] = p[STDIN_FILENO];
     pipe_struct.right_context.fd_close = p[STDOUT_FILENO];
-    if (command->next &&
-        !check_type_of_command(command->next->command[0]))
+    if (command->next && !check_type_of_command(command->next->command[0]))
+    {
+        ft_putendl_fd("error", 2);
         close(p[STDOUT_FILENO]);
+    }
     pipe_struct.right_node = command->next;
     child += execCommandOfNode(exec_struct, pipe_struct.right_node,
                                pipe_struct.right_context);

@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:58:46 by kernel            #+#    #+#             */
-/*   Updated: 2023/01/05 17:10:29 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/09 17:54:54 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,19 @@ void minishell_loop(t_execution *exec_struct)
         }
         if (buffer[0] != '\0')
         {
-            exec_struct->command = startParse(exec_struct->env, buffer);
-            // exec_struct->command = customizeMyParse(buffer);
+            // exec_struct->command = startParse(exec_struct->env, buffer);
+            exec_struct->command = customizeMyParse(buffer);
             add_history(buffer);
             manage_command(exec_struct, buffer);
         }
-        fd = open("./testFD", O_RDWR | O_CREAT, 0777);
-        if (fd > 3)
-        {
-            ft_putstr_fd("FD LEAKS: fd => ", 2);
-            ft_putnbr_fd(fd, 2);
-            ft_putendl_fd("", 2);
-        }
-        // printf("FD LEAKS: fd => %d\n", fd);
-        close(fd);
-        // free_execution_struct(exec_struct);
+        // fd = open("./testFD", O_RDWR | O_CREAT, 0777);
+        // if (fd > 3)
+        // {
+        //     ft_putstr_fd("FD LEAKS: fd => ", 2);
+        //     ft_putnbr_fd(fd, 2);
+        //     ft_putendl_fd("", 2);
+        // }
+        // close(fd);
     }
 }
 

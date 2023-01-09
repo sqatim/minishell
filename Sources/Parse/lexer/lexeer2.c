@@ -6,30 +6,31 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 18:45:02 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/21 22:13:24 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/09 13:18:14 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Headers/minishell.h"
 
-t_token	*add_to_end_lexe(t_token *head, char *token)
+t_token *add_to_end_lexe(t_token *head, char *token)
 {
-	t_token	*tmp;
+	t_token *tmp;
 
-	tmp = ft_malloc(sizeof(t_token), 1);
+	// printf("token => %s\n", token);
+	tmp = malloc(sizeof(t_token));
 	if (!tmp)
 		return (NULL);
-	tmp->value = token;
+	tmp->value = ft_strdup(token);
 	tmp->next = NULL;
 	head->next = tmp;
-	// if (token)
-			// free(token);
+	if (token)
+		free(token);
 	return (tmp);
 }
 
-t_token	*add_pipe_node(t_token *ptr, char *line, int i)
+t_token *add_pipe_node(t_token *ptr, char *line, int i)
 {
-	char	*token;
+	char *token;
 
 	if (line[i] == '|')
 	{
@@ -39,10 +40,10 @@ t_token	*add_pipe_node(t_token *ptr, char *line, int i)
 	return (ptr);
 }
 
-t_token	*add_lim_rederi_node(t_token *ptr, char *line, int *index)
+t_token *add_lim_rederi_node(t_token *ptr, char *line, int *index)
 {
-	char	*token;
-	int		i;
+	char *token;
+	int i;
 
 	i = *index;
 	if (line[i + 1] == '<')
@@ -60,10 +61,10 @@ t_token	*add_lim_rederi_node(t_token *ptr, char *line, int *index)
 	return (ptr);
 }
 
-t_token	*add_lis_rederi_node(t_token *ptr, char *line, int *index)
+t_token *add_lis_rederi_node(t_token *ptr, char *line, int *index)
 {
-	char	*token;
-	int		i;
+	char *token;
+	int i;
 
 	i = *index;
 	if (line[i + 1] == '>')
@@ -81,9 +82,9 @@ t_token	*add_lis_rederi_node(t_token *ptr, char *line, int *index)
 	return (ptr);
 }
 
-t_token	*get_different_token(t_token *ptr, char *line, int *index)
+t_token *get_different_token(t_token *ptr, char *line, int *index)
 {
-	int	i;
+	int i;
 
 	i = *index;
 	if (line[i] == '|')

@@ -1,57 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quots.c                                            :+:      :+:    :+:   */
+/*   quots_h.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/18 08:59:56 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/01 20:57:39 by oussama          ###   ########.fr       */
+/*   Created: 2023/01/08 16:06:21 by oussama           #+#    #+#             */
+/*   Updated: 2023/01/08 16:06:30 by oussama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Headers/minishell.h"
 
-char	*quotes_after_quotes(char *line, int *indice, char type)
-{
-	int	i;
-
-	i = *indice;
-	if ((line[i] == '"' && line[i + 1] == type)
-		|| (line[i] == '\'' && line[i + 1] == type))
-	{
-		*indice += 2;
-		return ("");
-	}
-	return (NULL);
-}
-
-int	find_quotes(char *line, int *indice, char type)
-{
-	int	i;
-
-	i = *indice + 1;
-	while (line[i])
-	{
-		if (line[i] == type)
-			return (1);
-		i++;
-	}
-	*indice = i;
-	return (0);
-}
-
-int	word_len_quotes(int i, char *line, char type)
-{
-	int	j;
-
-	j = 0;
-	while (line[++i] != type)
-		j++;
-	return (j);
-}
-
-char	*between_quots(char *line, int *indice, char type, t_main *main)
+char	*between_quots_h(char *line, int *indice, char type, t_main *main)
 {
 	char	*token;
 	int		i;
@@ -69,14 +30,11 @@ char	*between_quots(char *line, int *indice, char type, t_main *main)
 		token[j++] = line[i];
 	i++;
 	token[j] = '\0';
-	if (type == '"')
-		while (search_dollar(token) == 1)
-			expand_after_dollar(&token, main);
 	*indice = i;
 	return (token);
 }
 
-char	*check_quotes(int *indice, char *line, t_main *m_main)
+char	*check_quotes_h(int *indice, char *line, t_main *m_main)
 {
 	char	*str;
 	int		i;
@@ -93,7 +51,7 @@ char	*check_quotes(int *indice, char *line, t_main *m_main)
 		}
 		else
 		{
-			str = between_quots(line, &i, line[i], m_main);
+			str = between_quots_h(line, &i, line[i], m_main);
 			*indice = i;
 			return (str);
 		}

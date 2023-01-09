@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 08:58:45 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/22 00:24:18 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/09 14:26:20 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_token *creat_first_node(t_token *head)
 {
-	head = ft_malloc(sizeof(t_token), 1);
+	head = malloc(sizeof(t_token));
 	if (!head)
 		return (NULL);
 	head->value = ft_strdup("RIEN");
@@ -38,7 +38,7 @@ char *get_word(char *line, int *index)
 		i++;
 	}
 	i = *index;
-	str = ft_malloc(sizeof(char), (len + 1));
+	str = malloc(sizeof(char) * (len + 1));
 	while (line[i] && (ft_strchr("|> \"<'", line[i])) == NULL)
 		str[j++] = line[i++];
 	str[j] = '\0';
@@ -48,55 +48,30 @@ char *get_word(char *line, int *index)
 
 t_token *get_token_word(t_token *ptr, char *line, int *index, t_main *m_main)
 {
-	char *token;
 	int i;
-	int j;
-	t_token *tmp;
-	int check;
 
 	i = *index;
-	token = NULL;
-	while (line[i] && line[i] != '\n' && (ft_strchr("|> <", line[i])) == NULL)
+	if (ft_strcmp(ptr->value, "<<") == 0)
 	{
-		check = 0;
-		if (line[i] == '\'' || line[i] == '"')
+		while (line[i] && line[i] != '\n' && (ft_strchr("|> <", line[i])) == NULL)
+			ptr = ft_check_norm(ptr, m_main, &(*index), line);
+	}
+	else
+	{
+		while (line[i] && line[i] != '\n' && (ft_strchr("|> <", line[i])) == NULL)
 		{
-			j = i;
-			token = check_quotes(&i, line, m_main);
-			if (j > 0 && line[j - 1] != ' ' && line[j - 1] != '\t')
+			if (line[i] == '\'' || line[i] == '"')
 			{
-				tmp = ptr;
-				while (tmp->next)
-					tmp = tmp->next;
-				tmp->value = ft_strjoin_prs(tmp->value, token);
+				ptr = ft_norm_quots(ptr, m_main, &(*index), line);
+				return (ptr);
 			}
 			else
-				ptr = add_to_end_lexe(ptr, token);
-			*index = i;
-			return (ptr);
-		}
-		else
-		{
-			if (i > 0 && (line[i - 1] == '\'' || line[i - 1] == '"'))
-				check = 1;
-			token = get_word(line, &i);
-			while (search_dollar(token) == 1)
-				expand_after_dollar(&token, m_main);
-			if (check == 1)
 			{
-				tmp = ptr;
-				while (tmp->next)
-					tmp = tmp->next;
-				tmp->value = ft_strjoin_prs(tmp->value, token);
+				ptr = ft_norm_word(ptr, m_main, &(*index), line);
+				return (ptr);
 			}
-			else
-				ptr = add_to_end_lexe(ptr, token);
-			*index = i;
-			return (ptr);
 		}
 	}
-	// if (token)
-	// 	free (token);
 	return (ptr);
 }
 
@@ -106,7 +81,7 @@ t_token *ft_lexer(t_token *head, t_main *m_main, char *line)
 	int i;
 
 	i = 0;
-	// head = creat_first_node(head);
+	head = creat_first_node(head);
 	ptr = head;
 	while (line[i] == ' ' || line[i] == '\t')
 		i++;
@@ -126,11 +101,6 @@ t_token *ft_lexer(t_token *head, t_main *m_main, char *line)
 		}
 	}
 	return (head);
-}
-
-void test()
-{
-	system("leaks a.out");
 }
 
 void print(t_command *cmd)
@@ -154,25 +124,61 @@ void print(t_command *cmd)
 	}
 }
 
+void ft_free_token(t_token *head)
+{
+	t_token *tmp;
+
+	while (head)
+	{
+		tmp = head;
+		head = head->next;
+		free(tmp->value);
+		free(tmp);
+		tmp = NULL;
+	}
+	if (head == NULL)
+	{
+		free(head);
+		head = NULL;
+	}
+}
+
+void ft_free(t_main *m_main)
+{
+	ft_free_token(m_main->list);
+	if (m_main->line)
+		free(m_main->line);
+	free(m_main);
+	m_main = NULL;
+}
+
 t_command *startParse(t_env *env, char *buffer)
 {
 	// t_token *head;
-	// t_command *cmd;
+	t_command *cmd;
 	// t_redirection *redi;
 	t_main *m_main;
 	// redi = NULL;
 	// head = NULL;
 	// m_main->cmd = NULL;
-	m_main = ft_malloc(sizeof(t_main), 1);
+	m_main = malloc(sizeof(t_main));
 	m_main->h_env = env;
-	// printEnv(m_main->h_env);
-	m_main->list = creat_first_node(m_main->list);
+	// m_main->list = creat_first_node(m_main->list);
+	// m_main->list = ft_lexer(m_main->list, m_main, "$HOME | $HOME");
+	// m_main->list = ft_lexer(m_main->list, m_main, " \"$??HOME?????\"");
+	// m_main->list = ft_lexer(m_main->list, m_main, " \"$??HOME?????\" >> out | $HOME");
+	// m_main->list = ft_lexer(m_main->list, m_main, "\"samir\" \"oussama\"");
+	// m_main->list = ft_lexer(m_main->list, m_main, "e\"c\"h\"o\"");
+	// m_main->list = ft_lexer(m_main->list, m_main, "ls | ls | ls| ls > file | export");
 	m_main->list = ft_lexer(m_main->list, m_main, buffer);
-
+	// m_main->list = ft_lexer(m_main->list, m_main, "ls | export");
+	// m_main->list = ft_lexer(m_main->list, m_main, "<in \"echo\" \"$HOME\" >> out | ls -la >> 'out'");
 	ft_check_syntax(m_main->list);
 	m_main->cmd = ft_parse(m_main->list);
 	// print(m_main->cmd);
-	return (m_main->cmd);
+	cmd = m_main->cmd;
+	ft_free(m_main);
+	return (cmd);
 }
 
 // atexit(test);
