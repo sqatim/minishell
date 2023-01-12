@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:07:22 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/09 14:22:20 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/12 18:03:41 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void here_document_redirection(char *filename, t_env *env)
     {
         len = read(0, buffer, BUFFER_SIZE);
         buffer[len] = '\0';
-        while (search_dollar(buffer) == 1)
-            expand_after_dollar_h(&buffer, env);
+        // while (search_dollar(buffer) == 1)
+        //     expand_after_dollar_h(&buffer, env);
         // printf("delimter: %s\n", delimiter);
         if (ft_strcmp(buffer, delimiter) != 0)
             write(fd, buffer, len);

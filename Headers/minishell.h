@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/05 17:43:56 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/09 13:12:00 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,11 @@ t_token *add_lim_rederi_node(t_token *ptr, char *line, int *index);
 t_token *add_lis_rederi_node(t_token *ptr, char *line, int *index);
 t_token *get_different_token(t_token *ptr, char *line, int *index);
 t_command *startParse(t_env *env, char *buffer);
+t_token *ft_norm_word(t_token *ptr, t_main *m_main, int *index, char *line);
+t_token *ft_norm_quots(t_token *ptr, t_main *m_main, int *index, char *line);
+t_token *ft_norm_word_h(t_token *ptr, t_main *m_main, int *index, char *line);
+t_token *ft_norm_quots_h(t_token *ptr, t_main *m_main, int *index, char *line);
+t_token *ft_check_norm(t_token *ptr, t_main *m_main, int *index, char *line);
 
 /****************quots****************/
 
@@ -186,6 +191,8 @@ char *between_quots(char *line, int *indice, char type, t_main *main);
 int word_len_quotes(int i, char *line, char type);
 int find_quotes(char *line, int *indice, char type);
 char *quotes_after_quotes(char *line, int *indice, char type);
+char *between_quots_h(char *line, int *indice, char type, t_main *main);
+char *check_quotes_h(int *indice, char *line, t_main *m_main);
 
 /****************dollar****************/
 
@@ -201,6 +208,10 @@ int alpha_numeric(char c);
 char *last_part(char **token, int *index);
 char *take_last_part(char **token, int *i);
 char *take_last_token(char **token);
+void ft_check_dollar_h(char **token, int *index, int *flag_dollar);
+void take_token_h(int flag, char **token, char *value, char *name);
+void after_dollar_h(t_env *env, char **token, char *name, int flag);
+int expand_after_dollar_h(char **token, t_env *env);
 
 /****************syntax error****************/
 
@@ -296,9 +307,9 @@ int env_linked_list_len_with_key_value(t_env *env);
 void signalHandler();
 
 // redirections
-t_redirection *handle_redirection(t_redirection *redirections, int *check);
+t_redirection *handle_redirection(t_env *env, t_redirection *redirections, int *check);
 t_redirection *setup_the_last_redirections(t_redirection *current_redirection);
-void here_document_redirection(char *filename);
+void here_document_redirection(char *filename, t_env *env);
 void output_append_redirection(char *filename);
 void ouput_trunc_redirection(char *filename);
 t_redirection *check_type_of_redirection(t_redirection *redirection, int type);
