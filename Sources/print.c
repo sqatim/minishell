@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 23:10:39 by kernel            #+#    #+#             */
-/*   Updated: 2023/01/13 16:40:43 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/16 22:34:14 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
 
-void	print_exit_error(t_execution *exec_struct, int type, char *argument)
+void print_exit_error(t_execution *exec_struct, int type, char *argument)
 {
 	ft_putendl_fd("exit", 1);
 	ft_putstr_fd("minishell:> exit: ", 2);
@@ -29,14 +29,19 @@ void	print_exit_error(t_execution *exec_struct, int type, char *argument)
 	}
 }
 
-void	print_error(char *cmd)
+void print_command_not_found(char *cmd)
+{
+	ft_putstr_fd(cmd, 2);
+	ft_putendl_fd(": command not found", 2);
+}
+void print_error(char *cmd)
 {
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putendl_fd(strerror(errno), 2);
 }
 
-char	**print_export_error(char *key, int *status)
+char **print_export_error(char *key, int *status)
 {
 	ft_putstr_fd("export: `", 2);
 	ft_putstr_fd(key, 2);
@@ -45,7 +50,7 @@ char	**print_export_error(char *key, int *status)
 	return (NULL);
 }
 
-void	print_cd_error(char *path, int type)
+void print_cd_error(char *path, int type)
 {
 	g_global.exit = 1;
 	if (type == 0)
@@ -59,15 +64,15 @@ void	print_cd_error(char *path, int type)
 		ft_putendl_fd("cd: HOME not set", 2);
 }
 
-void	print_fd_errors(char *file_name)
+void print_fd_errors(char *file_name)
 {
 	ft_putstr_fd(file_name, 2);
 	ft_putendl_fd(": No such file or directory", 2);
 }
 
-void	print_value_of_export(char *value)
+void print_value_of_export(char *value)
 {
-	int	index;
+	int index;
 
 	index = 0;
 	while (value[index])
@@ -79,19 +84,26 @@ void	print_value_of_export(char *value)
 	}
 }
 
-void	print_env_with_export_second(t_env *sorted_env, int *index)
+void print_env_with_export_second(t_env *sorted_env, int index, int display)
 {
-	char	*key;
-	char	*value;
+	char *key;
+	char *value;
 
-	key = ft_substr(sorted_env->content, 0, ++(*index));
-	value = ft_substr(sorted_env->content, *index, \
-				ft_strlen(sorted_env->content));
+	if (sorted_env->content[index] == '=')
+		++index;
+	key = ft_substr(sorted_env->content, 0, index);
 	ft_putstr_fd("declare -x ", 1);
-	ft_putstr_fd(key, 1);
-	ft_putstr_fd("\"", 1);
-	print_value_of_export(value);
-	ft_putendl_fd("\"", 1);
+	if (display == 0)
+		ft_putendl_fd(key, 1);
+	else if (display == 1)
+	{
+		ft_putstr_fd(key, 1);
+		value = ft_substr(sorted_env->content, index,
+						  ft_strlen(sorted_env->content));
+		ft_putstr_fd("\"", 1);
+		print_value_of_export(value);
+		ft_putendl_fd("\"", 1);
+		free(value);
+	}
 	free(key);
-	free(value);
 }

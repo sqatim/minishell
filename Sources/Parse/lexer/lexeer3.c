@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:15:28 by oussama           #+#    #+#             */
-/*   Updated: 2023/01/09 14:25:45 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/16 13:55:24 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,13 +121,13 @@ t_token *ft_check_norm(t_token *ptr, t_main *m_main, int *index, char *line)
 	i = *index;
 	if (line[i] == '\'' || line[i] == '"')
 	{
-		ptr = ft_norm_quots_h(ptr, m_main, &(*index), line);
+		ptr = ft_norm_quots_h(ptr, m_main, &(i), line);
 		*index = i;
 		return (ptr);
 	}
 	else
 	{
-		ptr = ft_norm_word_h(ptr, m_main, &(*index), line);
+		ptr = ft_norm_word_h(ptr, m_main, &(i), line);
 		*index = i;
 		return (ptr);
 	}

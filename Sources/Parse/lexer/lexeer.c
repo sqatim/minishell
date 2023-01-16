@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 08:58:45 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/09 14:26:20 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/16 18:40:08 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,28 +46,28 @@ char *get_word(char *line, int *index)
 	return (str);
 }
 
-t_token *get_token_word(t_token *ptr, char *line, int *index, t_main *m_main)
+t_token *get_token_word(t_token *ptr, char *line, int *i, t_main *m_main)
 {
-	int i;
-
-	i = *index;
 	if (ft_strcmp(ptr->value, "<<") == 0)
 	{
-		while (line[i] && line[i] != '\n' && (ft_strchr("|> <", line[i])) == NULL)
-			ptr = ft_check_norm(ptr, m_main, &(*index), line);
+		while (line[*i] && line[*i] != '\n' && (ft_strchr("|> <", line[*i])) == NULL)
+		{
+			ptr = ft_check_norm(ptr, m_main, &(*i), line);
+			return (ptr);
+		}
 	}
 	else
 	{
-		while (line[i] && line[i] != '\n' && (ft_strchr("|> <", line[i])) == NULL)
+		while (line[*i] && line[*i] != '\n' && (ft_strchr("|> <", line[*i])) == NULL)
 		{
-			if (line[i] == '\'' || line[i] == '"')
+			if (line[*i] == '\'' || line[*i] == '"')
 			{
-				ptr = ft_norm_quots(ptr, m_main, &(*index), line);
+				ptr = ft_norm_quots(ptr, m_main, &(*i), line);
 				return (ptr);
 			}
 			else
 			{
-				ptr = ft_norm_word(ptr, m_main, &(*index), line);
+				ptr = ft_norm_word(ptr, m_main, &(*i), line);
 				return (ptr);
 			}
 		}
@@ -105,6 +105,8 @@ t_token *ft_lexer(t_token *head, t_main *m_main, char *line)
 
 void print(t_command *cmd)
 {
+	t_command *tmp = cmd;
+	printf("**********************\n");
 	while (cmd != NULL)
 	{
 		printf("----------------command-------------\n");
@@ -117,11 +119,13 @@ void print(t_command *cmd)
 
 		while (cmd->redirections)
 		{
-			printf("type de redi ===> |%s| file name =====> %s\n", cmd->redirections->type, cmd->redirections->f_name);
+			printf("type de redi ===> |%s| file name =====> |%s|\n", cmd->redirections->type, cmd->redirections->f_name);
 			cmd->redirections = cmd->redirections->next;
 		}
 		cmd = cmd->next;
 	}
+	printf("**********************\n");
+	cmd = tmp;
 }
 
 void ft_free_token(t_token *head)

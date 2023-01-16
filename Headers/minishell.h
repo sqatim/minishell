@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/09 13:12:00 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/16 22:59:36 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,7 +263,7 @@ char *check_current_path(t_execution *execStruct);
 void print_env_with_export(t_env *env);
 t_env *sort_env(t_env *env);
 t_env *handle_export(t_execution *exec_struct, t_env *env, char **argument);
-void print_env_with_export_second(t_env *sorted_env, int *index);
+void print_env_with_export_second(t_env *sorted_env, int index, int display);
 
 // cd
 t_env *change_directory(t_execution *exec_struct, t_env *env, char *path);
@@ -276,19 +276,23 @@ t_redirection *free_redirection(t_redirection *redirection);
 t_command *free_command(t_command *command);
 void free_execution_struct(t_execution *exec_struct);
 void free_env_node_content(t_env *node);
+void free_export_struct(t_export *export);
 
 // tools
 char *ft_get_env(t_env *env, char *key);
+char *ft_get_node_env_without_exception(t_env *env, char *key);
 t_env *ft_get_env_node(t_env *env, char *key);
 int check_exit_argument_type(char *argument);
 
 // other
 unsigned long long ft_atoull(const char *str);
 int ft_strcmp(const char *s1, const char *s2);
+t_export export_init();
 
 // print
 void print_exit_error(t_execution *exec_struct, int type, char *argument);
 void print_error(char *cmd);
+void print_command_not_found(char *cmd);
 char **print_export_error(char *key, int *status);
 void print_cd_error(char *path, int type);
 void print_fd_errors(char *file_name);
@@ -304,7 +308,7 @@ int env_linked_list_len(t_env *env);
 int env_linked_list_len_with_key_value(t_env *env);
 
 // signalHandler
-void signalHandler();
+void signal_handler();
 
 // redirections
 t_redirection *handle_redirection(t_env *env, t_redirection *redirections, int *check);
@@ -316,8 +320,8 @@ t_redirection *check_type_of_redirection(t_redirection *redirection, int type);
 
 // exec
 void start_execution(t_execution *exec_struct, t_command *command);
-int execCommandOfNode(t_execution *exec_struct, t_command *command, t_context context);
-int execRedirection(t_execution *exec_struct, t_context context);
+int exec_command_of_node(t_execution *exec_struct, t_command *command, t_context context);
+int exec_redirection(t_execution *exec_struct, t_context context);
 int exec_input_redirection(t_redirection *input);
 int exec_output_redirection(t_redirection *output);
 

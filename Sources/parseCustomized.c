@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 13:03:17 by sqatim            #+#    #+#             */
-/*   Updated: 2022/12/27 14:53:49 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/16 19:39:01 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_command *customizeMyParse(char *buffer)
             index += 2;
         }
         indexCommand++;
-    free_array_two_dimension(bufferParsed);
+        free_array_two_dimension(bufferParsed);
     }
     free_array_two_dimension(commandParsed);
     return command;

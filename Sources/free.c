@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 17:41:04 by kernel            #+#    #+#             */
-/*   Updated: 2023/01/13 16:25:44 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/16 23:00:01 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
 
-void	free_array_two_dimension(char **array)
+void free_array_two_dimension(char **array)
 {
-	int	index;
+	int index;
 
 	index = 0;
 	if (array)
@@ -29,13 +29,13 @@ void	free_array_two_dimension(char **array)
 	}
 }
 
-void	free_string(char *str)
-{	
+void free_string(char *str)
+{
 	free(str);
 	str = NULL;
 }
 
-t_redirection	*free_redirection(t_redirection *redirection)
+t_redirection *free_redirection(t_redirection *redirection)
 {
 	if (!redirection)
 		return (NULL);
@@ -49,10 +49,10 @@ t_redirection	*free_redirection(t_redirection *redirection)
 	return (NULL);
 }
 
-void	unlink_heredocument_files(t_redirection *redirections)
+void unlink_heredocument_files(t_redirection *redirections)
 {
-	t_redirection	*tmp;
-	char			*path;
+	t_redirection *tmp;
+	char *path;
 
 	tmp = redirections;
 	while (tmp)
@@ -67,10 +67,10 @@ void	unlink_heredocument_files(t_redirection *redirections)
 	}
 }
 
-void	free_env(t_env *env)
+void free_env(t_env *env)
 {
 	if (!env)
-		return ;
+		return;
 	free_env(env->next);
 	free(env->content);
 	free(env->value);
@@ -82,7 +82,7 @@ void	free_env(t_env *env)
 	env = NULL;
 }
 
-t_command	*free_command(t_command *command)
+t_command *free_command(t_command *command)
 {
 	if (!command)
 		return (NULL);
@@ -95,7 +95,7 @@ t_command	*free_command(t_command *command)
 	return (NULL);
 }
 
-void	free_execution_struct(t_execution *exec_struct)
+void free_execution_struct(t_execution *exec_struct)
 {
 	if (exec_struct)
 	{
@@ -113,7 +113,7 @@ void	free_execution_struct(t_execution *exec_struct)
 	}
 }
 
-void	free_env_node_content(t_env *node)
+void free_env_node_content(t_env *node)
 {
 	if (node->content)
 	{
@@ -129,5 +129,24 @@ void	free_env_node_content(t_env *node)
 	{
 		free(node->value);
 		node->value = NULL;
+	}
+}
+
+void free_export_struct(t_export *export)
+{
+	if (export->key_value)
+	{
+		free_array_two_dimension(export->key_value);
+		export->key_value = NULL;
+	}
+	if (export->key_value_joined)
+	{
+		free(export->key_value_joined);
+		export->key_value_joined = NULL;
+	}
+	if (export->old_value)
+	{
+		free(export->old_value);
+		export->old_value = NULL;
 	}
 }

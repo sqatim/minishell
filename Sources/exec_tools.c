@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   exec_tools.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 17:17:35 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/13 15:56:48 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/16 15:35:22 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
 
-int	exec_input_redirection(t_redirection *input)
+int exec_input_redirection(t_redirection *input)
 {
-	int		fd_input;
-	char	*path;
+	int fd_input;
+	char *path;
 
 	if (!ft_strcmp(input->type, "<<"))
 	{
@@ -41,18 +41,15 @@ int	exec_input_redirection(t_redirection *input)
 	return (1);
 }
 
-int	exec_output_redirection(t_redirection *output)
+int exec_output_redirection(t_redirection *output)
 {
-	int	fd_output;
+	int fd_output;
 
 	if (!ft_strcmp(output->type, ">>"))
 		fd_output = open(output->f_name, O_CREAT | O_APPEND | O_WRONLY, 0777);
 	else
 		fd_output = open(output->f_name, O_CREAT | O_TRUNC | O_WRONLY, 0777);
 	dup2(fd_output, STDOUT_FILENO);
-	ft_putstr_fd("fd_output: ", 2);
-	ft_putnbr_fd(fd_output, 2);
-	ft_putendl_fd("", 2);
 	close(fd_output);
 	return (2);
 }

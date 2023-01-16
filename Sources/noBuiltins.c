@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   noBuiltins.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 00:21:27 by kernel            #+#    #+#             */
-/*   Updated: 2023/01/13 16:37:51 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/16 23:16:45 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
 
-char	*check_command_access(t_env *env, char *command)
+char *check_command_access(t_env *env, char *command)
 {
-	char	*cmd_joined;
-	char	*path_env;
-	char	**path;
-	int		index;
+	char *cmd_joined;
+	char *path_env;
+	char **path;
+	int index;
 
 	index = 0;
 	if (!access(command, F_OK))
@@ -39,26 +39,25 @@ char	*check_command_access(t_env *env, char *command)
 	return (NULL);
 }
 
-char	*handle_no_builtins_command(t_execution *exec_struct, char **cmd_line)
+char *handle_no_builtins_command(t_execution *exec_struct, char **cmd_line)
 {
-	char	*command;
+	char *command;
 
 	command = check_command_access(exec_struct->env, cmd_line[0]);
 	if (!command)
 	{
 		g_global.exit = 127;
-		print_error(cmd_line[0]);
+		print_command_not_found(cmd_line[0]);
 		return (NULL);
 	}
 	return (command);
 }
 
-void	handle_no_builtins(t_execution *exec_struct, char **cmd_line, \
-			t_context context, int check)
+void handle_no_builtins(t_execution *exec_struct, char **cmd_line,
+						t_context context, int check)
 {
-	char	*command;
-	int		pid;
-	char	**env;
+	char *command;
+	int pid;
 
 	if (check)
 	{
@@ -73,7 +72,7 @@ void	handle_no_builtins(t_execution *exec_struct, char **cmd_line, \
 				if (context.fd_close >= 0)
 					close(context.fd_close);
 				if (execve(command, cmd_line, exec_struct->envArray) == -1)
-					printf("hii");
+					print_error(command);
 			}
 			else
 				free_string(command);
