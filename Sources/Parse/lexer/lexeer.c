@@ -6,11 +6,65 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 08:58:45 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/16 18:40:08 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/17 15:00:48 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Headers/minishell.h"
+
+static char *ft_strjoin_tmp(char const *s1, char const *s2)
+{
+	char *p;
+	size_t i;
+	size_t j;
+	size_t k;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	if (s1 && s2)
+	{
+		p = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+		if (p == NULL)
+			return (NULL);
+		while (s1[j])
+		{
+			p[i++] = s1[j++];
+		}
+		while (s2[k])
+		{
+			p[i++] = s2[k++];
+		}
+		p[i] = '\0';
+		return (p);
+	}
+	return (NULL);
+}
+
+void ft_bzero(void *s, size_t n)
+{
+	size_t i;
+	char *tab;
+
+	i = 0;
+	tab = (char *)s;
+	while (i < n)
+	{
+		tab[i] = 0;
+		i++;
+	}
+}
+
+void *ft_calloc(size_t count, size_t size)
+{
+	char *ptr;
+
+	ptr = malloc(count * size);
+	if (ptr == NULL)
+		return (NULL);
+	ft_bzero(ptr, count * size);
+	return (ptr);
+}
 
 t_token *creat_first_node(t_token *head)
 {
@@ -105,13 +159,11 @@ t_token *ft_lexer(t_token *head, t_main *m_main, char *line)
 
 void print(t_command *cmd)
 {
-	t_command *tmp = cmd;
-	printf("**********************\n");
 	while (cmd != NULL)
 	{
 		printf("----------------command-------------\n");
 		int index = 0;
-		while (cmd->command[index] != NULL)
+		while (cmd->command && cmd->command[index] != NULL)
 		{
 			printf("%s\n", cmd->command[index++]);
 		}
@@ -119,13 +171,11 @@ void print(t_command *cmd)
 
 		while (cmd->redirections)
 		{
-			printf("type de redi ===> |%s| file name =====> |%s|\n", cmd->redirections->type, cmd->redirections->f_name);
+			printf("type de redi ===> |%s| file name =====> %s\n", cmd->redirections->type, cmd->redirections->f_name);
 			cmd->redirections = cmd->redirections->next;
 		}
 		cmd = cmd->next;
 	}
-	printf("**********************\n");
-	cmd = tmp;
 }
 
 void ft_free_token(t_token *head)
@@ -160,44 +210,42 @@ t_command *startParse(t_env *env, char *buffer)
 {
 	// t_token *head;
 	t_command *cmd;
-	// t_redirection *redi;
 	t_main *m_main;
+
+	// t_redirection *redi;
+	// t_main *m_main;
 	// redi = NULL;
 	// head = NULL;
 	// m_main->cmd = NULL;
 	m_main = malloc(sizeof(t_main));
+	// m_main->h_env = malloc(sizeof(t_env));
 	m_main->h_env = env;
 	// m_main->list = creat_first_node(m_main->list);
-	// m_main->list = ft_lexer(m_main->list, m_main, "$HOME | $HOME");
+	// m_main->list = ft_lexer(m_main->list, m_main, "''samir'r'''");
+	// m_main->list = ft_lexer(m_main->list, m_main, "");
+	m_main->list = ft_lexer(m_main->list, m_main, buffer);
+	// m_main->list = ft_lexer(m_main->list, m_main, "\"$PWD$$USER\"");
+	// m_main->list = ft_lexer(m_main->list, m_main, "\"$$\"");
 	// m_main->list = ft_lexer(m_main->list, m_main, " \"$??HOME?????\"");
 	// m_main->list = ft_lexer(m_main->list, m_main, " \"$??HOME?????\" >> out | $HOME");
 	// m_main->list = ft_lexer(m_main->list, m_main, "\"samir\" \"oussama\"");
+	// m_main->list = ft_lexer(m_main->list, m_main, "");
 	// m_main->list = ft_lexer(m_main->list, m_main, "e\"c\"h\"o\"");
-	// m_main->list = ft_lexer(m_main->list, m_main, "ls | ls | ls| ls > file | export");
-	m_main->list = ft_lexer(m_main->list, m_main, buffer);
+	// m_main->list = ft_lexer(m_main->list, m_main, "'''''");
+	// puts("--------------------------");
+	// m_main->list = ft_lexer(m_main->list, m_main, "cat << toto");
 	// m_main->list = ft_lexer(m_main->list, m_main, "ls | export");
 	// m_main->list = ft_lexer(m_main->list, m_main, "<in \"echo\" \"$HOME\" >> out | ls -la >> 'out'");
-	ft_check_syntax(m_main->list);
-	m_main->cmd = ft_parse(m_main->list);
-	// print(m_main->cmd);
-	cmd = m_main->cmd;
-	ft_free(m_main);
+	if (ft_check_syntax(m_main))
+		return (NULL);
+	if (m_main->list)
+	{
+		m_main->cmd = ft_parse(m_main->list);
+		// print(m_main->cmd);
+		cmd = m_main->cmd;
+		ft_free(m_main);
+	}
+	// here_document_redirection("hereDoc.txt", m_main->h_env);
+	// return (cmd);
 	return (cmd);
 }
-
-// atexit(test);
-// system("leaks minishell ");
-// int main(int ac, char **av, char **env)
-// {
-// 	t_main *m_main;
-
-// 	(void)ac;
-// 	(void)av;
-// 	m_main = NULL;
-// 	// while(1)
-// 	// {
-// 		// m_main->line = readline("minishellll = ");
-// 		_main(env, m_main);
-
-// 	// }
-// }

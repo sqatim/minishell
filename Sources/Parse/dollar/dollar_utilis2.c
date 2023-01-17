@@ -6,16 +6,16 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 00:03:35 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/21 22:12:17 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/17 14:38:43 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Headers/minishell.h"
 
-void	take_after_dollar(char **token, int *index, char **name)
+void take_after_dollar(char **token, int *index, char **name)
 {
-	int	i;
-	int	j;
+	int i;
+	int j;
 
 	i = *index;
 	j = 0;
@@ -36,10 +36,10 @@ void	take_after_dollar(char **token, int *index, char **name)
 	*index = i;
 }
 
-void	ft_check_dollar(char **token, int *index, t_main *m_main)
+void ft_check_dollar(char **token, int *index, t_main *m_main)
 {
-	int	count;
-	int	i;
+	int count;
+	int i;
 
 	i = *index;
 	count = 0;
@@ -51,11 +51,11 @@ void	ft_check_dollar(char **token, int *index, t_main *m_main)
 		m_main->flag_dollar = 1;
 }
 
-int	len_dollar_name(char **token)
+int len_dollar_name(char **token)
 {
-	int	flag;
-	int	len;
-	int	i;
+	int flag;
+	int len;
+	int i;
 
 	len = 0;
 	i = 0;
@@ -80,12 +80,11 @@ int	len_dollar_name(char **token)
 	return (len);
 }
 
-int	alpha_numeric(char c)
+int alpha_numeric(char c)
 {
 	if (!c)
 		return (0);
-	if ((c >= 0 && c <= 9) || (c >= 'a' && c <= 'z')
-		|| (c >= 'A' && c <= 'Z') || c == '_')
+	if ((c >= 0 && c <= 9) || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_')
 		return (1);
 	return (0);
 }

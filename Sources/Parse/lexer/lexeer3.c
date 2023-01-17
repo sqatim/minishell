@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:15:28 by oussama           #+#    #+#             */
-/*   Updated: 2023/01/16 13:55:24 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/17 14:52:28 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_token *ft_norm_word(t_token *ptr, t_main *m_main, int *index, char *line)
 		tmp = ptr;
 		while (tmp->next)
 			tmp = tmp->next;
-		tmp->value = ft_strjoin(tmp->value, token);
+		tmp->value = ft_strjoin_prs(tmp->value, token);
 	}
 	else
 		ptr = add_to_end_lexe(ptr, token);
@@ -56,10 +56,15 @@ t_token *ft_norm_quots(t_token *ptr, t_main *m_main, int *index, char *line)
 		tmp = ptr;
 		while (tmp->next)
 			tmp = tmp->next;
-		tmp->value = ft_strjoin(tmp->value, token);
+		tmp->value = ft_strjoin_prs(tmp->value, token);
 	}
 	else
+	{
+		// printf("token[%d] === ----- ==> %s\n", i,&line[i]);
 		ptr = add_to_end_lexe(ptr, token);
+		// puts("-----------------------------");
+	}
+
 	*index = i;
 	return (ptr);
 }
@@ -81,7 +86,7 @@ t_token *ft_norm_word_h(t_token *ptr, t_main *m_main, int *index, char *line)
 		tmp = ptr;
 		while (tmp->next)
 			tmp = tmp->next;
-		tmp->value = ft_strjoin(tmp->value, token);
+		tmp->value = ft_strjoin_prs(tmp->value, token);
 	}
 	else
 		ptr = add_to_end_lexe(ptr, token);
@@ -106,7 +111,7 @@ t_token *ft_norm_quots_h(t_token *ptr, t_main *m_main, int *index, char *line)
 		tmp = ptr;
 		while (tmp->next)
 			tmp = tmp->next;
-		tmp->value = ft_strjoin(tmp->value, token);
+		tmp->value = ft_strjoin_prs(tmp->value, token);
 	}
 	else
 		ptr = add_to_end_lexe(ptr, token);
@@ -121,13 +126,13 @@ t_token *ft_check_norm(t_token *ptr, t_main *m_main, int *index, char *line)
 	i = *index;
 	if (line[i] == '\'' || line[i] == '"')
 	{
-		ptr = ft_norm_quots_h(ptr, m_main, &(i), line);
+		ptr = ft_norm_quots_h(ptr, m_main, &i, line);
 		*index = i;
 		return (ptr);
 	}
 	else
 	{
-		ptr = ft_norm_word_h(ptr, m_main, &(i), line);
+		ptr = ft_norm_word_h(ptr, m_main, &i, line);
 		*index = i;
 		return (ptr);
 	}

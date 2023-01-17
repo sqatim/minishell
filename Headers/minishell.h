@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/16 22:59:36 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/17 15:00:28 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,7 @@ t_token *ft_norm_quots(t_token *ptr, t_main *m_main, int *index, char *line);
 t_token *ft_norm_word_h(t_token *ptr, t_main *m_main, int *index, char *line);
 t_token *ft_norm_quots_h(t_token *ptr, t_main *m_main, int *index, char *line);
 t_token *ft_check_norm(t_token *ptr, t_main *m_main, int *index, char *line);
+void ft_free(t_main *m_main);
 
 /****************quots****************/
 
@@ -211,11 +212,11 @@ char *take_last_token(char **token);
 void ft_check_dollar_h(char **token, int *index, int *flag_dollar);
 void take_token_h(int flag, char **token, char *value, char *name);
 void after_dollar_h(t_env *env, char **token, char *name, int flag);
-int expand_after_dollar_h(char **token, t_env *env);
+void expand_after_dollar_h(char **token, t_env *env);
 
 /****************syntax error****************/
 
-void ft_check_syntax(t_token *head);
+int ft_check_syntax(t_main *head);
 int ft_check(t_token *head);
 int ft_error_redi(t_token *head);
 

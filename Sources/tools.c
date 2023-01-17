@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:58:46 by kernel            #+#    #+#             */
-/*   Updated: 2023/01/16 20:46:17 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/17 12:08:55 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void minishell_loop(t_execution *exec_struct)
 			ft_exit(exec_struct, 130);
 		if (buffer[0] != '\0')
 		{
-			// exec_struct->command = startParse(exec_struct->env, buffer);
-			exec_struct->command = customizeMyParse(buffer);
+			exec_struct->command = startParse(exec_struct->env, buffer);
+			// exec_struct->command = customizeMyParse(buffer);
 			add_history(buffer);
 			manage_command(exec_struct, buffer);
 		}

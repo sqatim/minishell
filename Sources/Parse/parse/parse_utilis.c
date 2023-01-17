@@ -3,32 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utilis.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 06:27:06 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/03 13:22:05 by oussama          ###   ########.fr       */
+/*   Updated: 2023/01/17 15:02:05 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Headers/minishell.h"
 
-void	len_command_arg(t_parse *parse, t_token *token)
+void len_command_arg(t_parse *parse, t_token *token)
 {
-	while (token != NULL && ft_strcmp(token->value, PIPE)
-		&& ft_strcmp(token->value, NWLN))
+	while (token != NULL && ft_strcmp(token->value, PIPE) && ft_strcmp(token->value, NWLN))
 	{
 		if (ft_check_word(token->value))
 			parse->len++;
 		if (ft_norm_redi(token->value))
 			token = token->next;
 		token = token->next;
-	}	
+	}
 }
 
-void	get_command_arg(t_parse *parse)
+void get_command_arg(t_parse *parse)
 {
-	t_token	*token;
-	int		i;
+	t_token *token;
+	int i;
 
 	i = 0;
 	// token = parse->token;
@@ -48,7 +47,7 @@ void	get_command_arg(t_parse *parse)
 	parse->command_arg[i] = NULL;
 }
 
-void	initialize_parse(t_parse *parse, t_token *token)
+void initialize_parse(t_parse *parse, t_token *token)
 {
 	parse->token = token;
 	parse->redirections = NULL;
@@ -56,9 +55,9 @@ void	initialize_parse(t_parse *parse, t_token *token)
 	parse->cmd = NULL;
 }
 
-int	len_arg(char **cmd_arg)
+int len_arg(char **cmd_arg)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (cmd_arg[i] != NULL)

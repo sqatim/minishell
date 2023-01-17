@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 06:25:25 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/09 13:16:49 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/17 15:02:36 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ int take_command(t_parse *parse, int flag)
 	if (flag == 0)
 	{
 		parse->cmd = first_node_cmd(parse->command_arg, parse->redirections);
-
 		parse->command_arg = NULL;
 		parse->redirections = NULL;
 		flag = 1;

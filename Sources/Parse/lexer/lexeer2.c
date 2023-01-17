@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 18:45:02 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/09 13:18:14 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/17 14:38:28 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ t_token *add_to_end_lexe(t_token *head, char *token)
 {
 	t_token *tmp;
 
-	// printf("token => %s\n", token);
 	tmp = malloc(sizeof(t_token));
 	if (!tmp)
 		return (NULL);

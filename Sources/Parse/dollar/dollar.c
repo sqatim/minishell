@@ -6,11 +6,39 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:30:41 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/16 14:17:52 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/17 15:01:57 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Headers/minishell.h"
+
+char *ft_strjoin_free(char *s1, char *s2)
+{
+	char *str;
+	int len;
+	int i;
+	int r;
+
+	i = 0;
+	r = 0;
+	if (!s1)
+		s1 = ft_strdup("");
+	if (!s2)
+		s2 = ft_strdup("");
+	len = get_lenght(s1, '\0') + get_lenght(s2, '\0') + 1;
+	str = malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (NULL);
+	while (s1[i])
+		str[r++] = s1[i++];
+	i = 0;
+	while (s2[i])
+		str[r++] = s2[i++];
+	str[r] = 0;
+	free(s1);
+	// free(s2);
+	return (str);
+}
 
 char *join_token_after_dollar(char **token, char *d_value)
 {
@@ -21,7 +49,6 @@ char *join_token_after_dollar(char **token, char *d_value)
 	int i;
 
 	i = 0;
-	// ptr = ft_strdup("");
 	len = get_lenght((*token), '$');
 	str = malloc(sizeof(char) * (len + 1));
 	while ((*token)[i] != '$' && (*token)[i] != '\0')
@@ -30,14 +57,13 @@ char *join_token_after_dollar(char **token, char *d_value)
 		i++;
 	}
 	str[i] = '\0';
-	ptr = ft_strjoin_prs(str, d_value);
+	ptr = ft_strjoin_free(str, d_value);
+	if (d_value)
+		free(d_value);
 	str = take_last_token(token);
 	if (*token)
 		free(*token);
 	result = ft_strjoin_prs(ptr, str);
-	// if(str)
-	// free(str);
-	// free(ptr);
 	return (result);
 }
 
@@ -46,13 +72,16 @@ void take_token(t_main *m_main, char **token, char *value, char *name)
 	if (m_main->flag_dollar == 1)
 	{
 		if (value)
+		{
 			*token = join_token_after_dollar(token, ft_strdup(value));
+		}
 		else
 			*token = join_token_after_dollar(token, value);
 	}
 	else if (m_main->flag_dollar == 0)
 	{
-		*token = join_token_after_dollar(token, name);
+
+		*token = join_token_after_dollar(token, ft_strdup(name));
 	}
 }
 
@@ -69,9 +98,7 @@ void after_dollar(t_main *m_main, char **token, char *name)
 			break;
 		}
 		else if (temp->next == NULL && (ft_strcmp(name, temp->name)) != 0)
-		{
 			take_token(m_main, token, NULL, name);
-		}
 		temp = temp->next;
 	}
 }
@@ -99,6 +126,7 @@ int expand_after_dollar(char **token, t_main *m_main)
 		i++;
 	}
 	after_dollar(m_main, token, str);
+	// printf("|%s|\n",token);
 	if (str)
 		free(str);
 	return (0);
@@ -111,7 +139,9 @@ int search_dollar(char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == '$')
+		if (str[i] == '$' && str[i + 1] == '\0')
+			return (0);
+		else if (str[i] == '$' && str[i + 1] != '\0')
 			return (1);
 		i++;
 	}

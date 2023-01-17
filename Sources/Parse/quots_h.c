@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   quots_h.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:06:21 by oussama           #+#    #+#             */
-/*   Updated: 2023/01/08 16:06:30 by oussama          ###   ########.fr       */
+/*   Updated: 2023/01/17 14:55:55 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Headers/minishell.h"
 
-char	*between_quots_h(char *line, int *indice, char type, t_main *main)
+char *between_quots_h(char *line, int *indice, char type, t_main *main)
 {
-	char	*token;
-	int		i;
-	int		j;
-	int		x;
+	char *token;
+	int i;
+	int j;
+	int x;
 
 	j = 0;
 	i = *indice;
@@ -34,10 +34,10 @@ char	*between_quots_h(char *line, int *indice, char type, t_main *main)
 	return (token);
 }
 
-char	*check_quotes_h(int *indice, char *line, t_main *m_main)
+char *check_quotes_h(int *indice, char *line, t_main *m_main)
 {
-	char	*str;
-	int		i;
+	char *str;
+	int i;
 
 	i = *indice;
 	if (find_quotes(line, &i, line[i]))

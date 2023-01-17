@@ -6,7 +6,7 @@
 /*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 23:59:28 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/09 13:20:12 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/17 14:52:28 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,31 @@ char *take_last_part(char **token, int *i)
 	char *str;
 	int index;
 	char *exit;
+	int x;
+	char *dup;
 
+	x = 0;
 	index = *i;
 	while ((*token)[index] == '$')
-		index++;
-	if ((*token)[index] == '?')
 	{
-		exit = ft_itoa(g_global.exit);
-		str = ft_strjoin(exit, &(*token)[++index]);
-		return (str);
+		index++;
+		x++;
+	}
+	// if ((*token)[index] == '?')
+	// {
+	// 	exit = ft_itoa(G_GLOBAL);
+	// 	str = ft_strjoin_prs(exit, &(*token)[++index]);
+	// 	return (str);
+	// }
+	if ((*token)[index] == '\0' && x != 1)
+	{
+		if (x % 2 != 0)
+		{
+			str = ft_strdup("$");
+			return (str);
+		}
+		else
+			return (NULL);
 	}
 	while ((*token)[index] != '\0')
 	{
