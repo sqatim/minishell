@@ -6,11 +6,11 @@
 /*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 06:25:25 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/08 17:08:24 by oussama          ###   ########.fr       */
+/*   Updated: 2023/01/17 13:16:09 by oussama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../Headers/minishell.h"
+#include "../minishell.h"
 
 void	set_redirection(t_parse *parse, t_token *token, char *type)
 {
@@ -93,18 +93,29 @@ int	take_command(t_parse *parse, int flag)
 	if (flag == 0)
 	{
 		parse->cmd = first_node_cmd(parse->command_arg, parse->redirections);
-		
 		parse->command_arg = NULL;
 		parse->redirections = NULL;
 		flag = 1;
 	}
 	else
 	{
+		puts("========================================");
 		addToEnd_cmd(parse->cmd, parse->command_arg, parse->redirections);
 		parse->command_arg = NULL;
 		parse->redirections = NULL;
 	}
 	return (flag);
+}
+
+void printToken(t_token *token)
+{
+	t_token *tmp = token;
+
+	while(tmp)
+	{
+		printf("tokenValue => %s\n",tmp->value);
+		tmp = tmp->next;
+	}
 }
 
 t_command	*ft_parse(t_token *token)
@@ -114,10 +125,10 @@ t_command	*ft_parse(t_token *token)
 
 	flag = 0;
 	initialize_parse(&parse, token);
-	printf("-------------------------------------------\n");
+	// printf("-------------------------------------------\n");
 	while (parse.token != NULL)
 	{
-		printf("%s\n", parse.token->value);
+		// printf("%s\n", parse.token->value);
 		if (ft_check_word(parse.token->value) && parse.command_arg == NULL)	
 			get_command_arg(&parse);
 		if (!ft_strcmp(parse.token->value, PIPE)
@@ -133,7 +144,7 @@ t_command	*ft_parse(t_token *token)
 		}
 		parse.token = parse.token->next;
 	}
-	printf("-------------------------------------------\n");
+	// printf("-------------------------------------------\n");
 	
 	return (parse.cmd);
 }

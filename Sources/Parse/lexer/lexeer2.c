@@ -6,17 +6,16 @@
 /*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 18:45:02 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/02 23:52:00 by oussama          ###   ########.fr       */
+/*   Updated: 2023/01/17 12:00:21 by oussama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../Headers/minishell.h"
+#include "../minishell.h"
 
 t_token	*add_to_end_lexe(t_token *head, char *token)
 {
 	t_token	*tmp;
 
-	printf("token => %s\n", token);
 	tmp = malloc(sizeof(t_token));
 	if (!tmp)
 		return (NULL);

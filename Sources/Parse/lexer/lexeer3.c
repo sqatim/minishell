@@ -6,11 +6,11 @@
 /*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:15:28 by oussama           #+#    #+#             */
-/*   Updated: 2023/01/08 16:15:31 by oussama          ###   ########.fr       */
+/*   Updated: 2023/01/17 14:01:21 by oussama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../Headers/minishell.h"
+#include "../minishell.h"
 
 t_token	*ft_norm_word(t_token *ptr, t_main *m_main, int *index, char *line)
 {
@@ -59,7 +59,12 @@ t_token	*ft_norm_quots(t_token *ptr, t_main *m_main, int *index, char *line)
 		tmp->value = ft_strjoin(tmp->value, token);
 	}
 	else
+	{
+		// printf("token[%d] === ----- ==> %s\n", i,&line[i]);
 		ptr = add_to_end_lexe(ptr, token);
+		// puts("-----------------------------");
+	}	
+		
 	*index = i;
 	return (ptr);
 }
@@ -121,13 +126,13 @@ t_token	*ft_check_norm(t_token *ptr, t_main *m_main, int *index, char *line)
 	i = *index;
 	if (line[i] == '\'' || line[i] == '"')
 	{
-		ptr = ft_norm_quots_h(ptr, m_main, &(*index), line);
+		ptr = ft_norm_quots_h(ptr, m_main, &i, line);
 		*index = i;
 		return (ptr);
 	}
 	else
 	{
-		ptr = ft_norm_word_h(ptr, m_main, &(*index), line);
+		ptr = ft_norm_word_h(ptr, m_main, &i, line);
 		*index = i;
 		return (ptr);
 	}

@@ -6,11 +6,54 @@
 /*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:11:17 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/03 00:00:35 by oussama          ###   ########.fr       */
+/*   Updated: 2023/01/17 08:54:38 by oussama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../Headers/minishell.h"
+#include "../minishell.h"
+
+char	*ft_strdup(char *str)
+{
+	char	*ptr;
+	int		len;
+	int		i;
+
+	i = -1;
+	len = get_lenght(str, '\0');
+	ptr = malloc(sizeof(char) * (len + 1));
+	while (str[++i] != '\0')
+		ptr[i] = str[i];
+	ptr[i] = '\0';
+	return (ptr);
+}
+
+int	ft_strcmp(char *str, char *ptr)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && ptr[i] && str[i] == ptr[i])
+		i++;
+	return (str[i] - ptr[i]);
+}
+
+char	*ft_strchr(char *str, char c)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	len = get_lenght(str, '\0');
+	if (c == '\0')
+		return (&str[len]);
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (&str[i]);
+		i++;
+	}
+	return (NULL);
+}
 
 
 int	get_lenght(char *ln, char c)
@@ -26,7 +69,29 @@ int	get_lenght(char *ln, char c)
 }
 
 
-char	*ft_strjoin_prs(char *s1, char *s2)
+char	*ft_substr(const char *s, unsigned int start, size_t len)
+{
+	char	*p;
+	size_t	i;
+
+	i = 0;
+	if ((!s) || (unsigned int)ft_strlen(s) < start)
+		return (ft_strdup(""));
+	p = (char *)malloc(sizeof(char) * (len + 1));
+	if (p == NULL)
+		return (ft_strdup(""));
+	while (i < len)
+	{
+		p[i] = s[start];
+		i++;
+		start++;
+	}
+	p[i] = '\0';
+	return (p);
+}
+
+
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*str;
 	int		len;

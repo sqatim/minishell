@@ -6,11 +6,11 @@
 /*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 06:27:06 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/03 13:22:05 by oussama          ###   ########.fr       */
+/*   Updated: 2023/01/17 12:19:54 by oussama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../Headers/minishell.h"
+#include "../minishell.h"
 
 void	len_command_arg(t_parse *parse, t_token *token)
 {
@@ -29,6 +29,7 @@ void	get_command_arg(t_parse *parse)
 {
 	t_token	*token;
 	int		i;
+	printf("here\n");
 
 	i = 0;
 	// token = parse->token;

@@ -6,22 +6,25 @@
 /*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 08:59:56 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/01 20:57:39 by oussama          ###   ########.fr       */
+/*   Updated: 2023/01/17 11:58:49 by oussama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Headers/minishell.h"
+#include "minishell.h"
 
 char	*quotes_after_quotes(char *line, int *indice, char type)
 {
 	int	i;
+	char *str;
+	
 
 	i = *indice;
 	if ((line[i] == '"' && line[i + 1] == type)
 		|| (line[i] == '\'' && line[i + 1] == type))
 	{
+		str = ft_strdup("");
 		*indice += 2;
-		return ("");
+		return (str);
 	}
 	return (NULL);
 }
@@ -84,10 +87,11 @@ char	*check_quotes(int *indice, char *line, t_main *m_main)
 	i = *indice;
 	if (find_quotes(line, &i, line[i]))
 	{
-		if (quotes_after_quotes(line, &i, line[i]))
+		str = quotes_after_quotes(line, &i, line[i]);
+		if (str)
 		{
-			i -= 2;
-			str = quotes_after_quotes(line, &i, line[i]);
+			// i -= 2;
+			// str = quotes_after_quotes(line, &i, line[i]);
 			*indice = i;
 			return (str);
 		}

@@ -6,11 +6,11 @@
 /*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:06:21 by oussama           #+#    #+#             */
-/*   Updated: 2023/01/08 16:06:30 by oussama          ###   ########.fr       */
+/*   Updated: 2023/01/13 11:23:15 by oussama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Headers/minishell.h"
+#include "minishell.h"
 
 char	*between_quots_h(char *line, int *indice, char type, t_main *main)
 {

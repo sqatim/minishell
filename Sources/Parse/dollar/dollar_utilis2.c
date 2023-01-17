@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utilis2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
+/*   By: oussama <oussama@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 00:03:35 by oqatim            #+#    #+#             */
-/*   Updated: 2022/12/21 22:12:17 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/13 11:22:02 by oussama          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../Headers/minishell.h"
+#include "../minishell.h"
 
 void	take_after_dollar(char **token, int *index, char **name)
 {
