@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   noBuiltins_tools.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
+/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 20:37:25 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/16 23:06:33 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/17 18:58:37 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
 
-char *join_path_with_command(char *path, char *command)
+char	*join_path_with_command(char *path, char *command)
 {
-	char *ptr_to_be_freed;
-	char *cmd_joined;
+	char	*ptr_to_be_freed;
+	char	*cmd_joined;
 
 	cmd_joined = ft_strjoin(path, "/");
 	ptr_to_be_freed = cmd_joined;
@@ -24,10 +24,10 @@ char *join_path_with_command(char *path, char *command)
 	return (cmd_joined);
 }
 
-int env_linked_list_len(t_env *env)
+int	env_linked_list_len(t_env *env)
 {
-	t_env *tmp;
-	int index;
+	t_env	*tmp;
+	int		index;
 
 	index = 0;
 	tmp = env;
@@ -39,10 +39,10 @@ int env_linked_list_len(t_env *env)
 	return (index);
 }
 
-int env_linked_list_len_with_key_value(t_env *env)
+int	env_linked_list_len_with_key_value(t_env *env)
 {
-	t_env *tmp;
-	int index;
+	t_env	*tmp;
+	int		index;
 
 	index = 0;
 	tmp = env;
@@ -55,12 +55,12 @@ int env_linked_list_len_with_key_value(t_env *env)
 	return (index);
 }
 
-char **convert_env_to_array(t_execution *exec_struct, t_env *env)
+char	**convert_env_to_array(t_execution *exec_struct, t_env *env)
 {
-	t_env *tmp;
-	char **env_array = NULL;
-	int index;
-	int len;
+	t_env	*tmp;
+	char	**env_array;
+	int		index;
+	int		len;
 
 	index = 0;
 	len = env_linked_list_len_with_key_value(env);

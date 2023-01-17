@@ -38,21 +38,24 @@ SRC =Sources/Parse/lexer/lexeer.c\
 	Sources/builtins.c\
 	Sources/builtins2.c\
 	Sources/init.c\
+	Sources/init2.c\
 	Sources/export.c\
 	Sources/free.c\
+	Sources/free2.c\
 	Sources/cd.c\
 	Sources/builtins_tools.c\
 	Sources/atoul.c\
 	Sources/print.c\
+	Sources/print2.c\
 	Sources/noBuiltins.c\
 	Sources/noBuiltins_tools.c\
 	Sources/signalHandler.c\
-	Sources/parseCustomized.c\
 	Sources/redirections.c\
 	Sources/redirections_tools.c\
 	Sources/exec.c\
 	Sources/exec_tools.c\
 	Sources/clone.c\
+	Sources/tools2.c\
 	
 OBJ = $(SRC:%.c=%.o)
 
@@ -69,7 +72,7 @@ parse:
 	@make -sC $(PARSE_PATH)
 
 %.o: %.c
-	$(CC) $(FLAGS) -c $< -o $@
+	$(CC) $(FLAGS) -I $(INCLUDE_READLINE) -c $< -o $@
 
 clean:
 	@make clean -sC $(LIB_PATH)

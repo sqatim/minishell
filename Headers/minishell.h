@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
+/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/17 15:00:28 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/17 19:11:58 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,6 +278,7 @@ t_command *free_command(t_command *command);
 void free_execution_struct(t_execution *exec_struct);
 void free_env_node_content(t_env *node);
 void free_export_struct(t_export *export);
+void  free_here_document_redirection(char **buffer, char **path, char **delimiter, int fd);
 
 // tools
 char *ft_get_env(t_env *env, char *key);
@@ -325,13 +326,14 @@ int exec_command_of_node(t_execution *exec_struct, t_command *command, t_context
 int exec_redirection(t_execution *exec_struct, t_context context);
 int exec_input_redirection(t_redirection *input);
 int exec_output_redirection(t_redirection *output);
+t_env	*env_clone(t_env *env);
+t_env	*switch_env_node(t_env *first_tmp, t_env **second_tmp);
 
 // clone
 t_command *clone_node(t_command *source);
 char **clone_command_words(char **str);
 
-// To delete;
-t_command *customizeMyParse(char *buffer);
-void printRedirection(t_redirection *redirections);
+// init
+t_env	*assign_env_node(t_env *node, char *key, char *value, char *key_value);
 
 #endif

@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
+/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 17:41:04 by kernel            #+#    #+#             */
-/*   Updated: 2023/01/16 23:00:01 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/17 18:53:17 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
 
-void free_array_two_dimension(char **array)
+void	free_array_two_dimension(char **array)
 {
-	int index;
+	int	index;
 
 	index = 0;
 	if (array)
@@ -29,13 +29,13 @@ void free_array_two_dimension(char **array)
 	}
 }
 
-void free_string(char *str)
+void	free_string(char *str)
 {
 	free(str);
 	str = NULL;
 }
 
-t_redirection *free_redirection(t_redirection *redirection)
+t_redirection	*free_redirection(t_redirection *redirection)
 {
 	if (!redirection)
 		return (NULL);
@@ -49,28 +49,10 @@ t_redirection *free_redirection(t_redirection *redirection)
 	return (NULL);
 }
 
-void unlink_heredocument_files(t_redirection *redirections)
-{
-	t_redirection *tmp;
-	char *path;
-
-	tmp = redirections;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->type, "<<"))
-		{
-			path = ft_strjoin("/tmp/", tmp->f_name);
-			unlink(path);
-			free(path);
-		}
-		tmp = tmp->next;
-	}
-}
-
-void free_env(t_env *env)
+void	free_env(t_env *env)
 {
 	if (!env)
-		return;
+		return ;
 	free_env(env->next);
 	free(env->content);
 	free(env->value);
@@ -82,20 +64,7 @@ void free_env(t_env *env)
 	env = NULL;
 }
 
-t_command *free_command(t_command *command)
-{
-	if (!command)
-		return (NULL);
-	free_command(command->next);
-	free_array_two_dimension(command->command);
-	unlink_heredocument_files(command->redirections);
-	free_redirection(command->redirections);
-	free(command);
-	command = NULL;
-	return (NULL);
-}
-
-void free_execution_struct(t_execution *exec_struct)
+void	free_execution_struct(t_execution *exec_struct)
 {
 	if (exec_struct)
 	{
@@ -110,43 +79,5 @@ void free_execution_struct(t_execution *exec_struct)
 		if (exec_struct->envArray)
 			free_array_two_dimension(exec_struct->envArray);
 		free(exec_struct);
-	}
-}
-
-void free_env_node_content(t_env *node)
-{
-	if (node->content)
-	{
-		free(node->content);
-		node->content = NULL;
-	}
-	if (node->name)
-	{
-		free(node->name);
-		node->name = NULL;
-	}
-	if (node->value)
-	{
-		free(node->value);
-		node->value = NULL;
-	}
-}
-
-void free_export_struct(t_export *export)
-{
-	if (export->key_value)
-	{
-		free_array_two_dimension(export->key_value);
-		export->key_value = NULL;
-	}
-	if (export->key_value_joined)
-	{
-		free(export->key_value_joined);
-		export->key_value_joined = NULL;
-	}
-	if (export->old_value)
-	{
-		free(export->old_value);
-		export->old_value = NULL;
 	}
 }
