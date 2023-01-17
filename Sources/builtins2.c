@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 18:49:40 by samirqatim        #+#    #+#             */
-/*   Updated: 2023/01/13 15:35:50 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/17 20:57:17 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,11 @@ t_env	*execute_export(t_execution *exec_struct, t_env *env, char **argument)
 	if (!argument[1])
 		print_env_with_export(env);
 	else
-		env = handle_export(exec_struct, env, argument);
+	{
+		if (argument[1][0] == '#')
+			print_env_with_export(env);
+		else
+			env = handle_export(exec_struct, env, argument);
+	}
 	return (env);
 }

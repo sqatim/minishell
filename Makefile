@@ -20,7 +20,7 @@ PARSE= libparse.a
 
 CC = gcc
 
-FLAGS = -Wall -Wextra -Werror 
+# FLAGS = -Wall -Wextra -Werror 
 SRC =Sources/Parse/lexer/lexeer.c\
 	Sources/Parse/lexer/lexeer2.c\
 	Sources/Parse/libft/libft_utilis.c\
