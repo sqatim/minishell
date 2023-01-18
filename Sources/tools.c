@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:58:46 by kernel            #+#    #+#             */
-/*   Updated: 2023/01/17 20:02:45 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/18 12:03:51 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	minishell_loop(t_execution *exec_struct)
 			add_history(buffer);
 			manage_command(exec_struct, buffer);
 		}
+		else
+			free(buffer);
 	}
 }
 
