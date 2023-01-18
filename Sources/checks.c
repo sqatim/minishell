@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:50:47 by kernel            #+#    #+#             */
-/*   Updated: 2023/01/18 20:45:37 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/18 21:39:05 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ int	check_command(t_execution *exec_struct, t_command *command, \
     if(redirections)
     {
         if(check_input_redirection(redirections, &check))
-    	exec_struct->redirections_sorted = handle_redirection(exec_struct->env, \
-			redirections, &check);
+            exec_struct->redirections_sorted = setup_the_last_redirections(redirections);
     }
 	if (command->command && g_global.here_doc == 0)
 	{
@@ -69,8 +68,10 @@ int	check_command(t_execution *exec_struct, t_command *command, \
 		{
 			handle_builtin_command(exec_struct, command, context, check);
 			if (exec_struct->redirections_sorted)
+            {
 				exec_struct->redirections_sorted = \
 				free_redirection(exec_struct->redirections_sorted);
+            }
 			return (0);
 		}
 		else

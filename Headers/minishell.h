@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/18 20:14:08 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/18 21:40:24 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,7 +317,7 @@ void signal_handler();
 void	handle_ctrl_c(int signum);
 
 // redirections
-t_redirection *handle_redirection(t_env *env, t_redirection *redirections, int *check);
+void handle_redirection(t_env *env, t_redirection *redirections, int *check);
 t_redirection *setup_the_last_redirections(t_redirection *current_redirection);
 void here_document_redirection(char *filename, t_env *env);
 void output_append_redirection(char *filename);

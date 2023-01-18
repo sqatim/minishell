@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:58:46 by kernel            #+#    #+#             */
-/*   Updated: 2023/01/18 20:39:26 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/18 21:30:15 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ t_redirection *retrieve_redirections(t_command *command)
 {
     t_redirection *head;
     t_redirection *redirection;
+    t_redirection *remember;
     t_command * tmp;
 
     head = NULL;
@@ -23,7 +24,14 @@ t_redirection *retrieve_redirections(t_command *command)
     while(tmp)
     {
         if(tmp->redirections)
-        head = create_redirection_node(head, tmp->redirections);
+        {
+            remember = tmp->redirections;
+            while(remember)
+            {
+                head = create_redirection_node(head, remember);
+                remember = remember->next;
+            }
+        }
         tmp = tmp->next;
     }
     return (head);
@@ -36,7 +44,7 @@ void	manage_command(t_execution *exec_struct, char *buffer)
     redirections = retrieve_redirections(exec_struct->command);
 	if (redirections)
     {
-	    exec_struct->redirections_sorted = handle_redirection(exec_struct->env, \
+	    handle_redirection(exec_struct->env, \
 			redirections, &check);
         free_redirection(redirections);
     }

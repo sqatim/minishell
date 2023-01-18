@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:07:22 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/18 20:17:42 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/18 21:45:50 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ void write_in_file(t_env *env, char *path, char *filename, int fd)
 			expand_after_dollar_h(&buffer, env);
 		len = ft_strlen(buffer);
 		write(fd, buffer, len);
+        free(buffer);
 	}
-	free_here_document_redirection(&buffer, &path, fd);
 }
+
 void test(int sig)
 {
 	if(sig == SIGINT)
@@ -42,11 +43,9 @@ void here_document_redirection(char *filename, t_env *env)
 {
 	int fd;
 	char *path;
-	char *buffer;
 	int len;
 	int pid;
 
-	buffer = ft_calloc(BUFFER_SIZE, 1);
 	path = ft_strjoin("/tmp/", filename);
 	fd = open(path, O_CREAT | O_TRUNC | O_RDWR, 0777);
 	g_global.here_doc = 0;
@@ -59,6 +58,7 @@ void here_document_redirection(char *filename, t_env *env)
 		write_in_file(env, path, filename, fd);
 		exit(0);
 	}
+    free(path);
 	signal(SIGINT, test);
 	wait(NULL);
 	close(fd);
@@ -107,7 +107,7 @@ int check_input_redirection(t_redirection *redirections, int *check)
 	return (1);
 }
 
-t_redirection *handle_redirection(t_env *env, t_redirection *redirections,
+void handle_redirection(t_env *env, t_redirection *redirections,
 								  int *check)
 {
 	t_redirection *last_redirections;
@@ -121,7 +121,7 @@ t_redirection *handle_redirection(t_env *env, t_redirection *redirections,
 		tmp = tmp->next;
 	}
 	if (!check_input_redirection(redirections, check))
-		return (NULL);
+		return ;
 	tmp = redirections;
 	while (tmp)
 	{
@@ -131,6 +131,4 @@ t_redirection *handle_redirection(t_env *env, t_redirection *redirections,
 			ouput_trunc_redirection(tmp->f_name);
 		tmp = tmp->next;
 	}
-	last_redirections = setup_the_last_redirections(redirections);
-	return (last_redirections);
 }
