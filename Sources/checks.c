@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:50:47 by kernel            #+#    #+#             */
-/*   Updated: 2023/01/13 15:52:21 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/18 20:45:37 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	check_shell_lvl_value(char *argument)
 	return (type);
 }
 
-int	check_command(t_execution *execStruct, t_command *command, \
+int	check_command(t_execution *exec_struct, t_command *command, \
 				t_context context)
 {
 	t_redirection	*redirections;
@@ -57,24 +57,29 @@ int	check_command(t_execution *execStruct, t_command *command, \
 
 	check = 1;
 	redirections = command->redirections;
-	if (redirections)
-		execStruct->redirections_sorted = handle_redirection(execStruct->env, \
+    if(redirections)
+    {
+        if(check_input_redirection(redirections, &check))
+    	exec_struct->redirections_sorted = handle_redirection(exec_struct->env, \
 			redirections, &check);
-	if (command->command)
+    }
+	if (command->command && g_global.here_doc == 0)
 	{
 		if (check_type_of_command(command->command[0]))
 		{
-			handle_builtin_command(execStruct, command, context, check);
-			if (execStruct->redirections_sorted)
-				execStruct->redirections_sorted = \
-				free_redirection(execStruct->redirections_sorted);
+			handle_builtin_command(exec_struct, command, context, check);
+			if (exec_struct->redirections_sorted)
+				exec_struct->redirections_sorted = \
+				free_redirection(exec_struct->redirections_sorted);
 			return (0);
 		}
 		else
-			handle_no_builtins(execStruct, command->command, context, check);
-		if (execStruct->redirections_sorted)
-			execStruct->redirections_sorted = \
-			free_redirection(execStruct->redirections_sorted);
+			handle_no_builtins(exec_struct, command->command, context, check);
+		if (exec_struct->redirections_sorted)
+			exec_struct->redirections_sorted = \
+			free_redirection(exec_struct->redirections_sorted);
 	}
+    else
+        g_global.here_doc = 0;
 	return (check);
 }

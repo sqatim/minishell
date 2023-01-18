@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexeer.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
+/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 08:58:45 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/17 15:00:48 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/18 12:16:04 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,8 +200,6 @@ void ft_free_token(t_token *head)
 void ft_free(t_main *m_main)
 {
 	ft_free_token(m_main->list);
-	if (m_main->line)
-		free(m_main->line);
 	free(m_main);
 	m_main = NULL;
 }

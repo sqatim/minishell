@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 14:25:08 by kernel            #+#    #+#             */
-/*   Updated: 2023/01/17 18:49:52 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/18 12:55:25 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ t_env	*handle_export_key_value(t_execution *exec_struct, t_env *env, \
 	export->old_value = ft_get_env(env, export->key_value[0]);
 	if (export->old_value)
 		export->old_value = ft_strdup(export->old_value);
-	env = execute_unset(exec_struct, env, export->key_value[0]);
+	env = execute_unset_for_export(exec_struct, env, export->key_value[0]);
 	export->key_value_joined = join_export_key_value(export->key_value, \
 													export->old_value);
 	env = add_env_node(env, export->key_value_joined, 1);

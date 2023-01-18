@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:51:46 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/17 19:32:56 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/18 19:45:27 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_command	*free_command(t_command *command)
 		return (NULL);
 	free_command(command->next);
 	free_array_two_dimension(command->command);
-	unlink_heredocument_files(command->redirections);
+	// unlink_heredocument_files(command->redirections);
 	free_redirection(command->redirections);
 	free(command);
 	command = NULL;
@@ -81,14 +81,11 @@ void	free_env_node_content(t_env *node)
 	}
 }
 
-void	free_here_document_redirection(char **buffer, char **path, \
-			char **delimiter, int fd)
+void	free_here_document_redirection(char **buffer, char **path, int fd)
 {
-	free(*delimiter);
 	free(*path);
 	free(*buffer);
 	*buffer = NULL;
 	*path = NULL;
-	*delimiter = NULL;
-	close(fd);
+	// close(fd);
 }

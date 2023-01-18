@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/17 19:11:58 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/18 20:14:08 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,7 +245,7 @@ int check_shell_lvl_value(char *argument);
 
 // builtins
 void execute_env(t_env *env);
-t_env *execute_unset(t_execution *exec_struct, t_env *env, char *argument);
+t_env *execute_unset(t_execution *exec_struct, t_env *env, char **argument);
 t_env *execute_export(t_execution *exec_struct, t_env *env, char **argument);
 t_env *add_env_node(t_env *head, char *content, int display);
 void execute_pwd(t_execution *exec_struct);
@@ -253,6 +253,8 @@ void execute_cd(t_execution *exec_struct, t_env *env, char **argument);
 void execute_echo(char **argument);
 void execute_exit(t_execution *exec_struct, char **argument);
 void handle_builtin_command(t_execution *exec_struct, t_command *command, t_context context, int check);
+int	unset_itterator(t_env **tmp, char *tmp_argument);
+t_env	*execute_unset_for_export(t_execution *exec_struct, t_env *env, char *argument);
 
 // builtins__tools
 int handle_new_line_in_echo(char **argument, int *index_one);
@@ -278,7 +280,7 @@ t_command *free_command(t_command *command);
 void free_execution_struct(t_execution *exec_struct);
 void free_env_node_content(t_env *node);
 void free_export_struct(t_export *export);
-void  free_here_document_redirection(char **buffer, char **path, char **delimiter, int fd);
+void  free_here_document_redirection(char **buffer, char **path, int fd);
 
 // tools
 char *ft_get_env(t_env *env, char *key);
@@ -298,6 +300,7 @@ void print_command_not_found(char *cmd);
 char **print_export_error(char *key, int *status);
 void print_cd_error(char *path, int type);
 void print_fd_errors(char *file_name);
+char	**print_unset_error(char *key, int *status);
 
 // noBuiltins;
 void handle_no_builtins(t_execution *exec_struct, char **cmdLine, t_context context, int check);
@@ -311,6 +314,7 @@ int env_linked_list_len_with_key_value(t_env *env);
 
 // signalHandler
 void signal_handler();
+void	handle_ctrl_c(int signum);
 
 // redirections
 t_redirection *handle_redirection(t_env *env, t_redirection *redirections, int *check);
@@ -319,6 +323,7 @@ void here_document_redirection(char *filename, t_env *env);
 void output_append_redirection(char *filename);
 void ouput_trunc_redirection(char *filename);
 t_redirection *check_type_of_redirection(t_redirection *redirection, int type);
+int check_input_redirection(t_redirection *redirections, int *check);
 
 // exec
 void start_execution(t_execution *exec_struct, t_command *command);
@@ -332,6 +337,7 @@ t_env	*switch_env_node(t_env *first_tmp, t_env **second_tmp);
 // clone
 t_command *clone_node(t_command *source);
 char **clone_command_words(char **str);
+t_redirection	*create_redirection_node(t_redirection *head, t_redirection *source);
 
 // init
 t_env	*assign_env_node(t_env *node, char *key, char *value, char *key_value);

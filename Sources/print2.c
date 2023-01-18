@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:46:09 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/17 19:01:11 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/18 12:37:37 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,13 @@ void	print_env_with_export(t_env *env)
 	}
 	free_env(sorted_env);
 	g_global.exit = 0;
+}
+
+char	**print_unset_error(char *key, int *status)
+{
+	ft_putstr_fd("unset: `", 2);
+	ft_putstr_fd(key, 2);
+	ft_putendl_fd("': not a valid identifier", 2);
+	*status = 0;
+	return (NULL);
 }

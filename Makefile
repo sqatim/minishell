@@ -40,6 +40,7 @@ SRC =Sources/Parse/lexer/lexeer.c\
 	Sources/init.c\
 	Sources/init2.c\
 	Sources/export.c\
+	Sources/unset.c\
 	Sources/free.c\
 	Sources/free2.c\
 	Sources/cd.c\

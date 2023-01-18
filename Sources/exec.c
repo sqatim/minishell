@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 13:42:07 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/13 16:06:31 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/18 20:43:43 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@ void	start_execution(t_execution *exec_struct, t_command *command)
 			status_code = WEXITSTATUS(w_status);
 			g_global.exit = status_code;
 		}
+        else if (WIFSIGNALED(w_status))
+	    {
+	    	if (WTERMSIG(w_status) == 3)
+	    		write(2, "Quit: 3\n", 8);
+	    	g_global.exit= 128 + WTERMSIG(w_status);
+	    }
 		index++;
 	}
 	g_global.forkFlag = 0;
@@ -57,7 +63,7 @@ int	exec_pipe(t_execution *exec_struct, t_command *command, t_context context)
 	pipe_struct.right_context = context;
 	pipe_struct.right_context.fd[STDIN_FILENO] = p[STDIN_FILENO];
 	pipe_struct.right_context.fd_close = p[STDOUT_FILENO];
-	if (command->next && !check_type_of_command(command->next->command[0]))
+	if (command->next && command->next->command &&!check_type_of_command(command->next->command[0]))
 		close(p[STDOUT_FILENO]);
 	pipe_struct.right_node = command->next;
 	child += exec_command_of_node(exec_struct, pipe_struct.right_node, \

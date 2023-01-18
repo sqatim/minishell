@@ -6,61 +6,86 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:07:22 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/17 19:08:43 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/18 20:17:42 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
 
-void	here_document_redirection(char *filename, t_env *env)
+void write_in_file(t_env *env, char *path, char *filename, int fd)
 {
-	int		fd;
-	char	*path;
-	char	*buffer;
-	char	*delimiter;
-	int		len;
+	int len;
+	char *buffer;
+	char *ptr_to_be_freed;
 
-	buffer = ft_calloc(BUFFER_SIZE, 1);
-	path = ft_strjoin("/tmp/", filename);
-	delimiter = ft_strjoin(filename, "\n");
-	fd = open(path, O_CREAT | O_TRUNC | O_RDWR, 0777);
-	g_global.here_doc = 1;
-	while (ft_strcmp(buffer, delimiter) != 0)
+	while (1)
 	{
-		len = read(0, buffer, BUFFER_SIZE);
-		buffer[len] = '\0';
-		if (!ft_strcmp(buffer, delimiter))
-			break ;
+		buffer = readline("> ");
+		if (!ft_strcmp(buffer, filename) || !buffer)
+			break;
+		ptr_to_be_freed = buffer;
+		buffer = ft_strjoin(buffer, "\n");
+		free(ptr_to_be_freed);
 		while (search_dollar(buffer) == 1)
 			expand_after_dollar_h(&buffer, env);
 		len = ft_strlen(buffer);
-		if (ft_strcmp(buffer, delimiter) != 0)
-			write(fd, buffer, len);
+		write(fd, buffer, len);
 	}
+	free_here_document_redirection(&buffer, &path, fd);
+}
+void test(int sig)
+{
+	if(sig == SIGINT)
+		g_global.here_doc = 1;
+}
+void here_document_redirection(char *filename, t_env *env)
+{
+	int fd;
+	char *path;
+	char *buffer;
+	int len;
+	int pid;
+
+	buffer = ft_calloc(BUFFER_SIZE, 1);
+	path = ft_strjoin("/tmp/", filename);
+	fd = open(path, O_CREAT | O_TRUNC | O_RDWR, 0777);
 	g_global.here_doc = 0;
-	free_here_document_redirection(&buffer, &path, &delimiter, fd);
+	signal(SIGINT, SIG_IGN);
+	g_global.forkFlag = 1;
+	pid = fork();
+	if (pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		write_in_file(env, path, filename, fd);
+		exit(0);
+	}
+	signal(SIGINT, test);
+	wait(NULL);
+	close(fd);
+	g_global.forkFlag = 0;
+	signal(SIGINT, handle_ctrl_c);
 }
 
-void	ouput_trunc_redirection(char *filename)
+void ouput_trunc_redirection(char *filename)
 {
-	int	fd;
+	int fd;
 
 	fd = open(filename, O_CREAT | O_TRUNC | O_WRONLY, 0777);
 	close(fd);
 }
 
-void	output_append_redirection(char *filename)
+void output_append_redirection(char *filename)
 {
-	int	fd;
+	int fd;
 
 	fd = open(filename, O_CREAT | O_APPEND | O_WRONLY, 0777);
 	close(fd);
 }
 
-int	check_input_redirection(t_redirection *redirections, int *check)
+int check_input_redirection(t_redirection *redirections, int *check)
 {
-	t_redirection	*tmp;
-	int				fd;
+	t_redirection *tmp;
+	int fd;
 
 	tmp = redirections;
 	while (tmp)
@@ -82,11 +107,11 @@ int	check_input_redirection(t_redirection *redirections, int *check)
 	return (1);
 }
 
-t_redirection	*handle_redirection(t_env *env, t_redirection *redirections, \
-								int *check)
+t_redirection *handle_redirection(t_env *env, t_redirection *redirections,
+								  int *check)
 {
-	t_redirection	*last_redirections;
-	t_redirection	*tmp;
+	t_redirection *last_redirections;
+	t_redirection *tmp;
 
 	tmp = redirections;
 	while (tmp)

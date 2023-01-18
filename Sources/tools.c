@@ -6,14 +6,40 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:58:46 by kernel            #+#    #+#             */
-/*   Updated: 2023/01/18 12:03:51 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/18 20:39:26 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
 
+t_redirection *retrieve_redirections(t_command *command)
+{
+    t_redirection *head;
+    t_redirection *redirection;
+    t_command * tmp;
+
+    head = NULL;
+    tmp = command;
+    while(tmp)
+    {
+        if(tmp->redirections)
+        head = create_redirection_node(head, tmp->redirections);
+        tmp = tmp->next;
+    }
+    return (head);
+}
 void	manage_command(t_execution *exec_struct, char *buffer)
 {
+    t_redirection *redirections;
+    int check;
+    
+    redirections = retrieve_redirections(exec_struct->command);
+	if (redirections)
+    {
+	    exec_struct->redirections_sorted = handle_redirection(exec_struct->env, \
+			redirections, &check);
+        free_redirection(redirections);
+    }
 	start_execution(exec_struct, exec_struct->command);
 	free_string(buffer);
 	buffer = NULL;

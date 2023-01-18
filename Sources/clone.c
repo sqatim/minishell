@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:31:18 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/13 15:55:10 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/18 20:13:13 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	**clone_command_words(char **str)
 	return (new);
 }
 
-static t_redirection	*create_redirection_node(t_redirection *head, \
+t_redirection	*create_redirection_node(t_redirection *head, \
 			t_redirection *source)
 {
 	t_redirection	*tmp;
