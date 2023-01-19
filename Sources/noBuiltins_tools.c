@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   noBuiltins_tools.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 20:37:25 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/17 18:58:37 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/19 02:21:44 by oqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ char	**convert_env_to_array(t_execution *exec_struct, t_env *env)
 
 	index = 0;
 	len = env_linked_list_len_with_key_value(env);
-	if (exec_struct->envArray)
-		free_array_two_dimension(exec_struct->envArray);
+	if (exec_struct->env_array)
+		free_array_two_dimension(exec_struct->env_array);
 	if (len == 0)
 		return (NULL);
 	env_array = ft_calloc(++len, sizeof(char *));

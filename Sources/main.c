@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:57:39 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/19 01:28:01 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/19 02:17:29 by oqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_global	g_global;
 
 void	init_global_variable(void)
 {
-	g_global.forkFlag = 0;
+	g_global.fork_flag = 0;
 	g_global.exit = 0;
 	g_global.here_doc = 0;
 	g_global.error = 0;

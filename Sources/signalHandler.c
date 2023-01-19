@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signalHandler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 12:43:55 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/19 00:33:26 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/19 02:17:29 by oqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	handle_ctrl_c(int signum)
 {
 	if (signum == SIGINT)
 	{
-		if (g_global.forkFlag == 0)
+		if (g_global.fork_flag == 0)
 		{
 			g_global.exit = 1;
 			write(1, "\n", 1);

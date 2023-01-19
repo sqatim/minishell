@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:56:34 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/17 18:57:23 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/19 02:37:57 by oqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ t_execution	*execution_initialization(char **envp)
 	exec_struct->command = NULL;
 	exec_struct->redirections_sorted = NULL;
 	exec_struct->path = NULL;
-	exec_struct->envArray = NULL;
-	exec_struct->envArray = convert_env_to_array(exec_struct, exec_struct->env);
+	exec_struct->env_array = NULL;
+	exec_struct->env_array = convert_env_to_array(exec_struct, \
+		exec_struct->env);
 	return (exec_struct);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   noBuiltins.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 00:21:27 by kernel            #+#    #+#             */
-/*   Updated: 2023/01/19 01:13:17 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/19 02:21:44 by oqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	handle_no_builtins(t_execution *exec_struct, char **cmd_line,
 		command = handle_no_builtins_command(exec_struct, cmd_line);
 		if (command)
 		{
-			g_global.forkFlag = 1;
+			g_global.fork_flag = 1;
 			pid = fork();
 			if (pid == 0)
 			{
@@ -92,7 +92,7 @@ void	handle_no_builtins(t_execution *exec_struct, char **cmd_line,
 				exec_redirection(exec_struct, context);
 				if (context.fd_close >= 0)
 					close(context.fd_close);
-				if (execve(command, cmd_line, exec_struct->envArray) == -1)
+				if (execve(command, cmd_line, exec_struct->env_array) == -1)
 					print_error(command);
 			}
 			else

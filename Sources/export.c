@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 14:25:08 by kernel            #+#    #+#             */
-/*   Updated: 2023/01/18 12:55:25 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/19 02:21:44 by oqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,6 @@ t_env	*handle_export(t_execution *exec_struct, t_env *env, char **argument)
 		g_global.exit = 0;
 	else
 		g_global.exit = 1;
-	exec_struct->envArray = convert_env_to_array(exec_struct, env);
+	exec_struct->env_array = convert_env_to_array(exec_struct, env);
 	return (env);
 }

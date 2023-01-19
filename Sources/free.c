@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 17:41:04 by kernel            #+#    #+#             */
-/*   Updated: 2023/01/18 21:28:09 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/19 02:21:44 by oqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ void	free_execution_struct(t_execution *exec_struct)
 			free_env(exec_struct->env);
 		if (exec_struct->path)
 			free_string(exec_struct->path);
-		if (exec_struct->envArray)
-			free_array_two_dimension(exec_struct->envArray);
+		if (exec_struct->env_array)
+			free_array_two_dimension(exec_struct->env_array);
 		free(exec_struct);
 	}
 }

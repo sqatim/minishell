@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_tools.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 17:17:35 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/19 00:51:25 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/19 02:17:29 by oqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	exec_input_redirection(t_redirection *input)
 		if (fd_input == -1)
 		{
 			print_fd_errors(input->f_name);
-			if (g_global.forkFlag == 1)
+			if (g_global.fork_flag == 1)
 				exit(1);
 		}
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 13:42:07 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/19 01:10:12 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/19 02:17:29 by oqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	start_execution(t_execution *exec_struct, t_command *command)
 		handle_exit_status_after_fork(w_status);
 		index++;
 	}
-	g_global.forkFlag = 0;
+	g_global.fork_flag = 0;
 	return ;
 }
 

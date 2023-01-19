@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 12:48:42 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/18 12:57:30 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/19 02:21:44 by oqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_env	*execute_unset_for_export(t_execution *exec_struct, t_env *env, \
 		tmp_argument = NULL;
 	}
 	g_global.exit = 0;
-	exec_struct->envArray = convert_env_to_array(exec_struct, env);
+	exec_struct->env_array = convert_env_to_array(exec_struct, env);
 	return (env);
 }
 
@@ -78,6 +78,6 @@ t_env	*execute_unset(t_execution *exec_struct, t_env *env, char **argument)
 		index++;
 	}
 	check_status_in_unset(status);
-	exec_struct->envArray = convert_env_to_array(exec_struct, env);
+	exec_struct->env_array = convert_env_to_array(exec_struct, env);
 	return (env);
 }

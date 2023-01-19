@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:07:22 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/19 01:45:17 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/19 02:17:29 by oqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,14 @@ void	handle_redirection(t_env *env, t_redirection *redirections, \
 	int				pid;
 
 	g_global.here_doc = 0;
-	g_global.forkFlag = 1;
+	g_global.fork_flag = 1;
 	signal(SIGINT, here_doc_sig_int);
 	pid = fork();
 	if (pid == 0)
 		create_here_doc_files(env, redirections);
 	wait(NULL);
 	signal(SIGINT, handle_ctrl_c);
-	g_global.forkFlag = 0;
+	g_global.fork_flag = 0;
 	if (!check_input_redirection(redirections, check))
 		return ;
 	tmp = redirections;
