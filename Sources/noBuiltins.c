@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   noBuiltins.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 00:21:27 by kernel            #+#    #+#             */
-/*   Updated: 2023/01/19 02:21:44 by oqatim           ###   ########.fr       */
+/*   Updated: 2023/01/19 15:52:46 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	*check_command_access(t_env *env, char *command)
 	int		index;
 
 	index = 0;
+	if (command && !*command)
+		return (NULL);
 	if (!access(command, F_OK))
 		return (ft_strdup(command));
 	path_env = ft_get_env(env, "PATH");
