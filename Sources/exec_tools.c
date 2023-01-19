@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 17:17:35 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/18 21:05:40 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/19 00:51:25 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	exec_input_redirection(t_redirection *input)
 {
 	int		fd_input;
 	char	*path;
+
 	if (!ft_strcmp(input->type, "<<"))
 	{
 		path = ft_strjoin("/tmp/", input->f_name);

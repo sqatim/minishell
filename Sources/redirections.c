@@ -6,86 +6,28 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:07:22 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/18 21:45:50 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/19 01:45:17 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
 
-void write_in_file(t_env *env, char *path, char *filename, int fd)
+void	here_document_redirection(char *filename, t_env *env)
 {
-	int len;
-	char *buffer;
-	char *ptr_to_be_freed;
-
-	while (1)
-	{
-		buffer = readline("> ");
-		if (!ft_strcmp(buffer, filename) || !buffer)
-			break;
-		ptr_to_be_freed = buffer;
-		buffer = ft_strjoin(buffer, "\n");
-		free(ptr_to_be_freed);
-		while (search_dollar(buffer) == 1)
-			expand_after_dollar_h(&buffer, env);
-		len = ft_strlen(buffer);
-		write(fd, buffer, len);
-        free(buffer);
-	}
-}
-
-void test(int sig)
-{
-	if(sig == SIGINT)
-		g_global.here_doc = 1;
-}
-void here_document_redirection(char *filename, t_env *env)
-{
-	int fd;
-	char *path;
-	int len;
-	int pid;
+	int		fd;
+	char	*path;
 
 	path = ft_strjoin("/tmp/", filename);
 	fd = open(path, O_CREAT | O_TRUNC | O_RDWR, 0777);
-	g_global.here_doc = 0;
-	signal(SIGINT, SIG_IGN);
-	g_global.forkFlag = 1;
-	pid = fork();
-	if (pid == 0)
-	{
-		signal(SIGINT, SIG_DFL);
-		write_in_file(env, path, filename, fd);
-		exit(0);
-	}
-    free(path);
-	signal(SIGINT, test);
-	wait(NULL);
-	close(fd);
-	g_global.forkFlag = 0;
-	signal(SIGINT, handle_ctrl_c);
-}
-
-void ouput_trunc_redirection(char *filename)
-{
-	int fd;
-
-	fd = open(filename, O_CREAT | O_TRUNC | O_WRONLY, 0777);
+	write_in_file(env, filename, fd);
+	free(path);
 	close(fd);
 }
 
-void output_append_redirection(char *filename)
+int	check_input_redirection(t_redirection *redirections, int *check)
 {
-	int fd;
-
-	fd = open(filename, O_CREAT | O_APPEND | O_WRONLY, 0777);
-	close(fd);
-}
-
-int check_input_redirection(t_redirection *redirections, int *check)
-{
-	t_redirection *tmp;
-	int fd;
+	t_redirection	*tmp;
+	int				fd;
 
 	tmp = redirections;
 	while (tmp)
@@ -107,12 +49,11 @@ int check_input_redirection(t_redirection *redirections, int *check)
 	return (1);
 }
 
-void handle_redirection(t_env *env, t_redirection *redirections,
-								  int *check)
+void	create_here_doc_files(t_env *env, t_redirection *redirections)
 {
-	t_redirection *last_redirections;
-	t_redirection *tmp;
+	t_redirection	*tmp;
 
+	signal(SIGINT, handle_here_doc_signal);
 	tmp = redirections;
 	while (tmp)
 	{
@@ -120,6 +61,30 @@ void handle_redirection(t_env *env, t_redirection *redirections,
 			here_document_redirection(tmp->f_name, env);
 		tmp = tmp->next;
 	}
+	exit(0);
+}
+
+void	here_doc_sig_int(int sig)
+{
+	if (sig == SIGINT)
+		g_global.here_doc = 1;
+}
+
+void	handle_redirection(t_env *env, t_redirection *redirections, \
+						int *check)
+{
+	t_redirection	*tmp;
+	int				pid;
+
+	g_global.here_doc = 0;
+	g_global.forkFlag = 1;
+	signal(SIGINT, here_doc_sig_int);
+	pid = fork();
+	if (pid == 0)
+		create_here_doc_files(env, redirections);
+	wait(NULL);
+	signal(SIGINT, handle_ctrl_c);
+	g_global.forkFlag = 0;
 	if (!check_input_redirection(redirections, check))
 		return ;
 	tmp = redirections;

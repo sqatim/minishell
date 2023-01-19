@@ -6,48 +6,48 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:58:46 by kernel            #+#    #+#             */
-/*   Updated: 2023/01/18 21:30:15 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/19 01:48:31 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
 
-t_redirection *retrieve_redirections(t_command *command)
+t_redirection	*retrieve_redirections(t_command *command)
 {
-    t_redirection *head;
-    t_redirection *redirection;
-    t_redirection *remember;
-    t_command * tmp;
+	t_redirection	*head;
+	t_redirection	*remember;
+	t_command		*tmp;
 
-    head = NULL;
-    tmp = command;
-    while(tmp)
-    {
-        if(tmp->redirections)
-        {
-            remember = tmp->redirections;
-            while(remember)
-            {
-                head = create_redirection_node(head, remember);
-                remember = remember->next;
-            }
-        }
-        tmp = tmp->next;
-    }
-    return (head);
+	head = NULL;
+	tmp = command;
+	while (tmp)
+	{
+		if (tmp->redirections)
+		{
+			remember = tmp->redirections;
+			while (remember)
+			{
+				head = create_redirection_node(head, remember);
+				remember = remember->next;
+			}
+		}
+		tmp = tmp->next;
+	}
+	return (head);
 }
+
 void	manage_command(t_execution *exec_struct, char *buffer)
 {
-    t_redirection *redirections;
-    int check;
-    
-    redirections = retrieve_redirections(exec_struct->command);
+	t_redirection	*redirections;
+	int				check;
+
+	redirections = retrieve_redirections(exec_struct->command);
 	if (redirections)
-    {
-	    handle_redirection(exec_struct->env, \
+	{
+		handle_redirection(exec_struct->env, \
 			redirections, &check);
-        free_redirection(redirections);
-    }
+		free_redirection(redirections);
+	}
 	start_execution(exec_struct, exec_struct->command);
 	free_string(buffer);
 	buffer = NULL;
@@ -77,30 +77,8 @@ void	minishell_loop(t_execution *exec_struct)
 		}
 		else
 			free(buffer);
+		g_global.here_doc = 0;
 	}
-}
-
-t_env	*ft_get_env_node(t_env *env, char *key)
-{
-	t_env	*tmp;
-	int		index;
-	char	*tmp_key;
-
-	tmp = env;
-	tmp_key = ft_strjoin(key, "=");
-	index = 0;
-	while (tmp)
-	{
-		if (ft_strnstr(tmp->content, tmp_key, ft_strlen(tmp_key)))
-		{
-			while (tmp->content[index] != '=')
-				index++;
-			free_string(tmp_key);
-			return (tmp);
-		}
-		tmp = tmp->next;
-	}
-	return (NULL);
 }
 
 char	*ft_get_env(t_env *env, char *key)

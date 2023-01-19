@@ -20,19 +20,8 @@ PARSE= libparse.a
 
 CC = gcc
 
-# FLAGS = -Wall -Wextra -Werror 
-SRC =Sources/Parse/lexer/lexeer.c\
-	Sources/Parse/lexer/lexeer2.c\
-	Sources/Parse/libft/libft_utilis.c\
-	Sources/Parse/quots.c \
-	Sources/Parse/dollar/dollar.c\
-	Sources/Parse/dollar/dollar_utilis2.c\
-	Sources/Parse/dollar/dollar_utilis3.c\
-	Sources/Parse/syntax.c\
-	Sources/Parse/parse/parse.c\
-	Sources/Parse/parse/parse_utilis.c\
-	Sources/Parse/parse/parse_utilis2.c\
-	Sources/main.c\
+FLAGS = -Wall -Wextra -Werror 
+SRC =Sources/main.c\
 	Sources/checks.c\
 	Sources/tools.c\
 	Sources/builtins.c\
@@ -53,6 +42,7 @@ SRC =Sources/Parse/lexer/lexeer.c\
 	Sources/signalHandler.c\
 	Sources/redirections.c\
 	Sources/redirections_tools.c\
+	Sources/redirections_tools2.c\
 	Sources/exec.c\
 	Sources/exec_tools.c\
 	Sources/clone.c\
@@ -63,7 +53,6 @@ OBJ = $(SRC:%.c=%.o)
 all: lib parse $(NAME)
 
 $(NAME) : $(LIB_PATH)/$(LIB) $(PARSE_PATH)/$(PARSE) $(OBJ) $(HEADER)
-	# $(CC) $(FLAGS) $(OBJ) $(LLIB_FLAG) -o $(NAME) -lreadline
 	$(CC) $(FLAGS) $(OBJ) $(LLIB_FLAG) $(LPARSE_FLAG) -lreadline -I $(INCLUDE_READLINE) -L$(LIB_READLINE) -o $(NAME) 
 
 lib:
@@ -82,7 +71,7 @@ clean:
 
 fclean: clean
 	@rm -rf $(LIB_PATH)/libft.a
-	@rm -rf $(PARSE_PATH)/libft.a
+	@rm -rf $(PARSE_PATH)/libparse.a
 	@rm -f minishell
 
 re: fclean all

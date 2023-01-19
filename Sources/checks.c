@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:50:47 by kernel            #+#    #+#             */
-/*   Updated: 2023/01/18 21:39:05 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/19 01:04:11 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,38 +49,46 @@ int	check_shell_lvl_value(char *argument)
 	return (type);
 }
 
-int	check_command(t_execution *exec_struct, t_command *command, \
-				t_context context)
+int	retrieve_the_last_redirections(t_execution *exec_struct, \
+				t_command *command)
 {
 	t_redirection	*redirections;
 	int				check;
 
 	check = 1;
 	redirections = command->redirections;
-    if(redirections)
-    {
-        if(check_input_redirection(redirections, &check))
-            exec_struct->redirections_sorted = setup_the_last_redirections(redirections);
-    }
+	if (redirections)
+	{
+		if (check_input_redirection(redirections, &check))
+			exec_struct->redirections_sorted = \
+				setup_the_last_redirections(redirections);
+	}
+	return (check);
+}
+
+int	check_command(t_execution *exec_struct, t_command *command, \
+				t_context context)
+{
+	int				check;
+
+	check = retrieve_the_last_redirections(exec_struct, command);
 	if (command->command && g_global.here_doc == 0)
 	{
 		if (check_type_of_command(command->command[0]))
 		{
 			handle_builtin_command(exec_struct, command, context, check);
 			if (exec_struct->redirections_sorted)
-            {
+			{
 				exec_struct->redirections_sorted = \
 				free_redirection(exec_struct->redirections_sorted);
-            }
+			}
 			return (0);
 		}
 		else
 			handle_no_builtins(exec_struct, command->command, context, check);
 		if (exec_struct->redirections_sorted)
 			exec_struct->redirections_sorted = \
-			free_redirection(exec_struct->redirections_sorted);
+				free_redirection(exec_struct->redirections_sorted);
 	}
-    else
-        g_global.here_doc = 0;
 	return (check);
 }

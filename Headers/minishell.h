@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/18 21:40:24 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/19 01:46:45 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_global
 	int forkFlag;
 	int exit;
 	int here_doc;
+    int error;
 
 } t_global;
 
@@ -280,7 +281,6 @@ t_command *free_command(t_command *command);
 void free_execution_struct(t_execution *exec_struct);
 void free_env_node_content(t_env *node);
 void free_export_struct(t_export *export);
-void  free_here_document_redirection(char **buffer, char **path, int fd);
 
 // tools
 char *ft_get_env(t_env *env, char *key);
@@ -324,6 +324,9 @@ void output_append_redirection(char *filename);
 void ouput_trunc_redirection(char *filename);
 t_redirection *check_type_of_redirection(t_redirection *redirection, int type);
 int check_input_redirection(t_redirection *redirections, int *check);
+void	write_in_file(t_env *env, char *filename, int fd);
+void	handle_here_doc_signal(int sig);
+
 
 // exec
 void start_execution(t_execution *exec_struct, t_command *command);

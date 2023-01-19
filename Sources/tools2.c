@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:23:48 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/17 18:49:58 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/19 01:06:12 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,27 @@ t_env	*sort_env(t_env *env)
 			iterate_and_sort_env(&first_tmp);
 	}
 	return (env_export);
+}
+
+t_env	*ft_get_env_node(t_env *env, char *key)
+{
+	t_env	*tmp;
+	int		index;
+	char	*tmp_key;
+
+	tmp = env;
+	tmp_key = ft_strjoin(key, "=");
+	index = 0;
+	while (tmp)
+	{
+		if (ft_strnstr(tmp->content, tmp_key, ft_strlen(tmp_key)))
+		{
+			while (tmp->content[index] != '=')
+				index++;
+			free_string(tmp_key);
+			return (tmp);
+		}
+		tmp = tmp->next;
+	}
+	return (NULL);
 }

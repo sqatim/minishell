@@ -6,11 +6,28 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 13:42:07 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/18 20:43:43 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/19 01:10:12 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
+
+void	handle_exit_status_after_fork(int w_status)
+{
+	int	status_code;
+
+	if (WIFEXITED(w_status))
+	{
+		status_code = WEXITSTATUS(w_status);
+		g_global.exit = status_code;
+	}
+	else if (WIFSIGNALED(w_status))
+	{
+		if (WTERMSIG(w_status) == 3)
+			write(2, "Quit: 3\n", 8);
+		g_global.exit = 128 + WTERMSIG(w_status);
+	}
+}
 
 void	start_execution(t_execution *exec_struct, t_command *command)
 {
@@ -18,7 +35,6 @@ void	start_execution(t_execution *exec_struct, t_command *command)
 	int			children;
 	int			index;
 	int			w_status;
-	int			status_code;
 
 	index = 0;
 	context.fd[0] = STDIN_FILENO;
@@ -28,17 +44,7 @@ void	start_execution(t_execution *exec_struct, t_command *command)
 	while (index < children)
 	{
 		wait(&w_status);
-		if (WIFEXITED(w_status))
-		{
-			status_code = WEXITSTATUS(w_status);
-			g_global.exit = status_code;
-		}
-        else if (WIFSIGNALED(w_status))
-	    {
-	    	if (WTERMSIG(w_status) == 3)
-	    		write(2, "Quit: 3\n", 8);
-	    	g_global.exit= 128 + WTERMSIG(w_status);
-	    }
+		handle_exit_status_after_fork(w_status);
 		index++;
 	}
 	g_global.forkFlag = 0;
@@ -63,7 +69,8 @@ int	exec_pipe(t_execution *exec_struct, t_command *command, t_context context)
 	pipe_struct.right_context = context;
 	pipe_struct.right_context.fd[STDIN_FILENO] = p[STDIN_FILENO];
 	pipe_struct.right_context.fd_close = p[STDOUT_FILENO];
-	if (command->next && command->next->command &&!check_type_of_command(command->next->command[0]))
+	if (command->next && command->next->command && \
+		!check_type_of_command(command->next->command[0]))
 		close(p[STDOUT_FILENO]);
 	pipe_struct.right_node = command->next;
 	child += exec_command_of_node(exec_struct, pipe_struct.right_node, \

@@ -6,29 +6,11 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:51:46 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/18 19:45:27 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/19 01:52:19 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Headers/minishell.h"
-
-void	unlink_heredocument_files(t_redirection *redirections)
-{
-	t_redirection	*tmp;
-	char			*path;
-
-	tmp = redirections;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->type, "<<"))
-		{
-			path = ft_strjoin("/tmp/", tmp->f_name);
-			unlink(path);
-			free(path);
-		}
-		tmp = tmp->next;
-	}
-}
 
 t_command	*free_command(t_command *command)
 {
@@ -36,7 +18,6 @@ t_command	*free_command(t_command *command)
 		return (NULL);
 	free_command(command->next);
 	free_array_two_dimension(command->command);
-	// unlink_heredocument_files(command->redirections);
 	free_redirection(command->redirections);
 	free(command);
 	command = NULL;
@@ -79,13 +60,4 @@ void	free_env_node_content(t_env *node)
 		free(node->value);
 		node->value = NULL;
 	}
-}
-
-void	free_here_document_redirection(char **buffer, char **path, int fd)
-{
-	free(*path);
-	free(*buffer);
-	*buffer = NULL;
-	*path = NULL;
-	// close(fd);
 }
