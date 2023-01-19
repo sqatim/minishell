@@ -6,7 +6,7 @@
 /*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 11:26:24 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/19 02:37:06 by oqatim           ###   ########.fr       */
+/*   Updated: 2023/01/19 16:58:45 by oqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,7 @@ t_token				*ft_norm_word_h(t_token *ptr, int *index, char *line);
 t_token				*ft_norm_quots_h(t_token *ptr, int *index, char *line);
 t_token				*ft_check_norm(t_token *ptr, int *index, char *line);
 void				ft_free(t_main *m_main);
+int					quotes_checker(char *line);
 
 /****************quots****************/
 

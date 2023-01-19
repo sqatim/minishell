@@ -6,7 +6,7 @@
 /*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 08:58:45 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/19 02:08:55 by oqatim           ###   ########.fr       */
+/*   Updated: 2023/01/19 16:50:22 by oqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ t_command	*start_parse(t_env *env, char *buffer)
 	t_main		*m_main;
 
 	cmd = NULL;
+	if (!quotes_checker(buffer))
+		return (NULL);
 	m_main = malloc(sizeof(t_main));
 	m_main->h_env = env;
 	m_main->list = ft_lexer(m_main->list, m_main, buffer);

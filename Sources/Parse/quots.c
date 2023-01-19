@@ -6,7 +6,7 @@
 /*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 08:59:56 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/18 13:21:43 by oqatim           ###   ########.fr       */
+/*   Updated: 2023/01/19 16:52:28 by oqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	find_quotes(char *line, int *indice, char type)
 	while (line[i])
 	{
 		if (line[i] == type)
-			return (1);
+			return (i);
 		i++;
 	}
 	*indice = i;
