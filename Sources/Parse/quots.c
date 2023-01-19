@@ -3,22 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   quots.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
+/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 08:59:56 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/17 14:53:53 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/18 13:21:43 by oqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Headers/minishell.h"
 
-char *quotes_after_quotes(char *line, int *indice, char type)
+char	*quotes_after_quotes(char *line, int *indice, char type)
 {
-	int i;
-	char *str;
+	int		i;
+	char	*str;
 
 	i = *indice;
-	if ((line[i] == '"' && line[i + 1] == type) || (line[i] == '\'' && line[i + 1] == type))
+	if ((line[i] == '"' && line[i + 1] == type)
+		|| (line[i] == '\'' && line[i + 1] == type))
 	{
 		str = ft_strdup("");
 		*indice += 2;
@@ -27,9 +28,9 @@ char *quotes_after_quotes(char *line, int *indice, char type)
 	return (NULL);
 }
 
-int find_quotes(char *line, int *indice, char type)
+int	find_quotes(char *line, int *indice, char type)
 {
-	int i;
+	int	i;
 
 	i = *indice + 1;
 	while (line[i])
@@ -42,9 +43,9 @@ int find_quotes(char *line, int *indice, char type)
 	return (0);
 }
 
-int word_len_quotes(int i, char *line, char type)
+int	word_len_quotes(int i, char *line, char type)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	while (line[++i] != type)
@@ -52,12 +53,12 @@ int word_len_quotes(int i, char *line, char type)
 	return (j);
 }
 
-char *between_quots(char *line, int *indice, char type, t_main *main)
+char	*between_quots(char *line, int *indice, char type, t_main *main)
 {
-	char *token;
-	int i;
-	int j;
-	int x;
+	char	*token;
+	int		i;
+	int		j;
+	int		x;
 
 	j = 0;
 	i = *indice;
@@ -77,10 +78,10 @@ char *between_quots(char *line, int *indice, char type, t_main *main)
 	return (token);
 }
 
-char *check_quotes(int *indice, char *line, t_main *m_main)
+char	*check_quotes(int *indice, char *line, t_main *m_main)
 {
-	char *str;
-	int i;
+	char	*str;
+	int		i;
 
 	i = *indice;
 	if (find_quotes(line, &i, line[i]))
@@ -88,8 +89,6 @@ char *check_quotes(int *indice, char *line, t_main *m_main)
 		str = quotes_after_quotes(line, &i, line[i]);
 		if (str)
 		{
-			// i -= 2;
-			// str = quotes_after_quotes(line, &i, line[i]);
 			*indice = i;
 			return (str);
 		}

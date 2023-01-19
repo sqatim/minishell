@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   quots_h.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
+/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:06:21 by oussama           #+#    #+#             */
-/*   Updated: 2023/01/17 14:55:55 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/19 02:06:58 by oqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Headers/minishell.h"
 
-char *between_quots_h(char *line, int *indice, char type, t_main *main)
+char	*between_quots_h(char *line, int *indice, char type)
 {
-	char *token;
-	int i;
-	int j;
-	int x;
+	char	*token;
+	int		i;
+	int		j;
+	int		x;
 
 	j = 0;
 	i = *indice;
@@ -34,10 +34,10 @@ char *between_quots_h(char *line, int *indice, char type, t_main *main)
 	return (token);
 }
 
-char *check_quotes_h(int *indice, char *line, t_main *m_main)
+char	*check_quotes_h(int *indice, char *line)
 {
-	char *str;
-	int i;
+	char	*str;
+	int		i;
 
 	i = *indice;
 	if (find_quotes(line, &i, line[i]))
@@ -51,7 +51,7 @@ char *check_quotes_h(int *indice, char *line, t_main *m_main)
 		}
 		else
 		{
-			str = between_quots_h(line, &i, line[i], m_main);
+			str = between_quots_h(line, &i, line[i]);
 			*indice = i;
 			return (str);
 		}

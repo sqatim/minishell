@@ -1,31 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_utilis2.c                                    :+:      :+:    :+:   */
+/*   lexeer4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/22 04:45:41 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/18 13:15:05 by oqatim           ###   ########.fr       */
+/*   Created: 2023/01/18 13:00:19 by oqatim            #+#    #+#             */
+/*   Updated: 2023/01/18 13:03:03 by oqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Headers/minishell.h"
 
-int	ft_norm_redi(char *value)
+void	ft_free_token(t_token *head)
 {
-	if (!ft_strcmp(value, REDI_LIM) || !ft_strcmp(value, REDI_LIS)
-		|| !ft_strcmp(value, HERDOC) || !ft_strcmp(value, DOUBLE_LIS))
-		return (1);
-	return (0);
+	t_token	*tmp;
+
+	while (head)
+	{
+		tmp = head;
+		head = head->next;
+		free(tmp->value);
+		free(tmp);
+		tmp = NULL;
+	}
+	if (head == NULL)
+	{
+		free(head);
+		head = NULL;
+	}
 }
 
-int	ft_check_word(char *token)
+void	ft_free(t_main *m_main)
 {
-	if (ft_strcmp(token, PIPE) && ft_strcmp(token, NWLN)
-		&& ft_strcmp(token, RIEN) && ft_strcmp(token, REDI_LIM)
-		&& ft_strcmp(token, HERDOC) && ft_strcmp(token, REDI_LIS)
-		&& ft_strcmp(token, DOUBLE_LIS))
-		return (1);
-	return (0);
+	ft_free_token(m_main->list);
+	free(m_main);
+	m_main = NULL;
 }

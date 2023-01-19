@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   lexeer3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
+/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:15:28 by oussama           #+#    #+#             */
-/*   Updated: 2023/01/17 14:52:28 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/19 02:09:01 by oqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Headers/minishell.h"
 
-t_token *ft_norm_word(t_token *ptr, t_main *m_main, int *index, char *line)
+t_token	*ft_norm_word(t_token *ptr, t_main *m_main, int *index, char *line)
 {
-	int i;
-	char *token;
-	t_token *tmp;
-	int check;
+	int		i;
+	int		check;
+	char	*token;
+	t_token	*tmp;
 
 	i = *index;
 	check = 0;
@@ -36,17 +36,15 @@ t_token *ft_norm_word(t_token *ptr, t_main *m_main, int *index, char *line)
 	else
 		ptr = add_to_end_lexe(ptr, token);
 	*index = i;
-	// if (token)
-	// 	free(token);
 	return (ptr);
 }
 
-t_token *ft_norm_quots(t_token *ptr, t_main *m_main, int *index, char *line)
+t_token	*ft_norm_quots(t_token *ptr, t_main *m_main, int *index, char *line)
 {
-	int j;
-	int i;
-	char *token;
-	t_token *tmp;
+	int		j;
+	int		i;
+	char	*token;
+	t_token	*tmp;
 
 	i = *index;
 	j = i;
@@ -59,22 +57,17 @@ t_token *ft_norm_quots(t_token *ptr, t_main *m_main, int *index, char *line)
 		tmp->value = ft_strjoin_prs(tmp->value, token);
 	}
 	else
-	{
-		// printf("token[%d] === ----- ==> %s\n", i,&line[i]);
 		ptr = add_to_end_lexe(ptr, token);
-		// puts("-----------------------------");
-	}
-
 	*index = i;
 	return (ptr);
 }
 
-t_token *ft_norm_word_h(t_token *ptr, t_main *m_main, int *index, char *line)
+t_token	*ft_norm_word_h(t_token *ptr, int *index, char *line)
 {
-	int i;
-	char *token;
-	t_token *tmp;
-	int check;
+	int		check;
+	int		i;
+	char	*token;
+	t_token	*tmp;
 
 	i = *index;
 	check = 0;
@@ -91,21 +84,19 @@ t_token *ft_norm_word_h(t_token *ptr, t_main *m_main, int *index, char *line)
 	else
 		ptr = add_to_end_lexe(ptr, token);
 	*index = i;
-	// if (token)
-	// 	free(token);
 	return (ptr);
 }
 
-t_token *ft_norm_quots_h(t_token *ptr, t_main *m_main, int *index, char *line)
+t_token	*ft_norm_quots_h(t_token *ptr, int *index, char *line)
 {
-	int j;
-	int i;
-	char *token;
-	t_token *tmp;
+	int		j;
+	int		i;
+	char	*token;
+	t_token	*tmp;
 
 	i = *index;
 	j = i;
-	token = check_quotes_h(&i, line, m_main);
+	token = check_quotes_h(&i, line);
 	if (j > 0 && line[j - 1] != ' ' && line[j - 1] != '\t')
 	{
 		tmp = ptr;
@@ -119,20 +110,20 @@ t_token *ft_norm_quots_h(t_token *ptr, t_main *m_main, int *index, char *line)
 	return (ptr);
 }
 
-t_token *ft_check_norm(t_token *ptr, t_main *m_main, int *index, char *line)
+t_token	*ft_check_norm(t_token *ptr, int *index, char *line)
 {
-	int i;
+	int	i;
 
 	i = *index;
 	if (line[i] == '\'' || line[i] == '"')
 	{
-		ptr = ft_norm_quots_h(ptr, m_main, &i, line);
+		ptr = ft_norm_quots_h(ptr, &i, line);
 		*index = i;
 		return (ptr);
 	}
 	else
 	{
-		ptr = ft_norm_word_h(ptr, m_main, &i, line);
+		ptr = ft_norm_word_h(ptr, &i, line);
 		*index = i;
 		return (ptr);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:58:46 by kernel            #+#    #+#             */
-/*   Updated: 2023/01/19 01:48:31 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/19 02:00:45 by oqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	minishell_loop(t_execution *exec_struct)
 			ft_exit(exec_struct, 130);
 		if (buffer[0] != '\0')
 		{
-			exec_struct->command = startParse(exec_struct->env, buffer);
+			exec_struct->command = start_parse(exec_struct->env, buffer);
 			add_history(buffer);
 			manage_command(exec_struct, buffer);
 		}

@@ -3,61 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
+/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:30:41 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/17 15:01:57 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/19 02:05:36 by oqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Headers/minishell.h"
 
-char *ft_strjoin_free(char *s1, char *s2)
+char	*join_token_after_dollar(char **token, char *d_value)
 {
-	char *str;
-	int len;
-	int i;
-	int r;
+	char	*str;
+	char	*ptr;
+	char	*result;
+	int		i;
 
 	i = 0;
-	r = 0;
-	if (!s1)
-		s1 = ft_strdup("");
-	if (!s2)
-		s2 = ft_strdup("");
-	len = get_lenght(s1, '\0') + get_lenght(s2, '\0') + 1;
-	str = malloc(sizeof(char) * (len + 1));
-	if (!str)
-		return (NULL);
-	while (s1[i])
-		str[r++] = s1[i++];
-	i = 0;
-	while (s2[i])
-		str[r++] = s2[i++];
-	str[r] = 0;
-	free(s1);
-	// free(s2);
-	return (str);
-}
-
-char *join_token_after_dollar(char **token, char *d_value)
-{
-	char *str;
-	char *ptr;
-	char *result;
-	int len;
-	int i;
-
-	i = 0;
-	len = get_lenght((*token), '$');
-	str = malloc(sizeof(char) * (len + 1));
-	while ((*token)[i] != '$' && (*token)[i] != '\0')
-	{
-		str[i] = (*token)[i];
-		i++;
-	}
-	str[i] = '\0';
-	ptr = ft_strjoin_free(str, d_value);
+	str = take_to_dollar(token);
+	if (d_value == NULL)
+		ptr = ft_strjoin_prs(str, d_value);
+	else
+		ptr = ft_strjoin_free(str, d_value);
 	if (d_value)
 		free(d_value);
 	str = take_last_token(token);
@@ -67,27 +34,22 @@ char *join_token_after_dollar(char **token, char *d_value)
 	return (result);
 }
 
-void take_token(t_main *m_main, char **token, char *value, char *name)
+void	take_token(t_main *m_main, char **token, char *value, char *name)
 {
 	if (m_main->flag_dollar == 1)
 	{
 		if (value)
-		{
 			*token = join_token_after_dollar(token, ft_strdup(value));
-		}
 		else
 			*token = join_token_after_dollar(token, value);
 	}
 	else if (m_main->flag_dollar == 0)
-	{
-
 		*token = join_token_after_dollar(token, ft_strdup(name));
-	}
 }
 
-void after_dollar(t_main *m_main, char **token, char *name)
+void	after_dollar(t_main *m_main, char **token, char *name)
 {
-	t_env *temp;
+	t_env	*temp;
 
 	temp = m_main->h_env;
 	while (temp != NULL)
@@ -95,7 +57,7 @@ void after_dollar(t_main *m_main, char **token, char *name)
 		if (!ft_strcmp(name, temp->name))
 		{
 			take_token(m_main, token, temp->value, name);
-			break;
+			break ;
 		}
 		else if (temp->next == NULL && (ft_strcmp(name, temp->name)) != 0)
 			take_token(m_main, token, NULL, name);
@@ -103,12 +65,12 @@ void after_dollar(t_main *m_main, char **token, char *name)
 	}
 }
 
-int expand_after_dollar(char **token, t_main *m_main)
+int	expand_after_dollar(char **token, t_main *m_main)
 {
-	char *str;
-	int len;
-	int i;
-	int flag;
+	char	*str;
+	int		len;
+	int		i;
+	int		flag;
 
 	i = 0;
 	flag = 0;
@@ -121,20 +83,19 @@ int expand_after_dollar(char **token, t_main *m_main)
 			ft_check_dollar(token, &i, m_main);
 			take_after_dollar(token, &i, &str);
 			flag = 1;
-			break;
+			break ;
 		}
 		i++;
 	}
 	after_dollar(m_main, token, str);
-	// printf("|%s|\n",token);
 	if (str)
 		free(str);
 	return (0);
 }
 
-int search_dollar(char *str)
+int	search_dollar(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i] != '\0')

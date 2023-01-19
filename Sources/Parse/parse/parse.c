@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
+/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 06:25:25 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/17 15:02:36 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/18 13:20:45 by oqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Headers/minishell.h"
 
-void set_redirection(t_parse *parse, t_token *token, char *type)
+void	set_redirection(t_parse *parse, t_token *token, char *type)
 {
-	t_redirection *redirection;
-	t_redirection *temp;
+	t_redirection	*redirection;
+	t_redirection	*temp;
 
 	redirection = malloc(sizeof(t_redirection));
 	redirection->type = ft_strdup(type);
@@ -25,18 +25,18 @@ void set_redirection(t_parse *parse, t_token *token, char *type)
 	if (!temp)
 	{
 		parse->redirections = redirection;
-		return;
+		return ;
 	}
 	while (temp->next)
 		temp = temp->next;
 	temp->next = redirection;
 }
 
-t_command *first_node_cmd(char **command_arg, t_redirection *redirections)
+t_command	*first_node_cmd(char **command_arg, t_redirection *redirections)
 {
-	t_command *first_cmd;
-	int size;
-	int i;
+	t_command	*first_cmd;
+	int			size;
+	int			i;
 
 	i = 0;
 	first_cmd = malloc(sizeof(t_command));
@@ -59,11 +59,11 @@ t_command *first_node_cmd(char **command_arg, t_redirection *redirections)
 	return (first_cmd);
 }
 
-void addToEnd_cmd(t_command *cmd, char **command_arg, t_redirection *redirections)
+void	add_to_end_cmd(t_command *cmd, char **command_arg, t_redirection *redis)
 {
-	t_command *new_cmd;
-	int size;
-	int i;
+	t_command	*new_cmd;
+	int			size;
+	int			i;
 
 	i = 0;
 	new_cmd = cmd;
@@ -84,11 +84,11 @@ void addToEnd_cmd(t_command *cmd, char **command_arg, t_redirection *redirection
 		free(command_arg);
 		new_cmd->next->command[i] = NULL;
 	}
-	new_cmd->next->redirections = redirections;
+	new_cmd->next->redirections = redis;
 	new_cmd->next->next = NULL;
 }
 
-int take_command(t_parse *parse, int flag)
+int	take_command(t_parse *parse, int flag)
 {
 	if (flag == 0)
 	{
@@ -99,27 +99,27 @@ int take_command(t_parse *parse, int flag)
 	}
 	else
 	{
-		addToEnd_cmd(parse->cmd, parse->command_arg, parse->redirections);
+		add_to_end_cmd(parse->cmd, parse->command_arg, parse->redirections);
 		parse->command_arg = NULL;
 		parse->redirections = NULL;
 	}
 	return (flag);
 }
 
-t_command *ft_parse(t_token *token)
+t_command	*ft_parse(t_token *token)
 {
-	t_parse parse;
-	int flag;
+	t_parse	parse;
+	int		flag;
 
 	flag = 0;
 	initialize_parse(&parse, token);
-	// printf("-------------------------------------------\n");
 	while (parse.token != NULL)
 	{
-		// printf("%s\n", parse.token->value);
 		if (ft_check_word(parse.token->value) && parse.command_arg == NULL)
 			get_command_arg(&parse);
-		if (!ft_strcmp(parse.token->value, PIPE) || !ft_strcmp(parse.token->value, NWLN) || parse.token->next == NULL)
+		if (!ft_strcmp(parse.token->value, PIPE)
+			|| !ft_strcmp(parse.token->value, NWLN)
+			|| parse.token->next == NULL)
 			flag = take_command(&parse, flag);
 		if (ft_norm_redi(parse.token->value))
 		{
@@ -130,7 +130,5 @@ t_command *ft_parse(t_token *token)
 		}
 		parse.token = parse.token->next;
 	}
-	// printf("-------------------------------------------\n");
-
 	return (parse.cmd);
 }

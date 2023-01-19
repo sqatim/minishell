@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   libft_utilis.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
+/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:11:17 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/17 14:53:28 by samirqatim       ###   ########.fr       */
+/*   Updated: 2023/01/19 02:02:13 by oqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../Headers/minishell.h"
 
-int get_lenght(char *ln, char c)
+int	get_lenght(char *ln, char c)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (ln == NULL)
@@ -24,33 +24,12 @@ int get_lenght(char *ln, char c)
 	return (i);
 }
 
-char *ft_substr(const char *s, unsigned int start, size_t len)
+char	*ft_strjoin_prs(char *s1, char *s2)
 {
-	char *p;
-	size_t i;
-
-	i = 0;
-	if ((!s) || (unsigned int)ft_strlen(s) < start)
-		return (ft_strdup(""));
-	p = (char *)malloc(sizeof(char) * (len + 1));
-	if (p == NULL)
-		return (ft_strdup(""));
-	while (i < len)
-	{
-		p[i] = s[start];
-		i++;
-		start++;
-	}
-	p[i] = '\0';
-	return (p);
-}
-
-char *ft_strjoin_prs(char *s1, char *s2)
-{
-	char *str;
-	int len;
-	int i;
-	int r;
+	char	*str;
+	int		len;
+	int		i;
+	int		r;
 
 	i = 0;
 	r = 0;
@@ -72,13 +51,3 @@ char *ft_strjoin_prs(char *s1, char *s2)
 	free(s2);
 	return (str);
 }
-
-// int	ft_strcmp(char *str, char *ptr)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (str[i] && ptr[i] && str[i] == ptr[i])
-// 		i++;
-// 	return (str[i] - ptr[i]);
-// }
