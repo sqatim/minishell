@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 14:25:08 by kernel            #+#    #+#             */
-/*   Updated: 2023/01/19 02:21:44 by oqatim           ###   ########.fr       */
+/*   Updated: 2023/01/21 13:54:13 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ char	**parse_export_argument(char *argument, int *status)
 	int	index;
 
 	index = 0;
-	if (!argument[index] || ft_isdigit(argument[index]))
+	if (!argument[index] || ft_isdigit(argument[index]) || \
+			argument[index] == '=')
 		return (print_export_error(argument, status));
 	while (argument[index] != '=' && argument[index])
 	{

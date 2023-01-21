@@ -6,7 +6,7 @@
 /*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 12:48:42 by sqatim            #+#    #+#             */
-/*   Updated: 2023/01/19 15:55:22 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/01/21 13:53:27 by sqatim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	check_error_in_unset(char *argument, int *status)
 {
 	if (!argument[0] || ft_isdigit(argument[0]) || argument[0] == '*' || \
-		argument[0] == '-' || argument[0] == '+')
+		argument[0] == '-' || argument[0] == '+' || argument[0] == '=')
 	{
 		print_unset_error(argument, status);
 		return (0);
