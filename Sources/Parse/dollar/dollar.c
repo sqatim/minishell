@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oqatim <oqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 14:30:41 by oqatim            #+#    #+#             */
-/*   Updated: 2023/01/19 02:05:36 by oqatim           ###   ########.fr       */
+/*   Updated: 2023/05/21 13:21:08 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ char	*join_token_after_dollar(char **token, char *d_value)
 	char	*str;
 	char	*ptr;
 	char	*result;
-	int		i;
 
-	i = 0;
 	str = take_to_dollar(token);
 	if (d_value == NULL)
 		ptr = ft_strjoin_prs(str, d_value);

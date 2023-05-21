@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checks.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sqatim <sqatim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: samirqatim <samirqatim@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 20:50:47 by kernel            #+#    #+#             */
-/*   Updated: 2023/01/19 01:04:11 by sqatim           ###   ########.fr       */
+/*   Updated: 2023/05/21 13:21:27 by samirqatim       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ int	check_shell_lvl_value(char *argument)
 {
 	int	index;
 	int	type;
-	int	len;
 
-	len = 0;
 	index = 0;
 	type = 1;
 	if (argument[index] == '-' || argument[index] == '+')
@@ -44,7 +42,6 @@ int	check_shell_lvl_value(char *argument)
 		if (!ft_isdigit(argument[index]))
 			return (0);
 		index++;
-		len++;
 	}
 	return (type);
 }
